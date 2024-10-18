@@ -52,7 +52,7 @@ if (isset($_GET['id'])) {
     <h1>Update Category</h1>
     <p style="color: red;">* required fields</p>
 
-    <form action="../controller/category/updateCategoryController.php" method="post">
+    <form action="update.php" method="post">
         <div class="addcategory" style="margin-bottom: 5px;">
             <label for="category">Product Category:</label>
             <input type="number" hidden name="id" value="<?php echo htmlspecialchars($formData['categoryId']); ?>">

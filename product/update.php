@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../dbcon.php";
+require_once "../database/db.php";
 
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
@@ -48,17 +48,11 @@ if (isset($_POST['submit'])) {
         $formData['id'] = $_POST['id'];
         $_SESSION['errors'] = $errorArray;
         $_SESSION['formData'] = $formData;
-        header("Location: ../../product/editproduct.php?id=" . $_POST['id']);  // Redirect back to form with product ID
+        header("Location: edit.php?id=" . $_POST['id']);  // Redirect back to form with product ID
         exit();
     } else {
-        // Get the product ID and validated details
-        $product_id = $_POST['id'];
-        $product_name = htmlspecialchars($_POST['name']);
-        $brand = htmlspecialchars($_POST['brand']);
-        $original_price = $_POST['oPrice'];
-        $selling_price = $_POST['sPrice'];
-
         try {
+
             // Prepare the SQL query to update the product
             $update_query = $conn->prepare(
                 "UPDATE products SET product_name = :product_name, brand = :brand,
@@ -66,17 +60,16 @@ if (isset($_POST['submit'])) {
             );
 
             // Bind the form values to the placeholders in the query
-            $update_query->bindParam(':product_name', $product_name);
-            $update_query->bindParam(':brand', $brand);
-            $update_query->bindParam(':original_price', $original_price);
-            $update_query->bindParam(':selling_price', $selling_price);
-            $update_query->bindParam(':id', $product_id);  // Bind the ID
+            $update_query->bindParam(':product_name', $_POST['name']);
+            $update_query->bindParam(':brand', $_POST['brand']);
+            $update_query->bindParam(':original_price',  $_POST['oPrice']);
+            $update_query->bindParam(':selling_price', $_POST['sPrice']);
+            $update_query->bindParam(':id', (int) $_POST['id']);
 
             // Execute the query
             $update_query->execute();
-
             // Redirect with a success message
-            header("location: ../../index.php?message=Product updated successfully!");
+            header("location:index.php?message=Product updated successfully!");
             exit();
         } catch (PDOException $e) {
             // Handle PDO exceptions

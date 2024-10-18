@@ -32,7 +32,7 @@ if ($_SESSION['errors']) {
     <h1>Add Category</h1>
     <p style="color: red;">* required fields</p>
 
-    <form action="../controller/category/addCategoryController.php" method="post">
+    <form action="create.php" method="post">
         <div class="addcategory" style="margin-bottom: 5px;">
             <label for="category">Product Category:</label>
             <input type="text" name="category" value="<?php echo htmlspecialchars($formData['category']); ?>" id="category">

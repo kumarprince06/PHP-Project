@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../controller/dbcon.php";
+require_once "../database/db.php";
 
 $formData = array('name' => '', 'brand' => '', 'oPrice' => '', 'sPrice' => '');
 $errors = array();
@@ -25,6 +25,7 @@ if (isset($_GET['id'])) {
 
         // Populate formData from the database if no form data in session
         if ($product) {
+            $formData['id'] = $product['id'];
             $formData['name'] = $product['product_name'];
             $formData['brand'] = $product['brand'];
             $formData['oPrice'] = $product['original_price'];
@@ -47,8 +48,8 @@ if (isset($_GET['id'])) {
     <h1 style="text-align: center;">Update Product</h1>
     <p style="color: red;">* Required fields</p>
 
-    <form action="../controller/product/updateProduct_controller.php" method="post">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($product_id); ?>">
+    <form action="update.php" method="post">
+        <input type="number" hidden name="id" value="<?php echo $formData['id']; ?>">
 
         <div class="form-group" style="margin-bottom: 10px;">
             <label for="name">Product Name:</label>
@@ -64,13 +65,13 @@ if (isset($_GET['id'])) {
 
         <div class="form-group" style="margin-bottom: 10px;">
             <label for="oPrice">Original Price:</label>
-            <input type="number" name="oPrice" id="oPrice" value="<?php echo htmlspecialchars($formData['oPrice']); ?>">
+            <input type="number" name="oPrice" id="oPrice" value="<?php echo $formData['oPrice']; ?>">
             <span style="color: red;">* <?php echo $errors['oPriceError'] ?? ""; ?></span>
         </div>
 
         <div class="form-group" style="margin-bottom: 10px;">
             <label for="sPrice">Selling Price:</label>
-            <input type="number" name="sPrice" id="sPrice" value="<?php echo htmlspecialchars($formData['sPrice']); ?>">
+            <input type="number" name="sPrice" id="sPrice" value="<?php echo $formData['sPrice']; ?>">
             <span style="color: red;">* <?php echo $errors['sPriceError'] ?? ""; ?></span>
         </div>
 

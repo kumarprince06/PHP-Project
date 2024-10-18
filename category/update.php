@@ -22,7 +22,7 @@ if (isset($_POST['submit'])) {
 
         $_SESSION['errors'] = $errorArray;
         $_SESSION['formData'] = $formData;
-        header("Location:../../category/addCategory.php");
+        header("Location:edit.php");
         exit();
     } else {
 
@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
 
             // Execute the query
             if ($query->execute()) {
-                header("Location:../../category/categoryList.php?message=Category updated successfully!");
+                header("Location:index.php?message=Category updated successfully!");
             } else {
                 throw new Exception("Insertion failed..!");
             }

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../dbcon.php";
+require_once "../database/db.php";
 
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
     if (!empty($errorArray)) {
         $_SESSION['errors'] = $errorArray;
         $_SESSION['formData'] = $formData;
-        header("Location:../../product/addproduct.php");
+        header("Location:add.php");
         exit();
     } else {
         try {
@@ -63,7 +63,7 @@ if (isset($_POST['submit'])) {
 
             // Execute the query
             $query->execute();
-            header("Location:../../index.php?message=Product added successfully!");
+            header("Location:index.php?message=Product added successfully!");
         } catch (PDOException $e) {
             echo "Something went wrong: " . $e->getMessage();
         }

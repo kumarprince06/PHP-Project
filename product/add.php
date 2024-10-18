@@ -33,7 +33,7 @@ if (isset($_SESSION['errors'])) {
 <body>
     <h1 style="text-align: center;">Add Product</h1>
     <p style="color: red;">* required fields</p>
-    <form action="../controller/product/addProduct_controller.php" method="post">
+    <form action="create.php" method="post">
         <div class="addproduct" style="margin-bottom: 5px;">
             <label for="name">Product Name:</label>
             <input type="text" name="name" value="<?php echo htmlspecialchars($formData['name']); ?>" id="name">

@@ -60,12 +60,11 @@ if (isset($_POST['submit'])) {
             );
 
             // Bind the form values to the placeholders in the query
-            $update_query->bindParam(':product_name', $_POST['name']);
-            $update_query->bindParam(':brand', $_POST['brand']);
-            $update_query->bindParam(':original_price',  $_POST['oPrice']);
-            $update_query->bindParam(':selling_price', $_POST['sPrice']);
-            $update_query->bindParam(':id', (int) $_POST['id']);
-
+            $update_query->bindParam(':product_name', $_POST['name'], PDO::PARAM_STR);
+            $update_query->bindParam(':brand', $_POST['brand'], PDO::PARAM_STR);
+            $update_query->bindParam(':original_price', $_POST['oPrice'], PDO::PARAM_INT);  // Binding as integer
+            $update_query->bindParam(':selling_price', $_POST['sPrice'], PDO::PARAM_INT);  // Binding as integer
+            $update_query->bindParam(':id', $_POST['id'], PDO::PARAM_INT);
             // Execute the query
             $update_query->execute();
             // Redirect with a success message

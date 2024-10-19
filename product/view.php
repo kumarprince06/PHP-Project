@@ -44,6 +44,13 @@ if (isset($_GET['id'])) {
             <p><strong>Selling Price:</strong> ₹<?php echo htmlspecialchars($product['selling_price']); ?></p>
         </div>
         <a href="index.php"><button>Go back</button></a>
+
+        <?php
+        if (isset($_GET['message'])) {
+            echo "<div style='color:green; margin-top:30px; font-size:20px; font-weight: bold;'>" . $_GET['message'] . "</div>";
+        }
+        ?>
+
     </body>
 
     </html>

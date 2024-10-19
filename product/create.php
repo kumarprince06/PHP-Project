@@ -59,11 +59,12 @@ if (isset($_POST['submit'])) {
             $query->bindParam(':product_name', $_POST['name']);
             $query->bindParam(':brand', $_POST['brand']);
             $query->bindParam(':original_price', $_POST['oPrice']);
-            $query->bindParam(':selling_price', $$_POST['sPrice']);
+            $query->bindParam(':selling_price', $_POST['sPrice']);
 
             // Execute the query
             $query->execute();
-            header("Location:index.php?message=Product added successfully!");
+            // Redirect to view.php with the last inserted ID
+            header("Location:view.php?message=Product added successfully!&id=" . $conn->lastInsertId());;
         } catch (PDOException $e) {
             echo "Something went wrong: " . $e->getMessage();
         }

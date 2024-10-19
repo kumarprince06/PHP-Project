@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../dbcon.php";
+require_once "../database/db.php";
 if (isset($_POST['submit'])) {
 
     // Initialize error and form data arrays

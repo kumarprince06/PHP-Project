@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require_once "../controller/dbcon.php";
+require_once "../database/db.php";
 
 $formData = array('category' => '');
 $errors = array();

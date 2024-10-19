@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once "../dbcon.php";
+require_once "../database/db.php";
+
 if (isset($_POST['submit'])) {
 
     // Initialize error and form data arrays
@@ -33,7 +34,10 @@ if (isset($_POST['submit'])) {
 
             // Execute the query
             if ($query->execute()) {
-                header("Location:index.php?message=Category added successfully!");
+
+                // Redirect to view.php with the last inserted ID
+                header("Location:view.php?message=Category added successfully!&id=" . $conn->lastInsertId());
+                exit();
             } else {
                 throw new Exception("Insertion failed..!");
             }

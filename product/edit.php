@@ -2,7 +2,7 @@
 session_start();
 require_once "../database/db.php";
 
-$formData = array('name' => '', 'brand' => '', 'oPrice' => '', 'sPrice' => '');
+$formData = array('id' => '', 'name' => '', 'brand' => '', 'oPrice' => '', 'sPrice' => '');
 $errors = array();
 
 // Check if there are errors in the session
@@ -23,7 +23,9 @@ if (isset($_GET['id'])) {
         $query->execute();
         $product = $query->fetch(PDO::FETCH_ASSOC);
 
-        // Populate formData from the database if no form data in session
+        // var_dump($product);
+
+        //Populate formData from the database if no form data in session
         if ($product) {
             $formData['id'] = $product['id'];
             $formData['name'] = $product['product_name'];

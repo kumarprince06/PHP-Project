@@ -1,23 +1,22 @@
 <?php
 
 require_once "../database/db.php";
+require_once "Product.php";
 
 if (isset($_GET['id'])) {
 
     try {
-        // Prepare statement to get product details by id
-        $query = $conn->prepare("SELECT * FROM products WHERE id = :id");
-        $query->bindParam(":id", $_GET['id']);
-        $query->execute();
+        // Create an instance of the Product class
+        $product = new Product($conn);
 
-        // Fetch product as an associative array
-        $product = $query->fetch(PDO::FETCH_ASSOC);
+        // Delete product using the class method
+        $products = $product->viewProductDetail($_GET['id']);
 
-        if (!$product) {
+        if (!$products) {
             throw new Exception("Product not found!");
             exit;
         }
-    } catch (PDOException $th) {
+    } catch (PDOException $e) {
         //throw Exception
         die("Error : " . $e->getMessage());
     }
@@ -38,10 +37,10 @@ if (isset($_GET['id'])) {
 
         <!-- Display product details -->
         <div>
-            <h2><?php echo htmlspecialchars($product['product_name']); ?></h2>
-            <p><strong>Brand:</strong> <?php echo htmlspecialchars($product['brand']); ?></p>
-            <p><strong>Original Price:</strong> ₹<?php echo htmlspecialchars($product['original_price']); ?></p>
-            <p><strong>Selling Price:</strong> ₹<?php echo htmlspecialchars($product['selling_price']); ?></p>
+            <h2><?php echo htmlspecialchars($products['product_name']); ?></h2>
+            <p><strong>Brand:</strong> <?php echo htmlspecialchars($products['brand']); ?></p>
+            <p><strong>Original Price:</strong> ₹<?php echo htmlspecialchars($products['original_price']); ?></p>
+            <p><strong>Selling Price:</strong> ₹<?php echo htmlspecialchars($products['selling_price']); ?></p>
         </div>
         <a href="index.php"><button>Go back</button></a>
 

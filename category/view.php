@@ -1,18 +1,20 @@
 <?php
 
 require_once "../database/db.php";
-
+require_once "Category.php";
 if (isset($_GET['id'])) {
 
     try {
-        // Prepare statement to get product details by id
-        $query = $conn->prepare("SELECT * FROM categories WHERE categoryId = :id");
-        $query->bindParam(":id", $_GET['id']);
-        $query->execute();
+        // Create an instance of the Product class
+        $category = new Category($conn);
 
-        // Fetch product as an associative array
-        $category = $query->fetch(PDO::FETCH_ASSOC);
+        // Delete product using the class method
+        $categories = $category->viewCategory($_GET['id']);
 
+        if (!$categories) {
+            throw new Exception("Product not found!");
+            exit;
+        }
         if (!$category) {
             throw new Exception("Category not found!");
             exit;
@@ -38,7 +40,7 @@ if (isset($_GET['id'])) {
 
         <!-- Display product details -->
         <div>
-            <p><strong>Category Name:</strong> <?php echo htmlspecialchars($category['categoryName']); ?></p>
+            <p><strong>Category Name:</strong> <?php echo htmlspecialchars($categories['categoryName']); ?></p>
         </div>
         <a href="index.php"><button>Go back</button></a>
 

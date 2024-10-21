@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "../database/db.php";
+require_once "Category.php";
 
 if (isset($_POST['submit'])) {
 
@@ -26,20 +27,14 @@ if (isset($_POST['submit'])) {
     } else {
 
         try {
-            // Prepare and execute the SQL query
-            $query = $conn->prepare("INSERT INTO categories (categoryName) VALUES (:product_category)");
-
-            // Bind parameters to the query
-            $query->bindParam(':product_category', $_POST['category']);
-
-            // Execute the query
-            if ($query->execute()) {
-
+            // Create an instance of the category class
+            $category = new Category($conn);
+            // Add category using the class method
+            $categoryId = $category->addCategory($_POST['category']);
+            if ($categoryId) {
                 // Redirect to view.php with the last inserted ID
-                header("Location:view.php?message=Category added successfully!&id=" . $conn->lastInsertId());
+                header("Location:view.php?message=Category added successfully!&id=" . $categoryId);
                 exit();
-            } else {
-                throw new Exception("Insertion failed..!");
             }
         } catch (PDOException $e) {
             echo "Something went wrong: " . $e->getMessage();

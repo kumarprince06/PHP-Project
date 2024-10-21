@@ -1,16 +1,18 @@
 <?php
 require_once "../database/db.php";
-
+require_once "Category.php";
 
 try {
     // Check if the id is set in the URL
     if (isset($_GET['id'])) {
-        // Prepare statement to delete the product
-        $delete_query = $conn->prepare("DELETE FROM categories WHERE categoryId = :id");
-        $delete_query->bindParam(':id', $_GET['id']);
+        // Craete an instance of the Category class
+        $category = new Category($conn);
 
-        if ($delete_query->execute()) {
-            header("Location:index.php?message=Category deleted successfully!");
+        // Delete category using the category class function
+        $categoryDeleteMessage = $category->deleteCategory($_GET['id']);
+
+        if ($categoryDeleteMessage) {
+            header("Location:index.php?message=" . $categoryDeleteMessage);
             exit();
         } else {
             throw new Exception("Error deleting product!");

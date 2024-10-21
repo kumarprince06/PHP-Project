@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "../database/db.php";
+require_once "Product.php";
 
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
@@ -21,6 +22,9 @@ if (isset($_POST['submit'])) {
         $errorArray['brandError'] = "Brand name is required!";
     } else {
         $formData['brand'] = $_POST['brand'];
+        if (!preg_match("/^[a-zA-Z]+$/", $_POST['brand'])) {
+            $errorArray['brandError'] = "Only alphabets are allowed!";
+        }
     }
 
     // Validate the original price
@@ -51,18 +55,12 @@ if (isset($_POST['submit'])) {
         exit();
     } else {
         try {
-            // Prepare and execute the SQL query
-            $query = $conn->prepare("INSERT INTO products (product_name, brand, original_price, selling_price)
-                                      VALUES (:product_name, :brand, :original_price, :selling_price)");
+            // Create an instance of the Product class
+            $product = new Product($conn);
 
-            // Bind parameters to the query
-            $query->bindParam(':product_name', $_POST['name']);
-            $query->bindParam(':brand', $_POST['brand']);
-            $query->bindParam(':original_price', $_POST['oPrice']);
-            $query->bindParam(':selling_price', $_POST['sPrice']);
+            // Add product using the class method
+            $productId = $product->addProduct($_POST['name'], $_POST['brand'], $_POST['oPrice'], $_POST['sPrice']);
 
-            // Execute the query
-            $query->execute();
             // Redirect to view.php with the last inserted ID
             header("Location:view.php?message=Product added successfully!&id=" . $conn->lastInsertId());;
         } catch (PDOException $e) {

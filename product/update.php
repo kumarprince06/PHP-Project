@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "../database/db.php";
+require_once "Product.php";
 
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
@@ -21,6 +22,9 @@ if (isset($_POST['submit'])) {
         $errorArray['brandError'] = "Brand name is required!";
     } else {
         $formData['brand'] = htmlspecialchars($_POST['brand']);
+        if (!preg_match("/^[a-zA-Z]+$/", $_POST['brand'])) {
+            $errorArray['brandError'] = "Only alphabets are allowed!";
+        }
     }
 
     // Validate the original price
@@ -53,22 +57,14 @@ if (isset($_POST['submit'])) {
     } else {
         try {
 
-            // Prepare the SQL query to update the product
-            $update_query = $conn->prepare(
-                "UPDATE products SET product_name = :product_name, brand = :brand,
-                original_price = :original_price, selling_price = :selling_price WHERE id = :id"
-            );
+            // Create an instance of the Product class
+            $product = new Product($conn);
 
-            // Bind the form values to the placeholders in the query
-            $update_query->bindParam(':product_name', $_POST['name'], PDO::PARAM_STR);
-            $update_query->bindParam(':brand', $_POST['brand'], PDO::PARAM_STR);
-            $update_query->bindParam(':original_price', $_POST['oPrice'], PDO::PARAM_INT);  // Binding as integer
-            $update_query->bindParam(':selling_price', $_POST['sPrice'], PDO::PARAM_INT);  // Binding as integer
-            $update_query->bindParam(':id', $_POST['id'], PDO::PARAM_INT);
-            // Execute the query
-            $update_query->execute();
+            // Add product using the class method
+            $productMessage = $product->updateProduct($_POST['id'], $_POST['name'], $_POST['brand'], $_POST['oPrice'], $_POST['sPrice']);
+
             // Redirect with a success message
-            header("location:index.php?message=Product updated successfully!");
+            header("location:index.php?message=" . $productMessage);
             exit();
         } catch (PDOException $e) {
             // Handle PDO exceptions

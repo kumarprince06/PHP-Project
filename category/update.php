@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "../database/db.php";
+require_once "Category.php";
 if (isset($_POST['submit'])) {
 
     // Initialize error and form data arrays
@@ -25,20 +26,19 @@ if (isset($_POST['submit'])) {
         header("Location:edit.php");
         exit();
     } else {
-
+        var_dump($_POST['submit']);
         try {
-            // Prepare and execute the SQL query
-            $query = $conn->prepare("UPDATE categories SET categoryName = :categoryName WHERE categoryID= :id");
+            // Create an instance of the class category
+            $category = new Category($conn);
 
-            // Bind parameters to the query
-            $query->bindParam(':categoryName', $_POST['category']);
-            $query->bindParam(":id", $_POST['id']);
+            // Add category using the class method
+            $categoryUpdateMessage = $category->updateCategory($_POST['id'], $_POST['category']);
 
             // Execute the query
-            if ($query->execute()) {
-                header("Location:index.php?message=Category updated successfully!");
+            if ($categoryUpdateMessage) {
+                header("Location:index.php?message=" . $categoryUpdateMessage);
             } else {
-                throw new Exception("Insertion failed..!");
+                throw new Exception("Updation failed..!");
             }
         } catch (PDOException $e) {
             echo "Something went wrong: " . $e->getMessage();

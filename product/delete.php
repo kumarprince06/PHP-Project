@@ -1,21 +1,21 @@
 <?php
 require_once "../database/db.php";
+require_once "Product.php";
 
-// Check if the id is set in the URL
-if (isset($_GET['id'])) {
+try {
+    // Check if the id is set in the URL
+    if (isset($_GET['id'])) {
+        // Create an instance of the Product class
+        $product = new Product($conn);
 
-    echo "$product_id";
-    // Prepare statement to delete the product
-    $delete_query = $conn->prepare("DELETE FROM products WHERE id = :id");
-    $delete_query->bindParam(':id', $_GET['id']);
-
-    if ($delete_query->execute()) {
-        header("Location:index.php?message=Product deleted successfully!");
+        // Delete product using the class method
+        $productMessage = $product->deleteProduct($_GET['id']);
+        header("Location: index.php?message=" . $productMessage);
         exit();
     } else {
-        echo "Error deleting product!";
+        throw new Exception("No product ID provided.");
     }
-} else {
-    echo "Invalid request!";
-    exit();
+} catch (Exception $e) {
+    // Handle the exception, log it or display an error message
+    echo "Error: " . $e->getMessage();
 }

@@ -92,4 +92,10 @@ class Database
         $this->executePrepareStmt();
         return $this->stmt->rowCount();
     }
+
+    // Get Last Insterted Id
+    public function lastInsertId()
+    {
+        return $this->dbHandler->lastInsertId();
+    }
 }

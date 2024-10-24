@@ -27,6 +27,17 @@ class Product
         $this->db->bind(':originalPrice', $data['originalPrice']);
         $this->db->bind(':sellingPrice', $data['sellingPrice']);
 
-        return $this->db->executePrepareStmt() ? true : false;
+        return $this->db->executePrepareStmt() ? $this->db->lastInsertId() : false;
+    }
+
+    // View Products
+    public function getProductById($id)
+    {
+        $this->db->query('SELECT * FROM products WHERE id=:id');
+        $this->db->bind(':id', $id);
+
+        $product = $this->db->singleResult();
+
+        return $product;
     }
 }

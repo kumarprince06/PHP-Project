@@ -71,15 +71,20 @@ class Products extends Controller
             // Check for No Error
             if (empty($data['productNameError']) && empty($data['productBrandError']) && empty($data['originalPriceError']) && empty($data['sellingPriceError'])) {
                 // Validated 
-                if ($this->productModel->addProduct($data)) {
-                    flashMessage('productMessage', 'Product added successfully');
-                    redirect('products/index');
+                $lastInsertedId = $this->productModel->addProduct($data);
+                if ($lastInsertedId) {
+                    flashMessage(
+                        'productMessage',
+                        'Product added successfully'
+                    );
+                    // Redirect to the show page with the last inserted product ID
+                    redirect('products/show/' . $lastInsertedId);
                 } else {
                     die('Something went wrong..!');
                 }
             } else {
                 // Load View with errors
-                $this->view('products/add', $data);
+                $this->view('products/show', $data);
             }
         } else {
             // Initial empty form
@@ -97,5 +102,13 @@ class Products extends Controller
 
             $this->view('products/add', $data);
         }
+    }
+
+    // View Product Handler
+    public function show($id)
+    {
+        $product = $this->productModel->getProductById($id);
+        $data = ['title' => 'Shop', 'product' => $product];
+        $this->view('products/show', $data);
     }
 }

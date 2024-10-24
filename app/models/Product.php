@@ -40,4 +40,27 @@ class Product
 
         return $product;
     }
+
+    // Update Product
+    public function updateProduct($data)
+    {
+        $this->db->query('UPDATE products SET product_name=:productName , brand=:productBrand, original_price=:originalPrice, selling_price=:sellingPrice WHERE id=:id');
+        $this->db->bind(':productName', $data['productName']);
+        $this->db->bind(':productBrand', $data['productBrand']);
+        $this->db->bind(':originalPrice', $data['originalPrice']);
+        $this->db->bind(':sellingPrice', $data['sellingPrice']);
+        $this->db->bind(':id', $data['id']);
+
+        return $this->db->executePrepareStmt() ? true : false;
+    }
+
+    // Delete Product
+    public function deletePostById($id)
+    {
+        $this->db->query('DELETE FROM products WHERE id = :id');
+
+        $this->db->bind(":id", $id);
+
+        return $this->db->executePrepareStmt() ? true : false;
+    }
 }

@@ -1,0 +1,16 @@
+.flash-message {
+  background-color: #dff0d8; /* Light green background */
+  color: #3c763d; /* Dark green text */
+  padding: 15px;
+  border: 1px solid #d6e9c6; /* Green border */
+  border-radius: 5px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* Error message styling */
+.flash-message-error {
+  background-color: #f2dede; /* Light red background */
+  color: #a94442; /* Dark red text */
+  border: 1px solid #ebccd1; /* Red border */
+}

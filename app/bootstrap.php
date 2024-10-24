@@ -4,10 +4,10 @@
 require_once '../app/config/config.php';
 
 // Load Url Helper file
-// require_once '../app/helpers/urlHelper.php';
+require_once '../app/helpers/urlHelper.php';
 
 // Load Session Helper file
-// require_once '../app/helpers/sesionHelper.php';
+require_once '../app/helpers/sessionHelper.php';
 
 // Autoload Core libraries
 spl_autoload_register(function ($className) {

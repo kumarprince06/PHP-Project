@@ -3,7 +3,7 @@
 <h1>Product Listing</h1>
 <a href="<?php echo URLROOT ?>/products/add"><button style="margin-bottom: 10px;">Add Product</button></a>
 <a href="<?php echo URLROOT ?>"><button style="margin-bottom: 10px;">Home</button></a>
-
+<?php echo flashMessage('productMessage'); ?>
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>

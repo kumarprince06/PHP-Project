@@ -108,7 +108,7 @@ class Products extends Controller
     {
         $product = $this->productModel->getProductById($id);
         $data = ['title' => 'Shop', 'product' => $product];
-        $this->view('products/show', $data);
+        $this->view('products/show/' . $id, $data);
     }
 
     // Edit / Update Product Handler

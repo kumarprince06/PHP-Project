@@ -12,6 +12,7 @@
             <th>Brand Name</th>
             <th>Original Price</th>
             <th>Selling Price</th>
+            <th>Product Type</th>
             <th>Operations</th>
         </tr>
     </thead>
@@ -25,6 +26,7 @@
                 <td><?php echo $product->brand ?></td>
                 <td>Rs <?php echo $product->original_price ?></td>
                 <td>Rs <?php echo $product->selling_price ?></td>
+                <td> <?php echo $product->product_type ?> </td>
                 <td>
                     <a href='<?php echo URLROOT ?>/products/show/<?php echo $product->id ?>'><button>View</button></a>
                     <a href='<?php echo URLROOT ?>/products/edit/<?php echo $product->id ?>'><button>Edit</button></a>

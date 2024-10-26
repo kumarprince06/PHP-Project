@@ -18,8 +18,6 @@ class Core
 
         $url = $this->getUrl();
 
-
-
         // Look in controllers for first index or value
         if (file_exists('../app/controllers/' . ucwords($url[0]) . '.php')) {
             // If exists, set as controller
@@ -47,6 +45,8 @@ class Core
 
         // Get params
         $this->params = $url ? array_values($url) : [];
+
+
 
 
         // Call a callback with array of params

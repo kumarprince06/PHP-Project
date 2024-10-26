@@ -10,6 +10,7 @@
     <p><strong>Brand:</strong> <?php echo $data['product']->brand; ?></p>
     <p><strong>Original Price:</strong> ₹<?php echo $data['product']->original_price; ?></p>
     <p><strong>Selling Price:</strong> ₹<?php echo $data['product']->selling_price; ?></p>
+    <p><strong>Product Type:</strong> <?php echo $data['product']->product_type; ?></p>
 </div>
 <a href="<?php echo URLROOT; ?>/products/index"><button>Go back</button></a>
 

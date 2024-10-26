@@ -46,6 +46,16 @@
             style="border: 1px solid <?php echo !empty($data['sellingPriceError']) ? 'red' : '#ccc'; ?>;">
         <span class="error" style="color: red;">* <?php echo $data['sellingPriceError']; ?></span>
     </div>
+    <!-- Product Type -->
+    <div class="addproduct" style="margin-bottom: 5px;">
+        <label for="productType">Product Type:</label>
+        <select name="productType" id="productType" required>
+            <option value="">Select Type</option>
+            <option value="Physical" <?php echo $data['productType'] == 'Physical' ? 'selected' : ''; ?>>Physical</option>
+            <option value="Digital" <?php echo $data['productType'] == 'Digital' ? 'selected' : ''; ?>>Digital</option>
+        </select>
+        <span class="error" style="color: red;">* <?php echo $data['productTypeError'] ?? ''; ?></span>
+    </div>
 
     <button type="submit" name="submit">Submit</button>
     <button type="reset">Reset</button>

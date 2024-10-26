@@ -2,10 +2,14 @@
 
 class Products extends Controller
 {
+    private $digitalProductModel;
+    private $physicalProductModel;
     private $productModel;
     public function __construct()
     {
         $this->productModel = $this->model('Product');
+        $this->physicalProductModel = $this->model('PhysicalProduct');
+        $this->digitalProductModel = $this->model('DigitalProduct');
     }
 
     // Index Page Handler
@@ -29,22 +33,27 @@ class Products extends Controller
 
             // Process form
             // Initialize form data
+
             $data = [
                 'title' => 'Shop',
                 'productName' => trim($_POST['productName']),
                 'productBrand' => trim($_POST['productBrand']),
                 'originalPrice' => trim($_POST['originalPrice']),
                 'sellingPrice' => trim($_POST['sellingPrice']),
+                'productType' => trim(($_POST['productType'])),
                 'productNameError' => '',
                 'productBrandError' => '',
                 'originalPriceError' => '',
-                'sellingPriceError' => ''
+                'sellingPriceError' => '',
+                'productTypeError' => ''
             ];
 
             // Validate Product Name
             if (empty($data['productName'])) {
+
                 $data['productNameError'] = "Product name is required!";
             }
+
 
             // Validate Product Brand
             if (empty($data['productBrand'])) {
@@ -67,10 +76,16 @@ class Products extends Controller
                 $data['sellingPriceError'] = 'Only numbers are allowed!';
             }
 
+            // Validate Product Type
+            if (empty($data['productType'])) {
+                $data['productTypeError'] = 'Select the product type!';
+            }
+
             // Check for No Error
-            if (empty($data['productNameError']) && empty($data['productBrandError']) && empty($data['originalPriceError']) && empty($data['sellingPriceError'])) {
-                // Validated 
-                $lastInsertedId = $this->productModel->addProduct($data);
+            if (empty($data['productNameError']) && empty($data['productBrandError']) && empty($data['originalPriceError']) && empty($data['sellingPriceError']) && empty($data['productTypeError'])) {
+                // Validated
+
+                $lastInsertedId = $data['productType'] == 'Physical' ?  $this->physicalProductModel->addPhysicalProduct($data) : $this->digitalProductModel->addDigitalProduct($data);
                 if ($lastInsertedId) {
                     flashMessage(
                         'productMessage',
@@ -83,7 +98,8 @@ class Products extends Controller
                 }
             } else {
                 // Load View with errors
-                $this->view('products/show', $data);
+
+                $this->view('products/add', $data);
             }
         } else {
             // Initial empty form
@@ -93,10 +109,12 @@ class Products extends Controller
                 'productBrand' => '',
                 'originalPrice' => '',
                 'sellingPrice' => '',
+                'productType' => '',
                 'productNameError' => '',
                 'productBrandError' => '',
                 'originalPriceError' => '',
-                'sellingPriceError' => ''
+                'sellingPriceError' => '',
+                'productTypeError' => ''
             ];
 
             $this->view('products/add', $data);
@@ -108,7 +126,7 @@ class Products extends Controller
     {
         $product = $this->productModel->getProductById($id);
         $data = ['title' => 'Shop', 'product' => $product];
-        $this->view('products/show/' . $id, $data);
+        $this->view('products/show', $data);
     }
 
     // Edit / Update Product Handler
@@ -126,10 +144,12 @@ class Products extends Controller
                 'productBrand' => trim($_POST['productBrand']),
                 'originalPrice' => trim($_POST['originalPrice']),
                 'sellingPrice' => trim($_POST['sellingPrice']),
+                'productType' => trim($_POST['productType']),
                 'productNameError' => '',
                 'productBrandError' => '',
                 'originalPriceError' => '',
-                'sellingPriceError' => ''
+                'sellingPriceError' => '',
+                'productTypeError' => ''
             ];
 
             // Validate Product Name
@@ -156,6 +176,11 @@ class Products extends Controller
                 $data['sellingPriceError'] = 'Selling price is required!';
             } else if (!preg_match("/^[0-9]+$/", $data['sellingPrice'])) {
                 $data['sellingPriceError'] = 'Only numbers are allowed!';
+            }
+
+            // Validate Product Type
+            if (empty($data['productType'])) {
+                $data['productTypeError'] = 'Select the product type!';
             }
 
             // Check for No Error
@@ -191,10 +216,12 @@ class Products extends Controller
                 'productBrand' => $product->brand,
                 'originalPrice' => $product->original_price,
                 'sellingPrice' =>  $product->selling_price,
+                'productType' => $product->product_type,
                 'productNameError' => '',
                 'productBrandError' => '',
                 'originalPriceError' => '',
-                'sellingPriceError' => ''
+                'sellingPriceError' => '',
+                'productTypeError' => ''
             ];
 
             $this->view('products/edit', $data);

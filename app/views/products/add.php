@@ -2,7 +2,10 @@
 <a href="<?php echo URLROOT ?>/products/index"><button type="button">Back</button></a>
 <h1>Add Product</h1>
 <p style="color: red;">* required fields</p>
+
 <form action="<?php echo URLROOT ?>/products/add" method="post" novalidate>
+
+    <!-- Product Name -->
     <div class="addproduct" style="margin-bottom: 5px;">
         <label for="name">Product Name:</label>
         <input
@@ -14,6 +17,7 @@
         <span class="error" style="color: red;">* <?php echo $data['productNameError']; ?></span>
     </div>
 
+    <!-- Brand Name -->
     <div class="addproduct" style="margin-bottom: 5px;">
         <label for="brand">Brand Name:</label>
         <input
@@ -25,6 +29,7 @@
         <span class="error" style="color: red;">* <?php echo $data['productBrandError']; ?></span>
     </div>
 
+    <!-- Original Price -->
     <div class="addproduct" style="margin-bottom: 5px;">
         <label for="oPrice">Original Price:</label>
         <input
@@ -36,6 +41,7 @@
         <span class="error" style="color: red;">* <?php echo $data['originalPriceError']; ?></span>
     </div>
 
+    <!-- Selling Price -->
     <div class="addproduct" style="margin-bottom: 5px;">
         <label for="sPrice">Selling Price:</label>
         <input
@@ -45,6 +51,17 @@
             id="sPrice"
             style="border: 1px solid <?php echo !empty($data['sellingPriceError']) ? 'red' : '#ccc'; ?>;">
         <span class="error" style="color: red;">* <?php echo $data['sellingPriceError']; ?></span>
+    </div>
+
+    <!-- Product Type -->
+    <div class="addproduct" style="margin-bottom: 5px;">
+        <label for="productType">Product Type:</label>
+        <select name="productType" id="productType" required>
+            <option value="">Select Type</option>
+            <option value="Physical" <?php echo $data['productType'] == 'physical' ? 'selected' : ''; ?>>Physical</option>
+            <option value="Digital" <?php echo $data['productType'] == 'digital' ? 'selected' : ''; ?>>Digital</option>
+        </select>
+        <span class="error" style="color: red;">* <?php echo $data['productTypeError'] ?? ''; ?></span>
     </div>
 
     <button type="submit" name="submit">Submit</button>

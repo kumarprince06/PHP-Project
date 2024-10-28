@@ -7,6 +7,10 @@ class Products extends Controller
     private $productModel;
     public function __construct()
     {
+        if (!isLoggedIn()) {
+            
+            redirect('pages/login');
+        }
         $this->productModel = $this->model('Product');
         $this->physicalProductModel = $this->model('PhysicalProduct');
         $this->digitalProductModel = $this->model('DigitalProduct');

@@ -5,6 +5,9 @@ class Categories extends Controller
     private $categoryModel;
     public function __construct()
     {
+        if (!isLoggedIn()) {
+            redirect('pages/login');
+        }
         $this->categoryModel = $this->model('Category');
     }
 

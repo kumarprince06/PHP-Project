@@ -28,3 +28,10 @@ function flashMessage($name = '', $message = '', $class = 'flash-message')
         }
     }
 }
+
+
+// Is User Logged In
+function isLoggedIn()
+{
+    return isset($_SESSION['user_id']) ? true : false;
+}

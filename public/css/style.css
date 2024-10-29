@@ -8,9 +8,12 @@
   margin: 10px 0;
 }
 
-/* Error message styling */
-.flash-message-error {
-  background-color: #f2dede; /* Light red background */
-  color: #a94442; /* Dark red text */
-  border: 1px solid #ebccd1; /* Red border */
+#msg-flash-error.flash-message-error {
+  background-color: #f8d7da !important;
+  color: red !important;
+  padding: 15px !important;
+  border: 1px solid #f5c6cb !important;
+  border-radius: 5px !important;
+  text-align: center !important;
+  margin: 10px 0 !important;
 }

@@ -29,6 +29,39 @@ function flashMessage($name = '', $message = '', $class = 'flash-message')
     }
 }
 
+// Flash Error Message Helper
+function flashErrorMessage($name = '', $message = '', $class = 'flash-message-error')
+{
+    if (!empty($name)) {
+        if (!empty($message) && empty($_SESSION[$name])) {
+
+            // Unset any previous message with the same name
+            if (!empty($_SESSION[$name])) {
+                unset($_SESSION[$name]);
+            }
+            if (!empty($_SESSION[$name . '_class'])) {
+                unset($_SESSION[$name . '_class']);
+            }
+
+            // Set session variables
+            $_SESSION[$name] = $message;
+            $_SESSION[$name . '_class'] = $class;
+        }
+        // Display the message
+        elseif (empty($message) && !empty($_SESSION[$name])) {
+            // Ensure that we set the class correctly
+            $class = !empty($_SESSION[$name . '_class']) ? $_SESSION[$name . '_class'] : 'flash-message-error';
+            echo '<div class="' . $class . '" id="msg-flash-error">' . $_SESSION[$name] . '</div>';
+
+            // Unset session data after display
+            unset($_SESSION[$name]);
+            unset($_SESSION[$name . '_class']);
+        }
+    }
+}
+
+
+
 
 // Is User Logged In
 function isLoggedIn()

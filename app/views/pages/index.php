@@ -4,7 +4,10 @@
     <?php flashMessage('message'); ?>
     <?php if ($_SESSION['user_id']) : ?>
         <a href="<?php echo URLROOT ?>/products/index"><button>Product</button></a>
-        <a href="<?php echo URLROOT ?>/categories"><button>Category</button></a>
+        <?php if ($_SESSION['role'] == 'Admin') : ?>
+            <a href="<?php echo URLROOT ?>/categories"><button>Category</button></a>
+            <a href="<?php echo URLROOT; ?>/admin/dashboard"><button>Dashboard</button></a>
+        <?php endif; ?>
         <a href="<?php echo URLROOT; ?>/user/dashboard"><button>Dashboard</button></a>
         <a href="<?php echo URLROOT ?>/pages/logout"><button>Logout</button></a>
     <?php else: ?>

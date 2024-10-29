@@ -22,20 +22,21 @@ class User extends Controller
     }
 
 
-    // Add to wishlist
     public function addToWishlist($productId)
     {
-
         // Check Post Request
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_SESSION['user_id']; // Get the logged-in user's ID
+
+            // Debug statement
+            error_log("Attempting to add product with ID $productId to user with ID $userId");
 
             if ($this->wishlistModel->addToWishlist($userId, $productId)) {
                 flashMessage('wishlist_success', 'Product added to your wishlist!');
                 redirect('products/index'); // Redirect to wishlist page
             } else {
                 // If product is already in the wishlist
-                flashMessage('wishlist_error', 'Product is already in your wishlist!');
+                flashErrorMessage('wishlist_error', 'Product is already in your wishlist!');
                 redirect('products/index'); // Redirect to wishlist page
             }
         } else {
@@ -50,5 +51,29 @@ class User extends Controller
         $data['wishlist'] = $this->wishlistModel->getWishlistByUserId($userId);
 
         $this->view('user/wishlist', $data);
+    }
+
+    public function delete($wishlistId)
+    {
+        // check for post request
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Proccess
+
+            if ($this->wishlistModel->deleteWishlist($wishlistId)) {
+                flashMessage('wishlistMessage', 'Product deleted successfully');
+                redirect('user/showWishlist');
+            }
+        } else {
+            // Redirect to post
+            redirect('user/dashboard');
+        }
+    }
+
+    public function cart()
+    {
+        $data = [
+            'title' => 'Shop'
+        ];
+        $this->view('user/cart', $data);
     }
 }

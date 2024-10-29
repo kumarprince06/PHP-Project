@@ -5,6 +5,7 @@
 <a href="<?php echo URLROOT ?>"><button style="margin-bottom: 10px;">Home</button></a>
 <?php echo flashMessage('productMessage'); ?>
 <?php echo flashMessage('wishlist_success'); ?>
+<?php echo flashErrorMessage('wishlist_error'); ?>
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>
@@ -43,6 +44,10 @@
                         <!-- Form for delete operation using POST method -->
                         <form action="<?php echo URLROOT; ?>/user/addToWishlist/<?php echo $product->id; ?>" method="POST" style="display:inline;">
                             <button type="submit">Add To Wishlist</button>
+                        </form>
+                        <!-- Form for delete operation using POST method -->
+                        <form action="<?php echo URLROOT; ?>/user/addToCart/<?php echo $product->id; ?>" method="POST" style="display:inline;">
+                            <button type="submit">Add To Cart</button>
                         </form>
                     <?php endif; ?>
 

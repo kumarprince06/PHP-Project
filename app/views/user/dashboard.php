@@ -5,7 +5,7 @@
     <div>
         <a href="<?php echo URLROOT; ?>"><button>Home</button></a>
         <a href="<?php echo URLROOT; ?>/user/showWishlist"><button>Wishlist</button></a>
-        <a href="<?php echo URLROOT; ?>/user/cart"><button>My Cart</button></a>
+        <a href="<?php echo URLROOT; ?>/user/myCart"><button>My Cart</button></a>
         <a href="<?php echo URLROOT; ?>/user/order"><button>My Order</button></a>
 
     </div>

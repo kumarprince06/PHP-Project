@@ -3,6 +3,7 @@ class User extends Controller
 {
 
     private $wishlistModel;
+    private $cartModel;
     public function __construct()
     {
         // Check if user is not logged in
@@ -11,6 +12,7 @@ class User extends Controller
         }
 
         $this->wishlistModel = $this->model('Wishlist');
+        $this->cartModel = $this->model('Cart');
     }
 
 
@@ -21,7 +23,7 @@ class User extends Controller
         $this->view('user/dashboard');
     }
 
-
+    // Add To Wishlist
     public function addToWishlist($productId)
     {
         // Check Post Request
@@ -45,6 +47,7 @@ class User extends Controller
         }
     }
 
+    // Show wishlist 
     public function showWishlist()
     {
         $userId = $_SESSION['user_id'];
@@ -53,6 +56,7 @@ class User extends Controller
         $this->view('user/wishlist', $data);
     }
 
+    // Delete wishlist Item
     public function delete($wishlistId)
     {
         // check for post request
@@ -69,11 +73,22 @@ class User extends Controller
         }
     }
 
-    public function cart()
+    // Cart Handler
+    public function myCart()
     {
+        // Get the logged-in user ID from the session
+        $userId = $_SESSION['user_id'];
+
+        // Fetch the cart items for the user
+        $cartItems = $this->cartModel->getCartItemsByUserId($userId);
+
+        // Prepare data to pass to the view
         $data = [
-            'title' => 'Shop'
+            'title' => 'My Cart',
+            'cartItems' => $cartItems
         ];
+
+        // Load the cart view with the data
         $this->view('user/cart', $data);
     }
 }

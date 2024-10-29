@@ -22,11 +22,13 @@
                 <td><?php echo $category->categoryName; ?></td>
                 <td>
                     <a href='<?php echo URLROOT; ?>/categories/show/<?php echo $category->categoryId; ?>'><button>View</button></a>
-                    <a href='<?php echo URLROOT; ?>/categories/edit/<?php echo $category->categoryId; ?>'><button>Edit</button></a>
-                    <!-- Form for delete operation using POST method -->
-                    <form action="<?php echo URLROOT ?>/categories/delete/<?php echo $category->categoryId ?>" method="POST" style="display:inline;">
-                        <button type="submit" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
-                    </form>
+                    <?php if ($_SESSION['role'] == 'admin') : ?>
+                        <a href='<?php echo URLROOT; ?>/categories/edit/<?php echo $category->categoryId; ?>'><button>Edit</button></a>
+                        <!-- Form for delete operation using POST method -->
+                        <form action="<?php echo URLROOT ?>/categories/delete/<?php echo $category->categoryId ?>" method="POST" style="display:inline;">
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
+                        </form>
+                    <?php endif; ?>
                 </td>
             </tr>
 

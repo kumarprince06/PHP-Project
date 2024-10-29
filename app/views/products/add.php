@@ -64,6 +64,22 @@
         <span class="error" style="color: red;">* <?php echo $data['productTypeError'] ?? ''; ?></span>
     </div>
 
+    <!-- Category Selection -->
+    <div class="addproduct" style="margin-bottom: 5px;">
+        <label for="category">Category:</label>
+        <select name="categoryId" id="category" required>
+            <option value="">Select Category</option>
+            <?php foreach ($data['categories'] as $category): ?>
+                <option value="<?php echo $category->categoryId; ?>" <?php echo $data['categoryId'] == $category->categoryId ? 'selected' : ''; ?>>
+                    <?php echo htmlspecialchars($category->categoryName, ENT_QUOTES, 'UTF-8'); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <span class="error" style="color: red;">* <?php echo $data['categoryIdError'] ?? ''; ?></span>
+    </div>
+
+
+
     <button type="submit" name="submit">Submit</button>
     <button type="reset">Reset</button>
 </form>

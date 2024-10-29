@@ -6,6 +6,7 @@ class Pages extends Controller
     private $userModel;
     public function __construct()
     {
+
         $this->userModel = $this->model('User');
     }
 
@@ -24,6 +25,10 @@ class Pages extends Controller
     // Login Pgae handler
     public function login()
     {
+        // Check if user is already logged in
+        if (isLoggedIn()) {
+            redirect('pages/index'); // Redirect to home or another page if logged in
+        }
 
         // Check for post request
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -91,6 +96,10 @@ class Pages extends Controller
     // Registration Page Handler
     public function register()
     {
+        // Check if user is already logged in
+        if (isLoggedIn()) {
+            redirect('pages/index'); // Redirect to home or another page if logged in
+        }
 
         // Check for post request
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -158,6 +167,7 @@ class Pages extends Controller
     {
         unset($_SESSION['user_id']);
         unset($_SESSION['user_email']);
+        unset($_SESSION['role']);
 
         session_destroy(); // To destroy all session
 
@@ -177,6 +187,7 @@ class Pages extends Controller
         // Store user data in session variables
         $_SESSION['user_id'] = $user->id; // Assuming $user has an 'id' property
         $_SESSION['user_email'] = $user->email; // Assuming $user has an 'email' property
+        $_SESSION['role'] = $user->role;
 
         // Redirect to the homepage or dashboard
         redirect('pages/index'); // Change 'pages/index' to your desired location

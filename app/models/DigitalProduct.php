@@ -16,6 +16,7 @@ class DigitalProduct extends Product
         $this->setProductOriginalPrice($data['originalPrice']);
         $this->setProductSellingPrice($data['sellingPrice']);
         $this->setProductType($data['productType']);
+        $this->setCategory($data['categoryId']);
 
 
         return $this->addProduct([
@@ -23,7 +24,8 @@ class DigitalProduct extends Product
             'productBrand' => $this->getProductBrand(),
             'originalPrice' => $this->getProductOriginalPrice(),
             'sellingPrice' => $this->getProductSellingPrice(),
-            'productType' => $this->getProductType()
+            'productType' => $this->getProductType(),
+            'categoryId' => $this->getCategory(),
         ]);
     }
 
@@ -37,6 +39,7 @@ class DigitalProduct extends Product
         $this->setProductSellingPrice($data['sellingPrice']);
         $this->setProductType($data['productType']);
         $this->setId($data['id']);
+        $this->setCategory($data['categoryId']);
 
 
         return $this->updateProduct([
@@ -45,7 +48,8 @@ class DigitalProduct extends Product
             'originalPrice' => $this->getProductOriginalPrice(),
             'sellingPrice' => $this->getProductSellingPrice(),
             'productType' => $this->getProductType(),
-            'id' => $this->getId()
+            'id' => $this->getId(),
+            'categoryId' => $this->getCategory(),
         ]);
     }
 }

@@ -5,6 +5,7 @@
     <?php if ($_SESSION['user_id']) : ?>
         <a href="<?php echo URLROOT ?>/products/index"><button>Product</button></a>
         <a href="<?php echo URLROOT ?>/categories"><button>Category</button></a>
+        <a href="<?php echo URLROOT; ?>/user/dashboard"><button>Dashboard</button></a>
         <a href="<?php echo URLROOT ?>/pages/logout"><button>Logout</button></a>
     <?php else: ?>
         <a href="<?php echo URLROOT ?>/pages/login"><button>Login</button></a>

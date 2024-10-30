@@ -53,4 +53,49 @@ class Cart
 
         return $this->db->resultSet(); // Returns an array of cart items
     }
+
+    // Increase cart Item Quantity
+    public function increaseQuantity($cartId)
+    {
+        // Assuming you have a 'quantity' column in your 'cart' table
+        $this->db->query("UPDATE cart SET quantity = quantity + 1 WHERE cartId = :cartId");
+        $this->db->bind(':cartId', $cartId);
+
+        // Execute and return true if successful
+        return $this->db->executePrepareStmt();
+    }
+
+    // Decrease cart Item Quantity
+    public function decreaseQuantity($cartId)
+    {
+        // Get the current quantity of the item
+        $this->db->query("SELECT quantity FROM cart WHERE cartId = :cartId");
+        $this->db->bind(':cartId', $cartId);
+        $currentQuantity = $this->db->singleResult()->quantity;
+
+        if ($currentQuantity <= 1) {
+            // If quantity will be 0 or less, delete the item from the cart
+            $this->db->query("DELETE FROM cart WHERE cartId = :cartId");
+            $this->db->bind(':cartId', $cartId);
+        } else {
+            // Otherwise, decrease the quantity by 1
+            $this->db->query("UPDATE cart SET quantity = quantity - 1 WHERE cartId = :cartId");
+            $this->db->bind(':cartId', $cartId);
+        }
+
+        // Execute and return true if successful
+        return $this->db->executePrepareStmt();
+    }
+
+    // Delete a cart item by ID
+    public function deleteCartItem($cartId, $userId)
+    {
+        // Prepare the SQL statement
+        $this->db->query("DELETE FROM cart WHERE cartId = :cartId AND userId = :userId");
+        $this->db->bind(':cartId', $cartId);
+        $this->db->bind(':userId', $userId);
+
+        // Execute the statement and return the result
+        return $this->db->executePrepareStmt();
+    }
 }

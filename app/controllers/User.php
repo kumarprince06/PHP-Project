@@ -91,4 +91,23 @@ class User extends Controller
         // Load the cart view with the data
         $this->view('user/cart', $data);
     }
+
+    // My Order Handler
+    public function order()
+    {
+        // Get the logged-in user ID from the session
+        $userId = $_SESSION['user_id'];
+
+        // Fetch the cart items for the user
+        // $cartItems = $this->cartModel->getOrderItemsByUserId($userId);
+
+        // Prepare data to pass to the view
+        $data = [
+            'title' => 'My Cart',
+            // 'cartItems' => $cartItems
+        ];
+
+        // Load the cart view with the data
+        $this->view('user/order', $data);
+    }
 }

@@ -62,6 +62,16 @@ class Wishlist
 
     }
 
+    // Method to retrieve the user's wishlist along with category information
+    public function getWishlistItemById($wishlistId)
+    {
+        $this->db->query("SELECT * FROM wishlists WHERE id = :wishlistId");
+        $this->db->bind(':wishlistId', $wishlistId);
+
+        // Execute the query and return the single result
+        return $this->db->singleResult();
+    }
+
     // Delete wishlist product
     public function deleteWishlist($wishlistId)
     {

@@ -4,9 +4,9 @@
     <h3>Dashboard</h3>
     <div>
         <a href="<?php echo URLROOT; ?>"><button>Home</button></a>
-        <a href="<?php echo URLROOT; ?>/user/showWishlist"><button>Wishlist</button></a>
-        <a href="<?php echo URLROOT; ?>/user/myCart"><button>My Cart</button></a>
-        <a href="<?php echo URLROOT; ?>/user/order"><button>My Order</button></a>
+        <a href="<?php echo URLROOT; ?>/userController/showWishlist"><button>Wishlist</button></a>
+        <a href="<?php echo URLROOT; ?>/userController/myCart"><button>My Cart</button></a>
+        <a href="<?php echo URLROOT; ?>/userController/order"><button>My Order</button></a>
 
     </div>
 </div>

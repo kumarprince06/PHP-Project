@@ -5,17 +5,24 @@ class Product
     private $db;
     // Form Data
     private $id;
-    private $productName;
-    private $productType;
-    private $productBrand;
-    private $productSellingPrice;
-    private $productOriginalPrice;
+    private $name;
+    private $type;
+    private $brand;
+    private $sellingPrice;
+    private $originalPrice;
     private $category;
 
-    public function __construct()
+    public function __construct($data)
     {
         // Instantiate Database
         $this->db = new Database;
+        $this->id = $data['id'] ?? '';
+        $this->name = $data['name'] ?? '';
+        $this->type = $data['type'] ?? '';
+        $this->brand = $data['brand'] ?? '';
+        $this->sellingPrice = $data['sellingPrice'] ?? '';
+        $this->originalPrice = $data['originalPrice'] ?? '';
+        $this->category = $data['category'] ?? '';
     }
 
     // Getters Setters for Id
@@ -30,58 +37,58 @@ class Product
     }
 
     // Getter Setters for product name
-    public function getProductName()
+    public function getName()
     {
-        return $this->productName;
+        return $this->name;
     }
 
-    public function setProductName($productName)
+    public function setName($name)
     {
-        $this->productName = $productName;
+        $this->name = $name;
     }
 
     // Getter Setters for product brand
-    public function getProductBrand()
+    public function getBrand()
     {
-        return $this->productBrand;
+        return $this->brand;
     }
 
-    public function setProductBrand($productBrand)
+    public function setBrand($brand)
     {
-        $this->productBrand = $productBrand;
+        $this->brand = $brand;
     }
 
     // Getter Setters for product Type
     public function getProductType()
     {
-        return $this->productType;
+        return $this->type;
     }
 
-    public function setProductType($productType)
+    public function setProductType($type)
     {
-        $this->productType = $productType;
+        $this->type = $type;
     }
 
     // Getter Setters for product Original Price
-    public function getProductOriginalPrice()
+    public function getOriginalPrice()
     {
-        return $this->productOriginalPrice;
+        return $this->originalPrice;
     }
 
-    public function setProductOriginalPrice($productOriginalPrice)
+    public function setOriginalPrice($originalPrice)
     {
-        $this->productOriginalPrice = $productOriginalPrice;
+        $this->originalPrice = $originalPrice;
     }
 
     // Getter Setters for product Selling Price
-    public function getProductSellingPrice()
+    public function getSellingPrice()
     {
-        return $this->productSellingPrice;
+        return $this->sellingPrice;
     }
 
-    public function setProductSellingPrice($productSellingPrice)
+    public function setSellingPrice($sellingPrice)
     {
-        $this->productSellingPrice = $productSellingPrice;
+        $this->sellingPrice = $sellingPrice;
     }
 
     // Getter Setter for category
@@ -113,7 +120,7 @@ class Product
         $this->db->bind(':sellingPrice', $data['sellingPrice']);
         $this->db->bind(':productType', $data['productType']);
         $this->db->bind(':categoryId', $data['categoryId']);
-        return $this->db->executePrepareStmt() ? $this->db->lastInsertId() : false;
+        return $this->db->execute() ? $this->db->lastInsertId() : false;
     }
 
     // View Products
@@ -143,7 +150,7 @@ class Product
         $this->db->bind(':categoryId', $data['categoryId']);  // Bind the category ID
         $this->db->bind(':id', $data['id']);
 
-        return $this->db->executePrepareStmt();
+        return $this->db->execute();
     }
 
 
@@ -154,6 +161,6 @@ class Product
 
         $this->db->bind(":id", $id);
 
-        return $this->db->executePrepareStmt() ? true : false;
+        return $this->db->execute() ? true : false;
     }
 }

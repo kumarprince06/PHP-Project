@@ -1,29 +1,22 @@
 <?php
 
-class Products extends Controller
+class ProductController extends Controller
 {
-    private $digitalProductModel;
-    private $physicalProductModel;
-    private $productModel;
-    private $wishlistModel;
-    private $categoryModel;
+
+    private $productService;
     public function __construct()
     {
         if (!isLoggedIn()) {
 
             redirect('pages/login');
         }
-        $this->productModel = $this->model('Product');
-        $this->physicalProductModel = $this->model('PhysicalProduct');
-        $this->digitalProductModel = $this->model('DigitalProduct');
-        $this->wishlistModel = $this->model('Wishlist');
-        $this->categoryModel = $this->model('Category');
+        $this->productService = new ProductService();
     }
 
     // Index Page Handler
     public function index()
     {
-        $products = $this->productModel->getAllProducts();
+        $products = $this->productService->getAllProducts();
         $data = [
             'title' => 'Shop',
             'products' => $products
@@ -37,102 +30,41 @@ class Products extends Controller
     public function add()
     {
         // Check POST request
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            // Process form
-            // Initialize form data
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            // Load Category fist
             $data = [
-                'title' => 'Shop',
-                'productName' => trim($_POST['productName']),
-                'productBrand' => trim($_POST['productBrand']),
-                'originalPrice' => trim($_POST['originalPrice']),
-                'sellingPrice' => trim($_POST['sellingPrice']),
-                'productType' => trim($_POST['productType']),
-                'categoryId' => trim($_POST['categoryId']),
-                'productNameError' => '',
-                'productBrandError' => '',
-                'originalPriceError' => '',
-                'sellingPriceError' => '',
-                'productTypeError' => '',
-                'categoryIdError' => ''
+                'category' => '',
             ];
 
-            // Validate Product Name
-            if (empty($data['productName'])) {
-                $data['productNameError'] = "Product name is required!";
-            }
+            // Load View
+            $this->view('products/add', $data);
+        }
 
-            // Validate Product Brand
-            if (empty($data['productBrand'])) {
-                $data['productBrandError'] = "Brand name is required!";
-            } elseif (!preg_match("/^[a-zA-Z]+$/", $data['productBrand'])) {
-                $data['productBrandError'] = "Only alphabets are allowed!";
-            }
+        // Process form
+        // Initialize form data
+        $data = $this->initializeProductData();
+        // Validate Product Name
+        $this->validateProductData($data);
 
-            // Validate Original Price
-            if (empty($data['originalPrice'])) {
-                $data['originalPriceError'] = 'Original price is required!';
-            } elseif (!preg_match("/^[0-9]+$/", $data['originalPrice'])) {
-                $data['originalPriceError'] = 'Only numbers are allowed!';
-            }
+        // Check for no errors
+        if ($this->hasNoErrors($data)) {
+            // Validated
+            // Add product
+            $lastInsertedId = $data['productType'] == 'Physical'
+                ? $this->productService->addPhysicalProduct($data)
+                : $this->productService->addDigitalProduct($data);
 
-            // Validate Selling Price
-            if (empty($data['sellingPrice'])) {
-                $data['sellingPriceError'] = 'Selling price is required!';
-            } elseif (!preg_match("/^[0-9]+$/", $data['sellingPrice'])) {
-                $data['sellingPriceError'] = 'Only numbers are allowed!';
-            }
-
-            // Validate Product Type
-            if (empty($data['productType'])) {
-                $data['productTypeError'] = 'Select the product type!';
-            }
-
-            // Validate Category
-            if (empty($data['categoryId'])) {
-                $data['categoryIdError'] = 'Select a category!';
-            }
-
-            // Check for no errors
-            if (empty($data['productNameError']) && empty($data['productBrandError']) && empty($data['originalPriceError']) && empty($data['sellingPriceError']) && empty($data['productTypeError']) && empty($data['categoryIdError'])) {
-                // Validated
-
-                // Add categoryId to data passed to model
-                $lastInsertedId = $data['productType'] == 'Physical' ? $this->physicalProductModel->addPhysicalProduct($data) : $this->digitalProductModel->addDigitalProduct($data);
-
-                if ($lastInsertedId) {
-                    flashMessage('productMessage', 'Product added successfully');
-                    // Redirect to the show page with the last inserted product ID
-                    redirect('products/show/' . $lastInsertedId);
-                } else {
-                    die('Something went wrong..!');
-                }
+            if ($lastInsertedId) {
+                flashMessage('successMessage', 'Product added successfully');
+                // Redirect to the show page with the last inserted product ID
+                redirect('products/show/' . $lastInsertedId);
             } else {
-                // Load view with errors
-                $category = $this->categoryModel->getAllCategory();
-                $data['categories'] = $category;
-
-                $this->view('products/add', $data);
+                die('Something went wrong..!');
             }
         } else {
-            // Initial empty form
-            $category = $this->categoryModel->getAllCategory();
-            $data = [
-                'title' => 'Shop',
-                'productName' => '',
-                'productBrand' => '',
-                'originalPrice' => '',
-                'sellingPrice' => '',
-                'productType' => '',
-                'categoryId' => '',
-                'productNameError' => '',
-                'productBrandError' => '',
-                'originalPriceError' => '',
-                'sellingPriceError' => '',
-                'productTypeError' => '',
-                'categoryIdError' => '',
-                'categories' => $category
-            ];
+            // Load view with errors
+            // $category = $this->categoryModel->getAllCategory();
+            $data['categories'] = $category;
 
             $this->view('products/add', $data);
         }
@@ -209,7 +141,7 @@ class Products extends Controller
             }
 
             // Check for No Error
-            if (empty($data['productNameError']) && empty($data['productBrandError']) && empty($data['originalPriceError']) && empty($data['sellingPriceError'])) {
+            if ($this->hasNoErrors($data)) {
                 // Validated
                 if ($this->productModel->updateProduct($data)) {
                     flashMessage(
@@ -234,7 +166,7 @@ class Products extends Controller
             //     redirect('posts');
             // }
             // Initial empty form
-            $category = $this->categoryModel->getAllCategory();
+            // $category = $this->categoryModel->getAllCategory();
             $data = [
                 'title' => 'Shop',
                 'id' => $product->id,
@@ -277,5 +209,59 @@ class Products extends Controller
             // Redirect to post
             redirect('products');
         }
+    }
+
+    private function initializeProductData()
+    {
+        return [
+            'id' => trim(($_POST['id'])) ?? '',
+            'nameame' => trim($_POST['productName']),
+            'brand' => trim($_POST['productBrand']),
+            'originalPrice' => trim($_POST['originalPrice']),
+            'sellingPrice' => trim($_POST['sellingPrice']),
+            'type' => trim($_POST['productType']),
+            'category' => trim($_POST['category']),
+            'nameError' => '',
+            'brandError' => '',
+            'originalPriceError' => '',
+            'sellingPriceError' => '',
+            'typeError' => '',
+            'categoryError' => ''
+        ];
+    }
+
+    private function validateProductData(&$data)
+    {
+        if (empty($data['name'])) {
+            $data['productNameError'] = "Product name is required!";
+        }
+        if (empty($data['brand'])) {
+            $data['brandError'] = "Brand name is required!";
+        } elseif (!preg_match("/^[a-zA-Z]+$/", $data['brand'])) {
+            $data['brandError'] = "Only alphabets are allowed!";
+        }
+        if (empty($data['originalPrice'])) {
+            $data['originalPriceError'] = 'Original price is required!';
+        } elseif (!preg_match("/^[0-9]+$/", $data['originalPrice'])) {
+            $data['originalPriceError'] = 'Only numbers are allowed!';
+        }
+        if (empty($data['sellingPrice'])) {
+            $data['sellingPriceError'] = 'Selling price is required!';
+        } elseif (!preg_match("/^[0-9]+$/", $data['sellingPrice'])) {
+            $data['sellingPriceError'] = 'Only numbers are allowed!';
+        }
+        if (empty($data['type'])) {
+            $data['typeError'] = 'Select the product type!';
+        }
+        if (empty($data['category'])) {
+            $data['categoryError'] = 'Select a category!';
+        }
+    }
+
+    private function hasNoErrors($data)
+    {
+        return empty($data['productNameError']) && empty($data['productBrandError']) &&
+            empty($data['originalPriceError']) && empty($data['sellingPriceError']) &&
+            empty($data['productTypeError']) && empty($data['categoryIdError']);
     }
 }

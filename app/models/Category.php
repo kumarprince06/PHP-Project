@@ -2,71 +2,33 @@
 
 class Category
 {
+    private $id;
+    private $categoryName;
 
-    private $db;
-    public function __construct()
+    public function __construct($id = null, $categoryName = null)
     {
-        $this->db = new Database;
+        $this->id = $id;
+        $this->categoryName = $categoryName;
     }
 
-    // Get All Category
-    public function getAllCategory()
+    // Getters and Setters
+    public function getId()
     {
-        try {
-            $this->db->query('SELECT * FROM categories');
-            $categoryResult = $this->db->resultSet();
-
-            return $categoryResult;
-        } catch (PDOException $e) {
-            die('Error' . $e->getMessage());
-        }
+        return $this->id;
     }
 
-    // Get Category By Id
-    public function getCategoryById($id)
+    public function setId($id)
     {
-        try {
-            $this->db->query('SELECT * FROM categories WHERE categoryId=:id');
-            $this->db->bind(':id', $id);
-            $categoryResult = $this->db->singleResult();
-
-            return $categoryResult;
-        } catch (PDOException $e) {
-            die('Error' . $e->getMessage());
-        }
+        $this->id = $id;
     }
 
-    // Add Product
-    public function addCategory($data)
+    public function getCategoryName()
     {
-        try {
-            $this->db->query('INSERT INTO categories (categoryName) VALUES (:categoryName)');
-            $this->db->bind(':categoryName', $data['categoryName']);
-
-            return $this->db->executePrepareStmt() ? $this->db->lastInsertId() : false;
-        } catch (PDOException $e) {
-            die('Error' . $e->getMessage());
-        }
+        return $this->categoryName;
     }
 
-
-    // Update Category
-    public function updateCategory($data)
+    public function setCategoryName($categoryName)
     {
-        $this->db->query('UPDATE categories SET categoryName=:categoryName  WHERE categoryId=:id');
-        $this->db->bind(':categoryName', $data['categoryName']);
-        $this->db->bind(':id', $data['id']);
-
-        return $this->db->executePrepareStmt() ? true : false;
-    }
-
-    // Delete Category
-    public function deleteCategoryById($id)
-    {
-        $this->db->query('DELETE FROM categories WHERE categoryId = :id');
-
-        $this->db->bind(":id", $id);
-
-        return $this->db->executePrepareStmt() ? true : false;
+        $this->categoryName = $categoryName;
     }
 }

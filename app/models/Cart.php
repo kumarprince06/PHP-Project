@@ -35,7 +35,7 @@ class Cart
         }
 
         // Execute the prepared statement
-        return $this->db->executePrepareStmt();
+        return $this->db->execute();
     }
 
     // get Cart Items
@@ -62,7 +62,7 @@ class Cart
         $this->db->bind(':cartId', $cartId);
 
         // Execute and return true if successful
-        return $this->db->executePrepareStmt();
+        return $this->db->execute();
     }
 
     // Decrease cart Item Quantity
@@ -84,7 +84,7 @@ class Cart
         }
 
         // Execute and return true if successful
-        return $this->db->executePrepareStmt();
+        return $this->db->execute();
     }
 
     // Delete a cart item by ID
@@ -96,6 +96,6 @@ class Cart
         $this->db->bind(':userId', $userId);
 
         // Execute the statement and return the result
-        return $this->db->executePrepareStmt();
+        return $this->db->execute();
     }
 }

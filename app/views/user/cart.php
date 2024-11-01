@@ -5,12 +5,12 @@
 <?php echo flashErrorMessage('cart_error'); ?>
 
 <a href="<?php echo URLROOT; ?>"><button>Home</button></a>
-<a href="<?php echo URLROOT; ?>/user/dashboard"><button>Dashboard</button></a>
+<a href="<?php echo URLROOT; ?>/userController/dashboard"><button>Dashboard</button></a>
 
 <?php if (empty($data['cartItems'])): ?>
     <!-- Display message and button when cart is empty -->
     <p>Your cart is currently empty.</p>
-    <a href="<?php echo URLROOT; ?>/products/list">
+    <a href="<?php echo URLROOT; ?>/productController/index">
         <button>Explore Products</button>
     </a>
 <?php else: ?>
@@ -38,18 +38,18 @@
                     <td>Rs <?php echo htmlspecialchars($item->selling_price); ?></td>
                     <td>
                         <!-- Decrease Quantity Button -->
-                        <form action="<?php echo URLROOT ?>/carts/decrease/<?php echo $item->cartId ?>" method="POST" style="display:inline;">
+                        <form action="<?php echo URLROOT ?>/cartController/decrease/<?php echo $item->cartId ?>" method="POST" style="display:inline;">
                             <button type="submit">-</button>
                         </form>
                         <?php echo htmlspecialchars($item->quantity); ?>
                         <!-- Increase Quantity Button -->
-                        <form action="<?php echo URLROOT ?>/carts/increase/<?php echo $item->cartId ?>" method="POST" style="display:inline;">
+                        <form action="<?php echo URLROOT ?>/cartController/increase/<?php echo $item->cartId ?>" method="POST" style="display:inline;">
                             <button type="submit">+</button>
                         </form>
                     </td>
                     <td>Rs <?php echo htmlspecialchars($item->total_price); ?></td>
                     <td><!-- Decrease Quantity Button -->
-                        <form action="<?php echo URLROOT ?>/carts/delete/<?php echo $item->cartId ?>" method="POST" style="display:inline;">
+                        <form action="<?php echo URLROOT ?>/cartController/delete/<?php echo $item->cartId ?>" method="POST" style="display:inline;">
                             <button type="submit">Remove</button>
                         </form>
                     </td>

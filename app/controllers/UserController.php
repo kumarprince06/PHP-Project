@@ -1,5 +1,5 @@
 <?php
-class User extends Controller
+class UserController extends Controller
 {
 
     private $wishlistModel;
@@ -47,7 +47,7 @@ class User extends Controller
         }
     }
 
-    // Show wishlist 
+    // Show wishlist
     public function showWishlist()
     {
         $userId = $_SESSION['user_id'];

@@ -1,8 +1,8 @@
 <?php require APPROOT . '/views/includes/header.php'; ?>
 
 <h1>Category List</h1>
-<?php flashMessage('categoryMessage'); ?>
-<a href="<?php echo URLROOT; ?>/categories/add"><button style="margin-bottom: 10px;">Add Category</button></a>
+<?php flashMessage('successMessage'); ?>
+<a href="<?php echo URLROOT; ?>/categoryController/add"><button style="margin-bottom: 10px;">Add Category</button></a>
 <a href="<?php echo URLROOT; ?>"><button style="margin-bottom: 10px;">Home</button></a>
 <table style="width:100%; text-align:center;">
     <thead>
@@ -21,11 +21,11 @@
                 <td><?php echo  $category->categoryId; ?></td>
                 <td><?php echo $category->categoryName; ?></td>
                 <td>
-                    <a href='<?php echo URLROOT; ?>/categories/show/<?php echo $category->categoryId; ?>'><button>View</button></a>
+                    <a href='<?php echo URLROOT; ?>/categoryController/show/<?php echo $category->categoryId; ?>'><button>View</button></a>
                     <?php if ($_SESSION['role'] == 'admin') : ?>
-                        <a href='<?php echo URLROOT; ?>/categories/edit/<?php echo $category->categoryId; ?>'><button>Edit</button></a>
+                        <a href='<?php echo URLROOT; ?>/categoryController/edit/<?php echo $category->categoryId; ?>'><button>Edit</button></a>
                         <!-- Form for delete operation using POST method -->
-                        <form action="<?php echo URLROOT ?>/categories/delete/<?php echo $category->categoryId ?>" method="POST" style="display:inline;">
+                        <form action="<?php echo URLROOT ?>/categoryController/delete/<?php echo $category->categoryId ?>" method="POST" style="display:inline;">
                             <button type="submit" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
                         </form>
                     <?php endif; ?>

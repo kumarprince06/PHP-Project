@@ -66,7 +66,7 @@ class Database
     }
 
     // Execute the prepare statment
-    public function executePrepareStmt()
+    public function execute()
     {
         return $this->stmt->execute();
     }
@@ -75,21 +75,21 @@ class Database
     public function resultSet()
     {
 
-        $this->executePrepareStmt();
+        $this->execute();
         return $this->stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     // Get result record as single object
     public function singleResult()
     {
-        $this->executePrepareStmt();
+        $this->execute();
         return $this->stmt->fetch(PDO::FETCH_OBJ);
     }
 
     // Get Row count
     public function rowCount()
     {
-        $this->executePrepareStmt();
+        $this->execute();
         return $this->stmt->rowCount();
     }
 
@@ -98,4 +98,8 @@ class Database
     {
         return $this->dbHandler->lastInsertId();
     }
+
+    public function insert() {}
+
+    public function select() {}
 }

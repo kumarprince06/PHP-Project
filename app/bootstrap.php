@@ -9,7 +9,26 @@ require_once '../app/helpers/urlHelper.php';
 // Load Session Helper file
 require_once '../app/helpers/sessionHelper.php';
 
+// Load User Session Helper file
+require_once '../app/helpers/createUserSessionHelper.php';
+
+// Load Product Service
+require_once '../app/services/ProductService.php';
+
 // Autoload Core libraries
 spl_autoload_register(function ($className) {
     require_once 'libraries/' . $className . '.php';
 });
+
+
+// Load Model
+require_once '../app/models/Category.php';
+// Load Services
+
+require_once '../app/services/CategoryService.php';
+require_once '../app/services/ProductService.php';
+
+
+// Load Repository
+require_once '../app/repositories/CategoryRepository.php';
+require_once '../app/repositories/ProductRepository.php';

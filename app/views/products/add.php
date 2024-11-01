@@ -1,9 +1,9 @@
 <?php require APPROOT . '/views/includes/header.php'; ?>
-<a href="<?php echo URLROOT ?>/products/index"><button type="button">Back</button></a>
+<a href="<?php echo URLROOT ?>/productController/index"><button type="button">Back</button></a>
 <h1>Add Product</h1>
 <p style="color: red;">* required fields</p>
 
-<form action="<?php echo URLROOT ?>/products/add" method="post" novalidate>
+<form action="<?php echo URLROOT ?>/productController/add" method="post" novalidate>
 
     <!-- Product Name -->
     <div class="addproduct" style="margin-bottom: 5px;">

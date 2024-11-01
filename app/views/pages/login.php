@@ -2,6 +2,7 @@
 
 <h1>Login</h1>
 <?php flashMessage('register_success'); ?>
+<?php flashErrorMessage('errorMessage'); ?>
 <a href="<?php echo URLROOT ?>/pages"><button type="button">Back</button></a>
 <p style="color: red;">* required fields</p>
 <form action="<?php echo URLROOT ?>/pages/login" method="post" novalidate>

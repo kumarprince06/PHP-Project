@@ -2,13 +2,13 @@
 <a href="<?php echo URLROOT ?>/products/index"><button type="button">Back</button></a>
 <h1>Edit Product</h1>
 <p style="color: red;">* required fields</p>
-<form action="<?php echo URLROOT; ?>/products/edit/<?php echo $data['id']; ?>" method="post" novalidate>
+<form action="<?php echo URLROOT; ?>/productController/edit/<?php echo $data['id']; ?>" method="post" novalidate>
     <div class="addproduct" style="margin-bottom: 5px;">
         <label for="name">Product Name:</label>
         <input
             type="text"
             name="productName"
-            value="<?php echo htmlspecialchars($data['productName'], ENT_QUOTES, 'UTF-8'); ?>"
+            value="<?php echo $data['productName']; ?>"
             id="name"
             style="border: 1px solid <?php echo !empty($data['productNameError']) ? 'red' : '#ccc'; ?>;">
         <span class="error" style="color: red;">* <?php echo $data['productNameError']; ?></span>
@@ -30,7 +30,7 @@
         <input
             type="number"
             name="originalPrice"
-            value="<?php echo htmlspecialchars($data['originalPrice'], ENT_QUOTES, 'UTF-8'); ?>"
+            value="<?php echo $data['originalPrice']; ?>"
             id="oPrice"
             style="border: 1px solid <?php echo !empty($data['originalPriceError']) ? 'red' : '#ccc'; ?>;">
         <span class="error" style="color: red;">* <?php echo $data['originalPriceError']; ?></span>
@@ -65,7 +65,7 @@
             <?php foreach ($data['category'] as $category): ?>
                 <option value="<?php echo $category->categoryId; ?>"
                     <?php echo ($category->categoryId == $data['categoryId']) ? 'selected' : ''; ?>>
-                    <?php echo htmlspecialchars($category->categoryName, ENT_QUOTES, 'UTF-8'); ?>
+                    <?php echo $category->categoryName; ?>
                 </option>
             <?php endforeach; ?>
         </select>

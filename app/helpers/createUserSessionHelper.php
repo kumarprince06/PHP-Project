@@ -1,5 +1,6 @@
 <?php
 
+
 // Create user session
 function createUserSession($user)
 {
@@ -7,10 +8,15 @@ function createUserSession($user)
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
+    $sessionData = [
+        'userId' => $user->id,
+        'userEmail' => $user->email,
+        'role' => $user->role,
+    ];
 
     // Store user data in session variables
-    $_SESSION['user_id'] = $user->id; // Assuming $user has an 'id' property
-    $_SESSION['user_email'] = $user->email; // Assuming $user has an 'email' property
+    $_SESSION['sessionData'] = $sessionData;
+
     // Redirect to the homepage or dashboard
     redirect('pages/index'); // Change 'pages/index' to your desired location
 }

@@ -3,12 +3,12 @@
 class Category
 {
     private $id;
-    private $categoryName;
+    private $name;
 
-    public function __construct($id = null, $categoryName = null)
+    public function __construct($id = null, $name = null)
     {
         $this->id = $id;
-        $this->categoryName = $categoryName;
+        $this->name = $name;
     }
 
     // Getters and Setters
@@ -22,13 +22,13 @@ class Category
         $this->id = $id;
     }
 
-    public function getCategoryName()
+    public function getName()
     {
-        return $this->categoryName;
+        return $this->name;
     }
 
-    public function setCategoryName($categoryName)
+    public function setName($name)
     {
-        $this->categoryName = $categoryName;
+        $this->name = $name;
     }
 }

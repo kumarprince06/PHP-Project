@@ -26,21 +26,19 @@ class CategoryService extends Controller
 
     public function addCategory(Category $category)
     {
-        if (empty()) {
-            throw new InvalidArgumentException('Category name is required');
+        if (empty($category->getName())) {
+            throw new InvalidArgumentException('Category name is required!');
         }
-
-        $category = new Category(null, $categoryName);
         return $this->categoryRepository->addCategory($category);
     }
 
-    public function updateCategory($id, $categoryName)
+    public function updateCategory(Category $category)
     {
-        if (!is_numeric($id) || empty($categoryName)) {
-            throw new InvalidArgumentException('Invalid data for updating category');
+        
+        // Validate Name
+        if(empty($category->getName())){
+            throw new InvalidArgumentException('Category name is required!');
         }
-
-        $category = new Category($id, $categoryName);
         return $this->categoryRepository->updateCategory($category);
     }
 

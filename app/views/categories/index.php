@@ -18,14 +18,14 @@
         foreach ($data['category'] as $category) : ?>
 
             <tr>
-                <td><?php echo  $category->categoryId; ?></td>
-                <td><?php echo $category->categoryName; ?></td>
+                <td><?php echo  $category->id; ?></td>
+                <td><?php echo $category->name; ?></td>
                 <td>
-                    <a href='<?php echo URLROOT; ?>/categoryController/show/<?php echo $category->categoryId; ?>'><button>View</button></a>
-                    <?php if ($_SESSION['role'] == 'admin') : ?>
-                        <a href='<?php echo URLROOT; ?>/categoryController/edit/<?php echo $category->categoryId; ?>'><button>Edit</button></a>
+                    <a href='<?php echo URLROOT; ?>/categoryController/show/<?php echo $category->id; ?>'><button>View</button></a>
+                    <?php if ($_SESSION['sessionData']['role'] === 'admin') : ?>
+                        <a href='<?php echo URLROOT; ?>/categoryController/edit/<?php echo $category->id; ?>'><button>Edit</button></a>
                         <!-- Form for delete operation using POST method -->
-                        <form action="<?php echo URLROOT ?>/categoryController/delete/<?php echo $category->categoryId ?>" method="POST" style="display:inline;">
+                        <form action="<?php echo URLROOT ?>/categoryController/delete/<?php echo $category->id ?>" method="POST" style="display:inline;">
                             <button type="submit" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
                         </form>
                     <?php endif; ?>

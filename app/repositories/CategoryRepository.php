@@ -23,7 +23,7 @@ class CategoryRepository
     public function getCategoryById($id)
     {
         try {
-            $this->db->query('SELECT * FROM categories WHERE categoryId = :id');
+            $this->db->query('SELECT * FROM categories WHERE id = :id');
             $this->db->bind(':id', $id);
             return $this->db->singleResult();
         } catch (PDOException $e) {
@@ -35,8 +35,8 @@ class CategoryRepository
     public function addCategory(Category $category)
     {
         try {
-            $this->db->query('INSERT INTO categories (categoryName) VALUES (:categoryName)');
-            $this->db->bind(':categoryName', $category->getCategoryName());
+            $this->db->query('INSERT INTO categories (name) VALUES (:name)');
+            $this->db->bind(':name', $category->getName());
 
             if ($this->db->execute()) {
                 return $this->db->lastInsertId();
@@ -51,8 +51,8 @@ class CategoryRepository
     public function updateCategory(Category $category)
     {
         try {
-            $this->db->query('UPDATE categories SET categoryName = :categoryName WHERE categoryId = :id');
-            $this->db->bind(':categoryName', htmlspecialchars($category->getCategoryName()));
+            $this->db->query('UPDATE categories SET name = :name WHERE id = :id');
+            $this->db->bind(':name', $category->getName());
             $this->db->bind(':id', $category->getId());
 
             return $this->db->execute();
@@ -65,7 +65,7 @@ class CategoryRepository
     public function deleteCategoryById($id)
     {
         try {
-            $this->db->query('DELETE FROM categories WHERE categoryId = :id');
+            $this->db->query('DELETE FROM categories WHERE id = :id');
             $this->db->bind(':id', $id);
             return $this->db->execute();
         } catch (PDOException $e) {

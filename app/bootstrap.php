@@ -23,6 +23,9 @@ spl_autoload_register(function ($className) {
 
 // Load Model
 require_once '../app/models/Category.php';
+require_once '../app/models/Product.php';
+require_once '../app/models/PhysicalProduct.php';
+require_once '../app/models/DigitalProduct.php';
 // Load Services
 
 require_once '../app/services/CategoryService.php';

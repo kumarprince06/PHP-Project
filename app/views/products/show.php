@@ -2,7 +2,7 @@
 
 <h1>Product Details</h1>
 
-<?php flashMessage('productMessage'); ?>
+<?php flashMessage('successMessage'); ?>
 
 <!-- Display product details -->
 <div>
@@ -10,7 +10,7 @@
     <p><strong>Brand:</strong> <?php echo $data['product']->brand; ?></p>
     <p><strong>Original Price:</strong> ₹<?php echo $data['product']->original_price; ?></p>
     <p><strong>Selling Price:</strong> ₹<?php echo $data['product']->selling_price; ?></p>
-    <p><strong>Product Type:</strong> <?php echo $data['product']->product_type; ?></p>
+    <p><strong>Product Type:</strong> <?php echo $data['product']->type; ?></p>
 
     <p><strong>Category:</strong>
         <?php

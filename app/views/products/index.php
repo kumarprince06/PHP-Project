@@ -20,19 +20,20 @@
     </thead>
     <tbody>
         <?php
+
         // Loop through the products array and display each product
         foreach ($data['products'] as $product) : ?>
             <tr>
                 <td><?php echo $product->id ?></td>
-                <td><?php echo $product->product_name ?></td>
+                <td><?php echo $product->name ?></td>
                 <td><?php echo $product->brand ?></td>
                 <td>Rs <?php echo $product->original_price ?></td>
                 <td>Rs <?php echo $product->selling_price ?></td>
-                <td> <?php echo $product->product_type ?> </td>
-                <td><?php echo $product->categoryName; ?> </td>
+                <td> <?php echo $product->type ?> </td>
+                <td><?php echo $product->category; ?> </td>
                 <td>
                     <a href='<?php echo URLROOT ?>/productController/show/<?php echo $product->id ?>'><button>View</button></a>
-                    <?php if ($_SESSION['role'] == 'admin') : ?>
+                    <?php if ($_SESSION['sessionData']['role'] == 'admin') : ?>
                         <a href='<?php echo URLROOT ?>/productController/edit/<?php echo $product->id ?>'><button>Edit</button></a>
 
                         <!-- Form for delete operation using POST method -->

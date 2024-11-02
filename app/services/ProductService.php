@@ -8,30 +8,16 @@ class ProductService
         $this->productRepository = new ProductRepository();
     }
 
-    public function addProduct($data)
+    public function addProduct(Product $product)
     {
-        // Validate data (you can extend this further)
-        if (empty($data['name'])) {
-            throw new Exception('Product name is required');
-        }
-        if (empty($data['price'])) {
-            throw new Exception('Product price is required');
-        }
 
-        return $this->productRepository->addProduct($data);
+        return $this->productRepository->addProduct($product);
     }
 
-    public function updateProduct($id, $data)
+    public function updateProduct(Product $product)
     {
-        // Validate data
-        if (empty($data['name'])) {
-            throw new Exception('Product name is required');
-        }
-        if (empty($data['price'])) {
-            throw new Exception('Product price is required');
-        }
 
-        return $this->productRepository->updateProduct($id, $data);
+        return $this->productRepository->updateProduct($product);
     }
 
     public function deleteProduct($id)

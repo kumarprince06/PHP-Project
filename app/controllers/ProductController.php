@@ -4,6 +4,7 @@ class ProductController extends Controller
 {
 
     private $productService;
+    private $categoryService;
     public function __construct()
     {
         if (!isLoggedIn()) {
@@ -11,6 +12,7 @@ class ProductController extends Controller
             redirect('pages/login');
         }
         $this->productService = new ProductService();
+        $this->categoryService = new CategoryService();
     }
 
     // Index Page Handler
@@ -22,6 +24,7 @@ class ProductController extends Controller
             'products' => $products
         ];
 
+
         // Load Product Index Page
         $this->view('products/index', $data);
     }
@@ -29,52 +32,58 @@ class ProductController extends Controller
     // Add Product Handler
     public function add()
     {
-        // Check POST request
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            // Load Category fist
-            $data = [
-                'category' => '',
-            ];
 
-            // Load View
-            $this->view('products/add', $data);
+        $category = $this->categoryService->getAllCategories();
+
+        $data = [
+            'category' => $category,
+        ];
+
+        // Load View
+        $this->view('products/add', $data);
+    }
+
+
+    // Create Product data
+    public function create()
+    {
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            redirect('productController');
+            return;
         }
 
-        // Process form
         // Initialize form data
         $data = $this->initializeProductData();
-        // Validate Product Name
+
+        // Validate data
         $this->validateProductData($data);
 
         // Check for no errors
         if ($this->hasNoErrors($data)) {
             // Validated
             // Add product
-            $lastInsertedId = $data['productType'] == 'Physical'
-                ? $this->productService->addPhysicalProduct($data)
-                : $this->productService->addDigitalProduct($data);
+            $product = $data['type'] == 'Physical' ? new PhysicalProduct($data) : new DigitalProduct($data);
+            $lastInsertedId = $this->productService->addProduct($product);
 
             if ($lastInsertedId) {
                 flashMessage('successMessage', 'Product added successfully');
                 // Redirect to the show page with the last inserted product ID
-                redirect('products/show/' . $lastInsertedId);
+                redirect('productController/show/' . $lastInsertedId);
             } else {
                 die('Something went wrong..!');
             }
         } else {
-            // Load view with errors
-            // $category = $this->categoryModel->getAllCategory();
-            $data['categories'] = $category;
-
+            // Load view with error
+            $data['category'] = $this->categoryService->getAllCategories();
             $this->view('products/add', $data);
         }
     }
 
-
     // View Product Handler
     public function show($id)
     {
-        $product = $this->productModel->getProductById($id);
+        $product = $this->productService->getProductById($id);
         $data = ['title' => 'Shop', 'product' => $product];
         $this->view('products/show', $data);
     }
@@ -82,109 +91,61 @@ class ProductController extends Controller
     // Edit / Update Product Handler
     public function edit($id)
     {
-        // Check Post Request
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            // Process form
-            // Initialize form data
-            $data = [
-                'title' => 'Shop',
-                'id' => $id,
-                'productName' => trim($_POST['productName']),
-                'productBrand' => trim($_POST['productBrand']),
-                'originalPrice' => trim($_POST['originalPrice']),
-                'sellingPrice' => trim($_POST['sellingPrice']),
-                'productType' => trim($_POST['productType']),
-                'categoryId' => trim($_POST['categoryId']),
-                'productNameError' => '',
-                'productBrandError' => '',
-                'originalPriceError' => '',
-                'sellingPriceError' => '',
-                'productTypeError' => '',
-                'categoryError' => '',
-            ];
+        // Fetch existing post
+        $product = $this->productService->getProductById($id);
+        $categoryList = $this->categoryService->getAllCategories();
+        $data = [
+            'title' => 'Shop',
+            'id' => $product->id,
+            'name' => $product->name,
+            'brand' => $product->brand,
+            'originalPrice' => $product->original_price,
+            'sellingPrice' =>  $product->selling_price,
+            'type' => $product->type,
+            'category' => $product->category,
+            'productNameError' => '',
+            'productBrandError' => '',
+            'originalPriceError' => '',
+            'sellingPriceError' => '',
+            'productTypeError' => '',
+            'categoryList' => $categoryList
+        ];
 
-            // Validate Product Name
-            if (empty($data['productName'])) {
-                $data['productNameError'] = "Product name is required!";
-            }
+        $this->view('products/edit', $data);
+    }
 
-            // Validate Product Brand
-            if (empty($data['productBrand'])) {
-                $data['productBrandError'] = "Brand name is required!";
-            } else if (!preg_match("/^[a-zA-Z]+$/", $data['productBrand'])) {
-                $data['productBrandError'] = "Only alphabets are allowed!";
-            }
+    // Update
+    public function update()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            flashErrorMessage('errorMessage', 'Something went error!');
+            redirect('productController');
+            return;
+        }
 
-            // Validate Product Original Price
-            if (empty($data['originalPrice'])) {
-                $data['originalPriceError'] = 'Original price is required!';
-            } else if (!preg_match("/^[0-9]+$/", $data['originalPrice'])) {
-                $data['originalPriceError'] = 'Only numbers are allowed!';
-            }
+        // Initialize form data
+        $data = $this->initializeProductData();
+        // die(var_dump($data));
+        // Validate data
+        $this->validateProductData($data);
 
-            // Validate Product Selling Price
-            if (empty($data['sellingPrice'])) {
-                $data['sellingPriceError'] = 'Selling price is required!';
-            } else if (!preg_match("/^[0-9]+$/", $data['sellingPrice'])) {
-                $data['sellingPriceError'] = 'Only numbers are allowed!';
-            }
-
-            // Validate Product Type
-            if (empty($data['productType'])) {
-                $data['productTypeError'] = 'Select the product type!';
-            }
-
-            // Validate Category
-            if (empty($data['categoryId'])) {
-                $data['categoryIdError'] = 'Select the category!!';
-            }
-
-            // Check for No Error
-            if ($this->hasNoErrors($data)) {
-                // Validated
-                if ($this->productModel->updateProduct($data)) {
-                    flashMessage(
-                        'productMessage',
-                        'Product added successfully'
-                    );
-                    // Redirect to the show page with the last inserted product ID
-                    redirect('products/index');
-                } else {
-                    die('Something went wrong..!');
-                }
+        // Check for no errors
+        if ($this->hasNoErrors($data)) {
+            // Validated
+            // Add product
+            $product = $data['type'] == 'Physical' ? new PhysicalProduct($data) : new DigitalProduct($data);
+            if ($this->productService->updateProduct($product)) {
+                flashMessage('successMessage', 'Product updated successfully');
+                // Redirect to the show page with the last inserted product ID
+                redirect('productController');
             } else {
-                // Load View with errors
-                $this->view('products/edit', $data);
+                die('Something went wrong..!');
             }
         } else {
-            // Fetch existing post
-            $product = $this->productModel->getProductById($id);
-            // var_dump($product);
-            // // Check for owner
-            // if ($product->role != $_SESSION['role']) {
-            //     redirect('posts');
-            // }
-            // Initial empty form
-            // $category = $this->categoryModel->getAllCategory();
-            $data = [
-                'title' => 'Shop',
-                'id' => $product->id,
-                'productName' => $product->product_name,
-                'productBrand' => $product->brand,
-                'originalPrice' => $product->original_price,
-                'sellingPrice' =>  $product->selling_price,
-                'productType' => $product->product_type,
-                'categoryId' => $product->categoryId,
-                'productNameError' => '',
-                'productBrandError' => '',
-                'originalPriceError' => '',
-                'sellingPriceError' => '',
-                'productTypeError' => '',
-                'category' => $category
-            ];
-
-            $this->view('products/edit', $data);
+            // Load view with error
+            $data['category'] = $this->categoryService->getAllCategories();
+            $this->view('products/add', $data);
         }
     }
 
@@ -192,34 +153,26 @@ class ProductController extends Controller
     public function delete($id)
     {
         // check for post request
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Proccess
-            // Fetch existing post
-            // $post = $this->productModel->getPostById($id);
-            // // Check for owner
-            // if ($post->userId != $_SESSION['user_id']) {
-            //     redirect('posts');
-            // }
-
-            if ($this->productModel->deletePostById($id)) {
-                flashMessage('productMessage', 'Product deleted successfully');
-                redirect('products');
-            }
-        } else {
-            // Redirect to post
-            redirect('products');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            redirect('productController/index');
+            return;
         }
+
+        $this->productService->deleteProduct($id);
+        flashMessage('successMessage', 'Product deleted successfully');
+        redirect('productController/index');
     }
 
+    // Initialize Form Data
     private function initializeProductData()
     {
         return [
             'id' => trim(($_POST['id'])) ?? '',
-            'nameame' => trim($_POST['productName']),
-            'brand' => trim($_POST['productBrand']),
+            'name' => trim($_POST['name']),
+            'brand' => trim($_POST['brand']),
             'originalPrice' => trim($_POST['originalPrice']),
             'sellingPrice' => trim($_POST['sellingPrice']),
-            'type' => trim($_POST['productType']),
+            'type' => trim($_POST['type']),
             'category' => trim($_POST['category']),
             'nameError' => '',
             'brandError' => '',
@@ -229,11 +182,11 @@ class ProductController extends Controller
             'categoryError' => ''
         ];
     }
-
+    // Valiodate Data
     private function validateProductData(&$data)
     {
         if (empty($data['name'])) {
-            $data['productNameError'] = "Product name is required!";
+            $data['nameError'] = "Product name is required!";
         }
         if (empty($data['brand'])) {
             $data['brandError'] = "Brand name is required!";

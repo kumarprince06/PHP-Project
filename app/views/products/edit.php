@@ -2,27 +2,28 @@
 <a href="<?php echo URLROOT ?>/products/index"><button type="button">Back</button></a>
 <h1>Edit Product</h1>
 <p style="color: red;">* required fields</p>
-<form action="<?php echo URLROOT; ?>/productController/edit/<?php echo $data['id']; ?>" method="post" novalidate>
+<form action="<?php echo URLROOT; ?>/productController/update" method="post" novalidate>
+    <input type="number" name="id" value="<?php echo $data['id']; ?>" hidden>
     <div class="addproduct" style="margin-bottom: 5px;">
         <label for="name">Product Name:</label>
         <input
             type="text"
-            name="productName"
-            value="<?php echo $data['productName']; ?>"
+            name="name"
+            value="<?php echo $data['name']; ?>"
             id="name"
-            style="border: 1px solid <?php echo !empty($data['productNameError']) ? 'red' : '#ccc'; ?>;">
-        <span class="error" style="color: red;">* <?php echo $data['productNameError']; ?></span>
+            style="border: 1px solid <?php echo !empty($data['nameError']) ? 'red' : '#ccc'; ?>;">
+        <span class="error" style="color: red;">* <?php echo $data['nameError']; ?></span>
     </div>
 
     <div class="addproduct" style="margin-bottom: 5px;">
         <label for="brand">Brand Name:</label>
         <input
             type="text"
-            name="productBrand"
-            value="<?php echo htmlspecialchars($data['productBrand'], ENT_QUOTES, 'UTF-8'); ?>"
+            name="brand"
+            value="<?php echo $data['brand']; ?>"
             id="brand"
-            style="border: 1px solid <?php echo !empty($data['productBrandError']) ? 'red' : '#ccc'; ?>;">
-        <span class="error" style="color: red;">* <?php echo $data['productBrandError']; ?></span>
+            style="border: 1px solid <?php echo !empty($data['brandError']) ? 'red' : '#ccc'; ?>;">
+        <span class="error" style="color: red;">* <?php echo $data['brandError']; ?></span>
     </div>
 
     <div class="addproduct" style="margin-bottom: 5px;">
@@ -41,7 +42,7 @@
         <input
             type="number"
             name="sellingPrice"
-            value="<?php echo htmlspecialchars($data['sellingPrice'], ENT_QUOTES, 'UTF-8'); ?>"
+            value="<?php echo $data['sellingPrice']; ?>"
             id="sPrice"
             style="border: 1px solid <?php echo !empty($data['sellingPriceError']) ? 'red' : '#ccc'; ?>;">
         <span class="error" style="color: red;">* <?php echo $data['sellingPriceError']; ?></span>
@@ -49,27 +50,27 @@
 
     <!-- Product Type -->
     <div class="addproduct" style="margin-bottom: 5px;">
-        <label for="productType">Product Type:</label>
-        <select name="productType" id="productType" required>
+        <label for="type">Product Type:</label>
+        <select name="productType" id="type">
             <option value="">Select Type</option>
-            <option value="Physical" <?php echo $data['productType'] == 'Physical' ? 'selected' : ''; ?>>Physical</option>
-            <option value="Digital" <?php echo $data['productType'] == 'Digital' ? 'selected' : ''; ?>>Digital</option>
+            <option value="Physical" <?php echo $data['type'] == 'Physical' ? 'selected' : ''; ?>>Physical</option>
+            <option value="Digital" <?php echo $data['type'] == 'Digital' ? 'selected' : ''; ?>>Digital</option>
         </select>
-        <span class="error" style="color: red;">* <?php echo $data['productTypeError'] ?? ''; ?></span>
+        <span class="error" style="color: red;">* <?php echo $data['typeError'] ?? ''; ?></span>
     </div>
     <!-- Category Selection -->
     <div class="addproduct" style="margin-bottom: 5px;">
         <label for="category">Category:</label>
-        <select name="categoryId" id="category" required>
+        <select name="category" id="category">
             <option value="">Select Category</option>
-            <?php foreach ($data['category'] as $category): ?>
-                <option value="<?php echo $category->categoryId; ?>"
-                    <?php echo ($category->categoryId == $data['categoryId']) ? 'selected' : ''; ?>>
-                    <?php echo $category->categoryName; ?>
+            <?php foreach ($data['categoryList'] as $category): ?>
+                <option value="<?php echo $category->id; ?>"
+                    <?php echo ($category->id == $data['category']) ? 'selected' : ''; ?>>
+                    <?php echo $category->name; ?>
                 </option>
             <?php endforeach; ?>
         </select>
-        <span class="error" style="color: red;">* <?php echo $data['categoryIdError'] ?? ''; ?></span>
+        <span class="error" style="color: red;">* <?php echo $data['categoryError'] ?? ''; ?></span>
     </div>
 
 

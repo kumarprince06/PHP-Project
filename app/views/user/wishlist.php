@@ -29,21 +29,20 @@
         <tbody>
             <?php foreach ($data['wishlist'] as $product): ?>
                 <tr>
-                    <td><?php echo $product->product_name; ?></td>
+                    <td><?php echo $product->name; ?></td>
                     <td><?php echo $product->brand; ?></td>
                     <td>Rs <?php echo $product->original_price; ?></td>
                     <td>Rs <?php echo $product->selling_price; ?></td>
-                    <td><?php echo $product->product_type; ?></td>
-                    <td><?php echo $product->categoryName; ?></td>
+                    <td><?php echo $product->type; ?></td>
+                    <td><?php echo $product->category_name; ?></td>
                     <td>
                         <!-- Add to Cart Form -->
                         <form action="<?php echo URLROOT ?>/cartController/addWishlistProductToCart/<?php echo $product->id ?>" method="POST" style="display:inline;">
-                            <input type="hidden" name="wishlistId" value="<?php echo $product->wishlistId ?>">
                             <button type="submit">Add To Cart</button>
                         </form>
 
                         <!-- Remove from Wishlist Form -->
-                        <form action="<?php echo URLROOT ?>/userController/delete/<?php echo $product->wishlistId ?>" method="POST" style="display:inline;">
+                        <form action="<?php echo URLROOT ?>/userController/delete/<?php echo $product->id ?>" method="POST" style="display:inline;">
                             <button type="submit" onclick="return confirm('Are you sure you want to delete this product?');">Remove</button>
                         </form>
                     </td>

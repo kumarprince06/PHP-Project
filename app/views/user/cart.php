@@ -1,8 +1,8 @@
 <?php require APPROOT . '/views/includes/header.php'; ?>
 
 <h1>My Cart</h1>
-<?php echo flashMessage('cart_success'); ?>
-<?php echo flashErrorMessage('cart_error'); ?>
+<?php echo flashMessage('successMessage'); ?>
+<?php echo flashErrorMessage('errorMessage'); ?>
 
 <a href="<?php echo URLROOT; ?>"><button>Home</button></a>
 <a href="<?php echo URLROOT; ?>/userController/dashboard"><button>Dashboard</button></a>
@@ -33,23 +33,23 @@
                 $totalAmount += $item->total_price; // Calculate total amount
             ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($item->product_name); ?></td>
-                    <td><?php echo htmlspecialchars($item->brand); ?></td>
-                    <td>Rs <?php echo htmlspecialchars($item->selling_price); ?></td>
+                    <td><?php echo $item->name; ?></td>
+                    <td><?php echo $item->brand; ?></td>
+                    <td>Rs <?php echo $item->selling_price; ?></td>
                     <td>
                         <!-- Decrease Quantity Button -->
-                        <form action="<?php echo URLROOT ?>/cartController/decrease/<?php echo $item->cartId ?>" method="POST" style="display:inline;">
+                        <form action="<?php echo URLROOT ?>/cartController/decreaseCartItemQuantity/<?php echo $item->productId ?>" method="POST" style="display:inline;">
                             <button type="submit">-</button>
                         </form>
-                        <?php echo htmlspecialchars($item->quantity); ?>
+                        <?php echo $item->quantity; ?>
                         <!-- Increase Quantity Button -->
-                        <form action="<?php echo URLROOT ?>/cartController/increase/<?php echo $item->cartId ?>" method="POST" style="display:inline;">
+                        <form action="<?php echo URLROOT ?>/cartController/increaseCartItemQuantity/<?php echo $item->productId ?>" method="POST" style="display:inline;">
                             <button type="submit">+</button>
                         </form>
                     </td>
-                    <td>Rs <?php echo htmlspecialchars($item->total_price); ?></td>
+                    <td>Rs <?php echo $item->total_price; ?></td>
                     <td><!-- Decrease Quantity Button -->
-                        <form action="<?php echo URLROOT ?>/cartController/delete/<?php echo $item->cartId ?>" method="POST" style="display:inline;">
+                        <form action="<?php echo URLROOT ?>/cartController/delete/<?php echo $item->productId ?>" method="POST" style="display:inline;">
                             <button type="submit">Remove</button>
                         </form>
                     </td>

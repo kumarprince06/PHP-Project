@@ -2,17 +2,16 @@
 class UserController extends Controller
 {
 
-    private $wishlistModel;
-    private $cartModel;
+    private $wishlistService;
+    private $cartService;
     public function __construct()
     {
         // Check if user is not logged in
         if (!isLoggedIn()) {
             redirect('pages/login'); // Redirect to home or another page if logged in
         }
-
-        $this->wishlistModel = $this->model('Wishlist');
-        $this->cartModel = $this->model('Cart');
+        $this->wishlistService = new WishlistService();
+        $this->cartService = new CartService();
     }
 
 
@@ -27,60 +26,68 @@ class UserController extends Controller
     public function addToWishlist($productId)
     {
         // Check Post Request
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userId = $_SESSION['user_id']; // Get the logged-in user's ID
-
-            // Debug statement
-            error_log("Attempting to add product with ID $productId to user with ID $userId");
-
-            if ($this->wishlistModel->addToWishlist($userId, $productId)) {
-                flashMessage('wishlist_success', 'Product added to your wishlist!');
-                redirect('products/index'); // Redirect to wishlist page
-            } else {
-                // If product is already in the wishlist
-                flashErrorMessage('wishlist_error', 'Product is already in your wishlist!');
-                redirect('products/index'); // Redirect to wishlist page
-            }
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            flashMessage('errorMessage', 'Something went wrong!');
+            redirect('productController/index');
+            return;
+        }
+        $wishlist = new Wishlist;
+        $wishlist->setUserId($_SESSION['sessionData']['userId']);
+        $wishlist->setProductId($productId);
+        if ($this->wishlistService->addWishlist($wishlist)) {
+            flashMessage('successMessage', 'Product added to your wishlist!');
+            redirect('productController/index'); // Redirect to wishlist page
         } else {
-            // Redirect to product view page
-            redirect('products/');
+            // If product is already in the wishlist
+            flashErrorMessage('errorMessage', 'Product is already in your wishlist!');
+            redirect('productController/index'); // Redirect to wishlist page
         }
     }
 
     // Show wishlist
     public function showWishlist()
     {
-        $userId = $_SESSION['user_id'];
-        $data['wishlist'] = $this->wishlistModel->getWishlistByUserId($userId);
+
+        $wishlist = new Wishlist;
+        $wishlist->setUserId($_SESSION['sessionData']['userId']);
+        $data['wishlist'] = $this->wishlistService->getWishlistByUserId($wishlist);
 
         $this->view('user/wishlist', $data);
     }
 
     // Delete wishlist Item
-    public function delete($wishlistId)
+    public function delete($productId)
     {
         // check for post request
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Proccess
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
-            if ($this->wishlistModel->deleteWishlist($wishlistId)) {
-                flashMessage('wishlistMessage', 'Product deleted successfully');
-                redirect('user/showWishlist');
-            }
-        } else {
-            // Redirect to post
-            redirect('user/dashboard');
+            flashErrorMessage('errorMessage', '');
+            redirect('userController/showWishlist');
         }
+        // Proccess
+        $wishlist = new Wishlist;
+        $wishlist->setUserId($_SESSION['sessionData']['userId']);
+        $wishlist->setProductId($productId);
+        echo $wishlist->getUserId();
+        echo $wishlist->getProductId();
+        if ($this->wishlistService->deleteWishlistItem($wishlist)) {
+            flashMessage('successMessage', 'Product deleted successfully');
+            redirect('userController/showWishlist');
+            return;
+        }
+
+        flashErrorMessage('errorMessage', 'Product not removed from wishlist');
+        redirect('userController/showWishlist');
     }
 
     // Cart Handler
     public function myCart()
     {
         // Get the logged-in user ID from the session
-        $userId = $_SESSION['user_id'];
+        $userId = $_SESSION['sessionData']['userId'];
 
         // Fetch the cart items for the user
-        $cartItems = $this->cartModel->getCartItemsByUserId($userId);
+        $cartItems = $this->cartService->getCartItemsByUserId($userId);
 
         // Prepare data to pass to the view
         $data = [

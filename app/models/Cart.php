@@ -3,99 +3,42 @@
 class Cart
 {
     private $db;
-
+    private $userId;
+    private $productId;
+    private $quantity;
     public function __construct()
     {
         $this->db = new Database;
     }
 
-    public function addToCart($data)
+    // Getter / Setter
+    public function setUserId($userId)
     {
-        // Check if the product is already in the cart for the current user
-        $this->db->query("SELECT * FROM cart WHERE userId = :userId AND productId = :productId");
-        $this->db->bind(':userId', $data['userId']);
-        $this->db->bind(':productId', $data['productId']);
-
-        $existingCartItem = $this->db->singleResult();
-
-        if ($existingCartItem) {
-            // If the product is already in the cart, update the quantity
-            $newQuantity = $existingCartItem->quantity + $data['quantity'];
-
-            $this->db->query("UPDATE cart SET quantity = :quantity WHERE userId = :userId AND productId = :productId");
-            $this->db->bind(':quantity', $newQuantity);
-            $this->db->bind(':userId', $data['userId']);
-            $this->db->bind(':productId', $data['productId']);
-        } else {
-            // If the product is not in the cart, insert it as a new item
-            $this->db->query("INSERT INTO cart (userId, productId, quantity) VALUES (:userId, :productId, :quantity)");
-            $this->db->bind(':userId', $data['userId']);
-            $this->db->bind(':productId', $data['productId']);
-            $this->db->bind(':quantity', $data['quantity']);
-        }
-
-        // Execute the prepared statement
-        return $this->db->execute();
+        $this->userId = $userId;
     }
 
-    // get Cart Items
-    public function getCartItemsByUserId($userId)
+    public function getUserId()
     {
-        $query = "SELECT cart.cartId AS cartId, products.id AS productId, products.product_name, 
-                     products.brand, products.selling_price, cart.quantity, 
-                     (products.selling_price * cart.quantity) AS total_price
-              FROM cart
-              INNER JOIN products ON cart.productId = products.id
-              WHERE cart.userId = :user_id";
-
-        $this->db->query($query);
-        $this->db->bind(':user_id', $userId);
-
-        return $this->db->resultSet(); // Returns an array of cart items
+        return $this->userId;
     }
 
-    // Increase cart Item Quantity
-    public function increaseQuantity($cartId)
+    public function setProductId($productId)
     {
-        // Assuming you have a 'quantity' column in your 'cart' table
-        $this->db->query("UPDATE cart SET quantity = quantity + 1 WHERE cartId = :cartId");
-        $this->db->bind(':cartId', $cartId);
-
-        // Execute and return true if successful
-        return $this->db->execute();
+        $this->productId = $productId;
     }
 
-    // Decrease cart Item Quantity
-    public function decreaseQuantity($cartId)
+    public function getProductId()
     {
-        // Get the current quantity of the item
-        $this->db->query("SELECT quantity FROM cart WHERE cartId = :cartId");
-        $this->db->bind(':cartId', $cartId);
-        $currentQuantity = $this->db->singleResult()->quantity;
-
-        if ($currentQuantity <= 1) {
-            // If quantity will be 0 or less, delete the item from the cart
-            $this->db->query("DELETE FROM cart WHERE cartId = :cartId");
-            $this->db->bind(':cartId', $cartId);
-        } else {
-            // Otherwise, decrease the quantity by 1
-            $this->db->query("UPDATE cart SET quantity = quantity - 1 WHERE cartId = :cartId");
-            $this->db->bind(':cartId', $cartId);
-        }
-
-        // Execute and return true if successful
-        return $this->db->execute();
+        return $this->productId;
     }
 
-    // Delete a cart item by ID
-    public function deleteCartItem($cartId, $userId)
+    public function setQuantity($quantity)
     {
-        // Prepare the SQL statement
-        $this->db->query("DELETE FROM cart WHERE cartId = :cartId AND userId = :userId");
-        $this->db->bind(':cartId', $cartId);
-        $this->db->bind(':userId', $userId);
+        $this->quantity = $quantity;
+    }
 
-        // Execute the statement and return the result
-        return $this->db->execute();
+    public function getQuantity()
+    {
+        return $this->quantity;
     }
 }

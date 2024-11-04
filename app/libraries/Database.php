@@ -99,7 +99,11 @@ class Database
         return $this->dbHandler->lastInsertId();
     }
 
-    public function insert() {}
+    public function insert($table, $data) {}
 
     public function select() {}
+
+    public function update(){}
+
+    public function delete(){}
 }

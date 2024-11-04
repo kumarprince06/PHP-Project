@@ -3,16 +3,16 @@
 class CartController extends Controller
 {
 
-    private $cartModel;
-    private $wishlistModel;
+    private $cartService;
+    private $wishlistService;
     public function __construct()
     {
         if (isLoggedIn()) {
             // Redirect to Login page
             redirect('pages/login');
         }
-        $this->cartModel = $this->model('Cart');
-        $this->wishlistModel = $this->model('Wishlist');
+        $this->cartService = new CartService;
+        $this->wishlistService = new WishlistService;
     }
 
 
@@ -20,117 +20,105 @@ class CartController extends Controller
     // Add To Cart
     public function addToCart($productId)
     {
-        // Check if request is POST
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Get the logged-in user’s ID from the session
-            $userId = $_SESSION['user_id'];
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            flashErrorMessage('errorMessage', 'Invalid request');
+            redirect('productController/index');
+            return;
+        }
 
-            // Define quantity (assuming default is 1 if not specified)
-            $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
+        $cart = new Cart;
+        $cart->setUserId($_SESSION['sessionData']['userId']);
+        $cart->setQuantity(isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1);
+        $cart->setProductId($productId);
 
-            // Prepare data to pass to model
-            $data = [
-                'userId' => $userId,
-                'productId' => $productId,
-                'quantity' => $quantity
-            ];
-
-            // Call the model’s addToCart method to add or update the cart item
-            if ($this->cartModel->addToCart($data)) {
-                flashMessage('cart_success', 'Product added to your cart!');
-            } else {
-                flashErrorMessage('cart_error', 'Error adding product to cart.');
-            }
-
-            // Redirect back to the products page or cart page
-            redirect('products/index');
+        if ($this->cartService->addToCart($cart)) {
+            flashMessage('successMessage', 'Product added to your cart!');
         } else {
-            // If not a POST request, redirect to products page
-            redirect('products/index');
+            flashErrorMessage('errorMessage', 'Error adding product to cart.');
         }
+
+        redirect('productController/index');
     }
 
-    // Incease Quantity Handler
-    public function increase($cartId)
+    // Increase Cart Item Quantity
+    public function increaseCartItemQuantity($productId)
     {
 
-        if ($this->cartModel->increaseQuantity($cartId)) {
-            redirect('user/myCart');
+        $cart = new Cart;
+        $cart->setUserId($_SESSION['sessionData']['userId']);
+        $cart->setProductId($productId);
+
+        if (!$this->cartService->increaseQuantity($cart)) {
+            flashErrorMessage('errorMessage', 'Failed to increase quantity. Please try again.');
         }
+
+        redirect('userController/myCart');
     }
 
-    // Decrease Quantity Handler
-    public function decrease($cartId)
+    // Decrease Cart Item Quantity
+    public function decreaseCartItemQuantity($productId)
     {
 
-        if ($this->cartModel->decreaseQuantity($cartId)) {
-            redirect('user/myCart');
+        $cart = new Cart;
+        $cart->setUserId($_SESSION['sessionData']['userId']);
+        $cart->setProductId($productId);
+        if (!$this->cartService->decreaseQuantity($cart)) {
+
+            flashErrorMessage('cart_error', 'Failed to decrease quantity. Please try again.');
         }
+        redirect('userController/myCart');
     }
 
-    // Add Wishlist item
+    // Add Wishlist item to Cart in CartController
     public function addWishlistProductToCart($productId)
     {
-        // Check if the request is POST
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Get the wishlist ID from the form submission
-            $wishlistId = $_POST['wishlistId'];
-
-            // Get the user ID from the session
-            $userId = $_SESSION['user_id'];
-
-            // Retrieve the wishlist item (assuming you have a wishlistModel with this method)
-            $wishlistItem = $this->wishlistModel->getWishlistItemById($wishlistId);
-
-            if (!$wishlistItem) {
-                flashErrorMessage('cart_error', 'Wishlist item not found.');
-                redirect('user/showWishlist');
-                return;
-            }
-
-            // Add to cart (assuming quantity is 1)
-            $cartData = [
-                'userId' => $userId,
-                'productId' => $productId,
-                'quantity' => 1 // Assuming quantity is stored in the wishlist item
-            ];
-
-            if ($this->cartModel->addToCart($cartData)) {
-                // Remove from wishlist after adding to cart
-                $this->wishlistModel->deleteWishlist($wishlistId);
-                flashMessage('wishlistMessage', 'Product added to your cart.');
-            } else {
-                flashErrorMessage('errorMessage', 'Failed to add product to cart.');
-            }
-
-            // Redirect to the cart page or wishlist page
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            flashErrorMessage('errorMessage', 'Invalid request');
             redirect('user/showWishlist');
-        } else {
-            // Redirect if not a POST request
-            redirect('user/showWishlist');
+            return;
         }
+
+        // Initialize Cart model
+        $cart = new Cart;
+        $cart->setUserId($_SESSION['sessionData']['userId']);
+        $cart->setProductId($productId);
+
+        // Use WishlistService to add to cart and remove from wishlist
+        error_log("Goes to wishList Service");
+        if ($this->wishlistService->moveWishlistItemToCart($cart)) {
+            flashMessage('successMessage', 'Product added to your cart.');
+        } else {
+            flashErrorMessage('errorMessage', 'Failed to add product to cart.');
+        }
+
+        redirect('userController/showWishlist');
     }
 
+
+
     // Delete cart item
-    public function delete($cartId)
+    public function delete($productId)
     {
         // Check POST Request
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Get user ID from session
-            $userId = $_SESSION['user_id'];
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
-            // Call the model method to delete the cart item
-            if ($this->cartModel->deleteCartItem($cartId, $userId)) {
-                flashMessage('cart_success', 'Item removed from your cart successfully!');
-            } else {
-                flashErrorMessage('cart_error', 'Failed to remove item from your cart. Please try again.');
-            }
-
-            // Redirect back to the cart page
-            redirect('user/myCart');
-        } else {
-            // If not a POST request, redirect back to the cart page
-            redirect('user/myCart');
+            flashErrorMessage('errorMessage', 'Invalid Request!');
+            redirect('userController/myCart');
+            return;
         }
+        // Get user ID from session
+        $cart = new Cart;
+        $cart->setUserId($_SESSION['sessionData']['userId']);
+        $cart->setProductId($productId);
+
+        // Call the model method to delete the cart item
+        if ($this->cartService->deleteCartItem($cart)) {
+            flashMessage('successMessage', 'Item removed from your cart successfully!');
+        } else {
+            flashErrorMessage('errorMessage', 'Failed to remove item from your cart. Please try again.');
+        }
+
+        // Redirect back to the cart page
+        redirect('userController/myCart');
     }
 }

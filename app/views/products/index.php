@@ -46,7 +46,7 @@
                             <button type="submit">Add To Wishlist</button>
                         </form>
                         <!-- Form for delete operation using POST method -->
-                        <form action="<?php echo URLROOT; ?>/userController/addToCart/<?php echo $product->id; ?>" method="POST" style="display:inline;">
+                        <form action="<?php echo URLROOT; ?>/cartController/addToCart/<?php echo $product->id; ?>" method="POST" style="display:inline;">
                             <button type="submit">Add To Cart</button>
                         </form>
                     <?php endif; ?>

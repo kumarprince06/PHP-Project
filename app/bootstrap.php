@@ -26,12 +26,17 @@ require_once '../app/models/Category.php';
 require_once '../app/models/Product.php';
 require_once '../app/models/PhysicalProduct.php';
 require_once '../app/models/DigitalProduct.php';
-// Load Services
+require_once '../app/models/Wishlist.php';
+require_once '../app/models/Cart.php';
 
+// Load Services
 require_once '../app/services/CategoryService.php';
 require_once '../app/services/ProductService.php';
-
+require_once '../app/services/WishlistService.php';
+require_once '../app/services/CartService.php';
 
 // Load Repository
 require_once '../app/repositories/CategoryRepository.php';
 require_once '../app/repositories/ProductRepository.php';
+require_once '../app/repositories/WishlistRepositiory.php';
+require_once '../app/repositories/CartRepository.php';

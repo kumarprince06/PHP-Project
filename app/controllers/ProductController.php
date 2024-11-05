@@ -104,11 +104,13 @@ class ProductController extends Controller
             'sellingPrice' =>  $product->selling_price,
             'type' => $product->type,
             'category' => $product->category,
-            'productNameError' => '',
-            'productBrandError' => '',
+            'stock' => $product->stock,
+            'nameError' => '',
+            'brandError' => '',
             'originalPriceError' => '',
             'sellingPriceError' => '',
-            'productTypeError' => '',
+            'typeError' => '',
+            'stockError' => '',
             'categoryList' => $categoryList
         ];
 
@@ -174,12 +176,14 @@ class ProductController extends Controller
             'sellingPrice' => trim($_POST['sellingPrice']),
             'type' => trim($_POST['type']),
             'category' => trim($_POST['category']),
+            'stock' => trim($_POST['stock']),
             'nameError' => '',
             'brandError' => '',
             'originalPriceError' => '',
             'sellingPriceError' => '',
             'typeError' => '',
-            'categoryError' => ''
+            'categoryError' => '',
+            'stockError' => ''
         ];
     }
     // Valiodate Data
@@ -209,12 +213,17 @@ class ProductController extends Controller
         if (empty($data['category'])) {
             $data['categoryError'] = 'Select a category!';
         }
+
+        if (empty($data['stock'])) {
+            $data['stockError'] = 'Stock is required!';
+        }
     }
 
     private function hasNoErrors($data)
     {
         return empty($data['productNameError']) && empty($data['productBrandError']) &&
             empty($data['originalPriceError']) && empty($data['sellingPriceError']) &&
-            empty($data['productTypeError']) && empty($data['categoryIdError']);
+            empty($data['productTypeError']) && empty($data['categoryIdError']) &&
+            empty($data['stockError']);
     }
 }

@@ -29,6 +29,18 @@
         <span class="error" style="color: red;">* <?php echo $data['brandError']; ?></span>
     </div>
 
+    <!-- Stock -->
+    <div class="addproduct" style="margin-bottom: 5px;">
+        <label for="stock">Stock:</label>
+        <input
+            type="number"
+            name="stock"
+            value="<?php echo $data['stock']; ?>"
+            id="stock"
+            style="border: 1px solid <?php echo !empty($data['stockError']) ? 'red' : '#ccc'; ?>;">
+        <span class="error" style="color: red;">* <?php echo $data['stockError']; ?></span>
+    </div>
+
     <!-- Original Price -->
     <div class="addproduct" style="margin-bottom: 5px;">
         <label for="oPrice">Original Price:</label>

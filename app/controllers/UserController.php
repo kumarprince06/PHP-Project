@@ -4,6 +4,7 @@ class UserController extends Controller
 
     private $wishlistService;
     private $cartService;
+    private $orderService;
     public function __construct()
     {
         // Check if user is not logged in
@@ -12,6 +13,7 @@ class UserController extends Controller
         }
         $this->wishlistService = new WishlistService();
         $this->cartService = new CartService();
+        $this->orderService = new OrderService;
     }
 
 
@@ -116,5 +118,24 @@ class UserController extends Controller
 
         // Load the cart view with the data
         $this->view('user/order', $data);
+    }
+
+    public function checkout()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            flashErrorMessage('errorMessage', 'Invalid request method');
+            redirect('userController/myCart');
+            return;
+        }
+
+        $userId = $_SESSION['sessionData']['userId'];
+
+        if ($this->orderService->processCheckout($userId)) {
+            flashMessage('successMessage', 'Order placed successfully!');
+        } else {
+            flashErrorMessage('checkout_error', 'Failed to place order. Please try again.');
+        }
+
+        redirect('userController/order');
     }
 }

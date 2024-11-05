@@ -9,6 +9,7 @@ class Product
     protected $sellingPrice;
     protected $originalPrice;
     protected $category;
+    protected $stock;
 
     public function __construct($data = [])
     {
@@ -19,6 +20,7 @@ class Product
         $this->sellingPrice = $data['sellingPrice'] ?? 0;
         $this->originalPrice = $data['originalPrice'] ?? 0;
         $this->category = $data['category'] ?? '';
+        $this->stock = $data['stock'] ?? 0;
     }
 
     // Getters and Setters for ID
@@ -96,5 +98,16 @@ class Product
     public function setCategory($category)
     {
         $this->category = $category;
+    }
+    // Getter and Setter for stock
+
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+    }
+
+    public function getStock()
+    {
+        return $this->stock;
     }
 }

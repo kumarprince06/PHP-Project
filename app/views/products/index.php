@@ -15,12 +15,12 @@
             <th>Selling Price</th>
             <th>Product Type</th>
             <th>Category</th>
+            <th>Stock</th>
             <th>Operations</th>
         </tr>
     </thead>
     <tbody>
         <?php
-
         // Loop through the products array and display each product
         foreach ($data['products'] as $product) : ?>
             <tr>
@@ -30,7 +30,8 @@
                 <td>Rs <?php echo $product->original_price ?></td>
                 <td>Rs <?php echo $product->selling_price ?></td>
                 <td> <?php echo $product->type ?> </td>
-                <td><?php echo $product->category; ?> </td>
+                <td><?php echo $product->category_name; ?> </td>
+                <td><?php echo $product->stock; ?> </td>
                 <td>
                     <a href='<?php echo URLROOT ?>/productController/show/<?php echo $product->id ?>'><button>View</button></a>
                     <?php if ($_SESSION['sessionData']['role'] == 'admin') : ?>

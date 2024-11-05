@@ -103,7 +103,25 @@ class Database
 
     public function select() {}
 
-    public function update(){}
+    public function update() {}
 
-    public function delete(){}
+    public function delete() {}
+
+    // Start a transaction
+    public function beginTransaction()
+    {
+        return $this->dbHandler->beginTransaction();
+    }
+
+    // Commit the current transaction
+    public function commit()
+    {
+        return $this->dbHandler->commit();
+    }
+
+    // Rollback the current transaction
+    public function rollback()
+    {
+        return $this->dbHandler->rollBack();
+    }
 }

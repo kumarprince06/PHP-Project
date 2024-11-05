@@ -92,4 +92,13 @@ class CartRepository
 
         return $this->db->resultSet(); // Returns an array of cart items
     }
+
+
+    public function clearCartByUserId($userId)
+    {
+        $query = "DELETE FROM cart WHERE userId = :userId";
+        $this->db->query($query);
+        $this->db->bind(':userId', $userId);
+        $this->db->execute();
+    }
 }

@@ -61,9 +61,9 @@
     <h3>Total Amount: Rs <?php echo $totalAmount; ?></h3>
 
     <!-- Checkout Button -->
-    <a href="<?php echo URLROOT; ?>/orders/checkout" style="text-decoration: none;">
-        <button style="margin-top: 10px;">Checkout</button>
-    </a>
+    <form action="<?php echo URLROOT ?>/userController/checkout" method="POST" style="display:inline;">
+        <button type="submit">Checkout</button>
+    </form>
 <?php endif; ?>
 
 <?php require APPROOT . '/views/includes/footer.php'; ?>

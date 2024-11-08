@@ -16,15 +16,15 @@
                 <th style="border: 1px solid #ddd; padding: 10px;">Today's Revenue</th>
                 <th style="border: 1px solid #ddd; padding: 10px;">Current Month Revenue</th>
                 <th style="border: 1px solid #ddd; padding: 10px;">Current Year Revenue</th>
-
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td style="border: 1px solid #ddd; padding: 10px;">
                     <?php
-                    // If the daily resultset contains data, display the most recent day's revenue
-                    if (count($data['daily']) > 0) {
+                    // Check if there's revenue data for today
+                    $today = date('Y-m-d');
+                    if (isset($data['daily'][0]) && $data['daily'][0]->order_date === $today) {
                         echo '₹' . number_format($data['daily'][0]->daily_revenue, 2);
                     } else {
                         echo '₹0.00';
@@ -33,8 +33,10 @@
                 </td>
                 <td style="border: 1px solid #ddd; padding: 10px;">
                     <?php
-                    // If the monthly resultset contains data, display the most recent month's revenue
-                    if (count($data['monthly']) > 0) {
+                    // Check if there's revenue data for the current month
+                    $currentYear = (int) date('Y');
+                    $currentMonth = (int) date('m');
+                    if (isset($data['monthly'][0]) && $data['monthly'][0]->year === $currentYear && $data['monthly'][0]->month === $currentMonth) {
                         echo '₹' . number_format($data['monthly'][0]->monthly_revenue, 2);
                     } else {
                         echo '₹0.00';
@@ -43,8 +45,8 @@
                 </td>
                 <td style="border: 1px solid #ddd; padding: 10px;">
                     <?php
-                    // If the yearly resultset contains data, display the most recent year's revenue
-                    if (count($data['yearly']) > 0) {
+                    // Check if there's revenue data for the current year
+                    if (isset($data['yearly'][0]) && $data['yearly'][0]->year === $currentYear) {
                         echo '₹' . number_format($data['yearly'][0]->yearly_revenue, 2);
                     } else {
                         echo '₹0.00';
@@ -55,6 +57,8 @@
         </tbody>
     </table>
 </section>
+
+
 
 <!-- Order Overview Section -->
 <section id="orders" style="margin-top: 30px;">
@@ -69,30 +73,42 @@
         </thead>
         <tbody>
             <tr>
+                <!-- Today's Total Order -->
                 <td style="border: 1px solid #ddd; padding: 10px;">
                     <?php
-                    // If the daily resultset contains data, display the most recent day's order count
-                    if (count($data['dailyOrder']) > 0) {
+                    $today = date('Y-m-d');
+                    if (isset($data['dailyOrder'][0]) && $data['dailyOrder'][0]->order_date === $today) {
                         echo number_format($data['dailyOrder'][0]->daily_order_count);
                     } else {
                         echo '0';
                     }
                     ?>
                 </td>
+
+                <!-- Current Month Total Order -->
                 <td style="border: 1px solid #ddd; padding: 10px;">
                     <?php
-                    // If the monthly resultset contains data, display the most recent month's order count
-                    if (count($data['monthlyOrder']) > 0) {
+                    $currentYear = (int) date('Y');
+                    $currentMonth = (int) date('m');
+                    if (
+                        isset($data['monthlyOrder'][0]) &&
+                        $data['monthlyOrder'][0]->year === $currentYear &&
+                        $data['monthlyOrder'][0]->month === $currentMonth
+                    ) {
                         echo number_format($data['monthlyOrder'][0]->monthly_order_count);
                     } else {
                         echo '0';
                     }
                     ?>
                 </td>
+
+                <!-- Current Year Total Order -->
                 <td style="border: 1px solid #ddd; padding: 10px;">
                     <?php
-                    // If the yearly resultset contains data, display the most recent year's order count
-                    if (count($data['yearlyOrder']) > 0) {
+                    if (
+                        isset($data['yearlyOrder'][0]) &&
+                        $data['yearlyOrder'][0]->year === $currentYear
+                    ) {
                         echo number_format($data['yearlyOrder'][0]->yearly_order_count);
                     } else {
                         echo '0';

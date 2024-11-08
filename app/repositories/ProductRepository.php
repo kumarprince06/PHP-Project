@@ -75,15 +75,13 @@ class ProductRepository
         return $this->db->singleResult();
     }
 
-    public function decreaseStock($productId, $quantity)
-    {
+    public function updateStock($productId, $quantity){
         $query = "UPDATE products SET stock = stock - :quantity WHERE id = :product_id AND stock >= :quantity";
         $this->db->query($query);
         $this->db->bind(':product_id', $productId);
         $this->db->bind(':quantity', $quantity);
 
         if ($this->db->execute()) {
-            error_log("Stock decreased for Product ID: $productId, Quantity: $quantity");
             return true;
         } else {
             error_log("Failed to decrease stock for Product ID: $productId");

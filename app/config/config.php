@@ -21,3 +21,12 @@ define('DB_PASSWORD', '#M.S.Dhoni07@');
 define('APPVERSION', '1.0.0');
 
 
+// stripe_config.php
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+\Stripe\Stripe::setApiKey('sk_test_51PddMgLgyvtECR7RJNqJhPVVIneo0i28PMSmFk6dRf5RoKsM6EZfzdchKz4VoHotZQsCV2WPVUXAm3Ip0jaJgAqa00JMKk5Hw3');
+
+
+// Stripe Payment API configuration
+define('STRIPE_PUBLISHABLE_KEY', 'pk_test_51PddMgLgyvtECR7RyFwMHQmJQjvJfNL9QhOzJcg2s0CQKcDEKqrhRZrwQ0ZzKc4uIhESthtd9klxY0gGVE8Iv0Lf00p4uCUK3M');
+define('STRIPE_SECRET_KEY', 'sk_test_51PddMgLgyvtECR7RJNqJhPVVIneo0i28PMSmFk6dRf5RoKsM6EZfzdchKz4VoHotZQsCV2WPVUXAm3Ip0jaJgAqa00JMKk5Hw3');

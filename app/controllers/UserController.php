@@ -101,41 +101,37 @@ class UserController extends Controller
         $this->view('user/cart', $data);
     }
 
-    // My Order Handler
     public function order()
     {
         // Get the logged-in user ID from the session
-        $userId = $_SESSION['user_id'];
+        $userId = $_SESSION['sessionData']['userId'];
 
-        // Fetch the cart items for the user
-        // $cartItems = $this->cartModel->getOrderItemsByUserId($userId);
+        // Fetch order items for the user
+        $orderItems = $this->orderService->getOrderItemsByUserId($userId);
 
         // Prepare data to pass to the view
         $data = [
-            'title' => 'My Cart',
-            // 'cartItems' => $cartItems
+            'title' => 'My Orders',
+            'orderItems' => $orderItems
         ];
 
-        // Load the cart view with the data
+        // Load the order view with the data
         $this->view('user/order', $data);
     }
 
-    public function checkout()
+
+    public function checkout($userId)
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            flashErrorMessage('errorMessage', 'Invalid request method');
-            redirect('userController/myCart');
-            return;
-        }
+        $orderService = new OrderService();
+        $paymentIntent = $orderService->processCheckout($userId);
 
-        $userId = $_SESSION['sessionData']['userId'];
-
-        if ($this->orderService->processCheckout($userId)) {
-            flashMessage('successMessage', 'Order placed successfully!');
+        if ($paymentIntent) {
+            // Return the client secret to the frontend
+            return json_encode(['clientSecret' => $paymentIntent->client_secret]);
         } else {
-            flashErrorMessage('checkout_error', 'Failed to place order. Please try again.');
+            // Handle the error, show an error message, etc.
+            http_response_code(500);
+            return json_encode(['error' => 'Checkout failed']);
         }
-
-        redirect('userController/order');
     }
 }

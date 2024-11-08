@@ -34,4 +34,9 @@ class ProductService
     {
         return $this->productRepository->getProductById($id);
     }
+
+    public function updateStock($productId, $quantity)
+    {
+        return $this->productRepository->updateStock($productId, $quantity);
+    }
 }

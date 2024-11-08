@@ -29,7 +29,7 @@ class User
             $this->db->bind(':email', $data['email']);
             $this->db->bind(':password', $data['password']);
             // Execute
-            return $this->db->executePrepareStmt() ? true : false;
+            return $this->db->execute() ? true : false;
         } catch (PDOException $e) {
             die('Something went wrong ..!' . $e->getMessage());
         }
@@ -50,5 +50,4 @@ class User
             return false;
         }
     }
-
 }

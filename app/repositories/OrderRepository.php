@@ -55,7 +55,7 @@ class OrderRepository
 
         try {
             if (!$this->db->execute()) {
-                error_log('Failed to add order item: Order ID: ' . $orderItemData['orderId']. ' Product ID: " '. $orderItemData['productId']);
+                error_log('Failed to add order item: Order ID: ' . $orderItemData['orderId'] . ' Product ID: " ' . $orderItemData['productId']);
             }
         } catch (Exception $e) {
             error_log("Error adding order item: " . $e->getMessage());
@@ -65,35 +65,41 @@ class OrderRepository
 
     public function getOrderItemsByUserId($userId)
     {
-        // Query to fetch orders and their related order items
+        // SQL Query to fetch orders and their related order items for a specific user
         $sql = "SELECT
-                    o.id AS order_id,
-                    o.order_date,
-                    o.total AS order_total,
-                    o.status AS order_status,
-                    oi.product_id,
-                    p.name AS product_name,
-                    p.brand AS product_brand,
-                    p.original_price,
-                    p.selling_price,
-                    oi.quantity,
-                    oi.price AS item_price,
-                    oi.category_id
-                FROM
-                    orders AS o
-                INNER JOIN
-                    order_items AS oi ON o.id = oi.order_id
-                INNER JOIN
-                    products AS p ON oi.product_id = p.id
-                WHERE
-                    o.user_id =:userId
-                ORDER BY
-                    o.order_date DESC";
+                o.order_date,
+                o.total AS order_total,
+                o.status AS order_status,
+                oi.product_id,
+                p.name AS product_name,
+                p.brand AS product_brand,
+                p.original_price,
+                p.selling_price,
+                oi.quantity,
+                oi.price AS item_price,
+                oi.category_id
+            FROM
+                orders AS o
+            INNER JOIN
+                order_items AS oi ON o.id = oi.order_id
+            INNER JOIN
+                products AS p ON oi.product_id = p.id
+            WHERE
+                o.user_id = :userId
+            ORDER BY
+                o.order_date DESC";
 
+        // Prepare and bind parameters
         $this->db->query($sql);
         $this->db->bind(':userId', $userId);
 
-        // Fetch and return the result set
-        return $this->db->resultSet();
+        // Try executing the query and handle any potential errors
+        try {
+            return $this->db->resultSet(); // Fetch and return the result set as an array
+        } catch (Exception $e) {
+            // Log or handle the error as required
+            error_log("Error fetching order items for user $userId: " . $e->getMessage());
+            return []; // Return an empty array or handle accordingly
+        }
     }
 }

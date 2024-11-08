@@ -2,7 +2,7 @@
 
 class AdminController extends Controller
 {
-
+    private $mailService;
     private $orderService;
     public function __construct()
     {
@@ -10,6 +10,7 @@ class AdminController extends Controller
             redirect('pages/login');
         }
         $this->orderService = new OrderService;
+        $this->mailService = new MailService;
     }
 
     public function dashboard()
@@ -60,10 +61,12 @@ class AdminController extends Controller
         // Get the posted data
         $orderId = $_POST['order_id'];
         $status = $_POST['status'];
+        $userEmail = $_POST['email'];
 
+        error_log("Email: " . $userEmail);
         // Validate data (you can also add more validation as needed)
-        if (empty($orderId) || empty($status)) {
-            error_log('Error: Missing order ID or status');
+        if (empty($orderId) || empty($status) || empty($userEmail)) {
+            error_log('Error: Missing order ID or status or user email');
             return;
         }
 
@@ -72,6 +75,8 @@ class AdminController extends Controller
 
         // Check if the update was successful
         if ($updateSuccess) {
+            //  Send the order confirmation email to the customer
+            $this->mailService->sendOrderUpdateNotificationWithPHPMailer($orderId, $userEmail, $status);
             // Redirect or display a success message
             redirect('adminController/order_management');
             exit;

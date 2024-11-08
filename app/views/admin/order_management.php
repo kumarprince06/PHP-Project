@@ -36,6 +36,7 @@
                     echo '<td style="border: 1px solid #ddd; padding: 10px;">
                             <form action="' . URLROOT . '/adminController/update_order_status" method="POST">
                                 <input type="hidden" name="order_id" value="' . $order->order_id . '">
+                                <input type="email" hidden name="email" value="' . $order->customer_email . '">
                                 <select name="status" style="padding: 5px;">
                                     <option value="Placed" ' . ($order->status == 'Placed' ? 'selected' : '') . '>Placed</option>
                                     <option value="Dispatched" ' . ($order->status == 'Dispatched' ? 'selected' : '') . '>Dispatched</option>

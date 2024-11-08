@@ -1,9 +1,8 @@
 <?php require APPROOT . '/views/includes/header.php'; ?>
 <!-- Header Section -->
 <h1 style="text-align: center;">Admin Dashboard</h1>
-<a href="<?php echo URLROOT ?>/pages/index"><button type="button">Home</button></a>
 <div style="text-align: center;">
-
+    <a href="<?php echo URLROOT ?>/pages/index"><button type="button">Home</button></a>
     <a href="<?php echo URLROOT ?>/adminController/revenue_overview"><button type="button">Revenue Overview</button></a>
     <a href="<?php echo URLROOT ?>/adminController/order_management"><button type="button">Order Management</button></a>
     <a href="<?php echo URLROOT ?>/adminController/user_management"><button type="button">User Management</button></a>

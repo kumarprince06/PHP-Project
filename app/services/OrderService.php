@@ -97,4 +97,19 @@ class OrderService
     {
         return $this->orderRepository->addOrderItem($orderItemData);
     }
+
+    public function getRevenueOverview()
+    {
+        $dailyRevenue = $this->orderRepository->getDailyRevenue();
+        $monthlyRevenue = $this->orderRepository->getMonthlyRevenue();
+        $yearlyRevenue = $this->orderRepository->getYearlyRevenue();
+
+
+        // Return array structure
+        return [
+            'daily' => $dailyRevenue,
+            'monthly' => $monthlyRevenue,
+            'yearly' => $yearlyRevenue,
+        ];
+    }
 }

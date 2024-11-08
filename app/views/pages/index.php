@@ -10,7 +10,7 @@
         <?php if ($_SESSION['sessionData']['role'] == 'admin') : ?> <!-- Admin role check -->
 
             <a href="<?php echo URLROOT ?>/categoryController"><button>Category</button></a>
-            <a href="<?php echo URLROOT; ?>/admin/dashboard"><button>Dashboard</button></a>
+            <a href="<?php echo URLROOT; ?>/adminController/dashboard"><button>Dashboard</button></a>
         <?php elseif ($_SESSION['sessionData']['role'] == 'customer') : ?> <!-- Customer role check -->
 
             <a href="<?php echo URLROOT; ?>/userController/dashboard"><button>Dashboard</button></a>

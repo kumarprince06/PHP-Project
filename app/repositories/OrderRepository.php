@@ -102,4 +102,66 @@ class OrderRepository
             return []; // Return an empty array or handle accordingly
         }
     }
+
+    public function getDailyRevenue()
+    {
+        // Run the query to get the daily revenue
+        $this->db->query('SELECT
+                        DATE(order_date) AS order_date,
+                        SUM(total) AS daily_revenue
+                      FROM orders
+                      GROUP BY DATE(order_date)
+                      ORDER BY order_date DESC');
+
+        try {
+            // Fetch the results
+            $result = $this->db->resultSet();
+
+            // Log if no results are returned
+            if (empty($result)) {
+                error_log('No daily revenue data found.');
+            }
+
+            return $result;
+        } catch (Exception $e) {
+            // Log any errors
+            error_log("Error fetching daily revenue: " . $e->getMessage());
+            return []; // Return an empty array if an error occurs
+        }
+    }
+
+
+    public function getMonthlyRevenue()
+    {
+        $sql = "SELECT
+                    YEAR(order_date) AS year,
+                    MONTH(order_date) AS month,
+                    SUM(total) AS monthly_revenue
+                FROM
+                    orders
+                GROUP BY
+                    YEAR(order_date), MONTH(order_date)
+                ORDER BY
+                    year, month";
+
+        $this->db->query($sql);
+        return $this->db->resultSet();
+    }
+
+    public function getYearlyRevenue()
+    {
+        // Query to fetch yearly revenue
+        $this->db->query('SELECT
+                        YEAR(order_date) AS year,
+                        SUM(total) AS yearly_revenue
+                      FROM
+                        orders
+                      GROUP BY
+                        YEAR(order_date)
+                      ORDER BY
+                        year');
+
+        // Capture and return the result
+        return $this->db->resultSet();
+    }
 }

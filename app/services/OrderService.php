@@ -112,4 +112,36 @@ class OrderService
             'yearly' => $yearlyRevenue,
         ];
     }
+
+    public function getOrderOverview()
+    {
+        $dailyCount = $this->orderRepository->getDailyOrderCount();
+        $monthlyCount = $this->orderRepository->getMonthlyOrderCount();
+        $yearlyCount = $this->orderRepository->getYearlyOrderCount();
+
+
+        // Return array structure
+        return [
+            'dailyOrder' => $dailyCount,
+            'monthlyOrder' => $monthlyCount,
+            'yearlyOrder' => $yearlyCount,
+        ];
+    }
+
+    public function getAllOrders()
+    {
+        $orderData = $this->orderRepository->getAllOrders();
+        return $orderData;
+    }
+
+    public function updateOrderStatus($orderId, $status)
+    {
+        try {
+            // Call the repository to update the order status
+            return $this->orderRepository->updateOrderStatus($orderId, $status);
+        } catch (Exception $e) {
+            error_log("Error updating order status: " . $e->getMessage());
+            return false;
+        }
+    }
 }

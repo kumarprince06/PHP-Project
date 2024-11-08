@@ -164,4 +164,86 @@ class OrderRepository
         // Capture and return the result
         return $this->db->resultSet();
     }
+
+    public function getDailyOrderCount()
+    {
+        $this->db->query('
+        SELECT DATE(order_date) AS order_date, COUNT(*) AS daily_order_count
+        FROM orders
+        GROUP BY DATE(order_date)
+        ORDER BY order_date DESC
+    ');
+        return $this->db->resultSet(); // Fetch and return the result set
+    }
+
+    public function getMonthlyOrderCount()
+    {
+        $this->db->query('
+        SELECT YEAR(order_date) AS year, MONTH(order_date) AS month, COUNT(*) AS monthly_order_count
+        FROM orders
+        GROUP BY YEAR(order_date), MONTH(order_date)
+        ORDER BY year DESC, month DESC
+    ');
+        return $this->db->resultSet();
+    }
+
+    public function getYearlyOrderCount()
+    {
+        $this->db->query('
+        SELECT YEAR(order_date) AS year, COUNT(*) AS yearly_order_count
+        FROM orders
+        GROUP BY YEAR(order_date)
+        ORDER BY year DESC
+    ');
+        return $this->db->resultSet();
+    }
+
+    public function getAllOrders()
+    {
+        // Query to fetch orders with the status not 'Completed'
+        $this->db->query("SELECT
+                        orders.id AS order_id,
+                        orders.order_date,
+                        orders.total,
+                        orders.status,
+                        users.email AS customer_email
+                      FROM
+                        orders
+                      JOIN
+                        users ON orders.user_id = users.id
+                      WHERE
+                        orders.status != 'Completed'
+                      ORDER BY
+                        orders.order_date DESC");
+
+        try {
+            // Attempt to get the result set from the query
+            $result = $this->db->resultSet();
+
+            // Log the result or check if empty
+            if (empty($result)) {
+                error_log("No orders found with status other than 'Completed'.");
+            }
+            // Return the result (orders data)
+            return $result;
+        } catch (Exception $e) {
+            // Log the error if there was an exception while executing the query
+            error_log("Error fetching orders: " . $e->getMessage());
+            return [];  // Return an empty array on error
+        }
+    }
+
+    public function updateOrderStatus($orderId, $status)
+    {
+        // SQL query to update the status of an order
+        $query = "UPDATE orders SET status = :status WHERE id = :orderId";
+
+        // Prepare the query
+        $this->db->query($query);
+        $this->db->bind(':status', $status);
+        $this->db->bind(':orderId', $orderId);
+
+        // Execute the query and check if it's successful
+        return $this->db->execute();
+    }
 }

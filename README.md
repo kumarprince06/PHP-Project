@@ -24,18 +24,4 @@ This is a PHP-based training project designed for learning and implementing core
 3. Set up your MySQL database and configure the config file with the correct database credentials.
 4. Run the project on a local PHP server, e.g., using XAMPP or Apache server.
 
-## 📋 Usage
-- After setting up the project locally, navigate to the index.php file or the appropriate landing page.
-- For admin functionalities (product management), log in with admin credentials provided in the project setup or code.
-
-## 📝 Contributing
-- Feel free to fork this repository, submit issues, or send pull requests if you'd like to contribute.
-
-## 📫 Contact
-- For more details, feel free to reach out to me via:
-  LinkedIn: Prince Sharma
-  Facebook: Prince Kumar
-  Instagram: kumar_prince06
-
-
 This README is now ready for you to copy directly into your repository! Let me know if you need any more modifications or additions!

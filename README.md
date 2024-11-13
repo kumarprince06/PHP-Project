@@ -21,6 +21,7 @@ This is a PHP-based training project designed for learning and implementing core
 2. Install dependencies using Composer:
   ```bash
   composer install
+
 3. Set up your MySQL database and configure the config file with the correct database credentials.
 4. Run the project on a local PHP server, e.g., using XAMPP or Apache server.
 

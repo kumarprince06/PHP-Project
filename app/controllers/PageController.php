@@ -63,7 +63,7 @@ class PageController extends Controller
         // Check if there are no validation errors
         if (!empty($data['emailError']) && !empty($data['passwordError'])) {
             // Load the view with errors if validation fails or login unsuccessful
-            $this->view('pageController/login', $data);
+            $this->view('pages/login', $data);
         }
         // Attempt to log in user
         $loggedInUser = $this->userModel->login($data['email'], $data['password']);

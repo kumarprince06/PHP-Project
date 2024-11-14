@@ -16,6 +16,11 @@
   background-color: black; /* Dark background for active */
 }
 
+/* Login Page */
+.gradient-custom {
+  background-color: slategrey;
+}
+
 .flash-message {
   background-color: #dff0d8; /* Light green background */
   color: #3c763d; /* Dark green text */

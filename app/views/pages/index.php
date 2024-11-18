@@ -8,60 +8,60 @@
         <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
     </ol>
     <div class="carousel-inner">
+        <!-- iPhone 15 Pro -->
         <div class="carousel-item active">
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="./assets/img/banner_img_01.jpg" alt="">
+                        <img class="img-fluid" heigh="408px" src="https://my-apple.com.ua/image/catalog/products/iphone/iphone-15-pro-15-pro-max/blue-titanium-1.png" alt="">
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left align-self-center">
-                            <h1 class="h1 text-success"><b>Zay</b> eCommerce</h1>
-                            <h3 class="h2">Tiny and Perfect eCommerce Template</h3>
+                            <h1 class="h1 text-success"><b>iPhone 15 Pro</b></h1>
+                            <h3 class="h2">Experience the Future of Innovation</h3>
                             <p>
-                                Zay Shop is an eCommerce HTML5 CSS template with latest version of Bootstrap 5 (beta 1).
-                                This template is 100% free provided by <a rel="sponsored" class="text-success" href="https://templatemo.com" target="_blank">TemplateMo</a> website.
-                                Image credits go to <a rel="sponsored" class="text-success" href="https://stories.freepik.com/" target="_blank">Freepik Stories</a>,
-                                <a rel="sponsored" class="text-success" href="https://unsplash.com/" target="_blank">Unsplash</a> and
-                                <a rel="sponsored" class="text-success" href="https://icons8.com/" target="_blank">Icons 8</a>.
+                                The iPhone 15 Pro sets a new standard with the powerful A17 chip, stunning titanium design, and unparalleled camera technology.
+                                Pre-order now and redefine your smartphone experience.
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Motorola Edge 50 Pro -->
         <div class="carousel-item">
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="./assets/img/banner_img_02.jpg" alt="">
+                        <img class="img-fluid" src="https://motorolain.vtexassets.com/arquivos/ids/159178/motorola-edge-50-pro-PDP-ecomm-render-color5-5-.png?v=638614765175970000" alt="">
                     </div>
-                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                    <div class=" col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left">
-                            <h1 class="h1">Proident occaecat</h1>
-                            <h3 class="h2">Aliquip ex ea commodo consequat</h3>
+                            <h1 class="h1 text-success"><b>Motorola Edge 50 Pro</b></h1>
+                            <h3 class="h2">A Leap Forward in Performance</h3>
                             <p>
-                                You are permitted to use this Zay CSS template for your commercial websites.
-                                You are <strong>not permitted</strong> to re-distribute the template ZIP file in any kind of template collection websites.
+                                Discover seamless multitasking and pro-level photography with the Motorola Edge 50 Pro.
+                                Featuring an edge-to-edge display and lightning-fast processing.
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Samsung S24 -->
         <div class="carousel-item">
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="./assets/img/banner_img_03.jpg" alt="">
+                        <img class="img-fluid" src="https://media.croma.com/image/upload/v1705640288/Croma%20Assets/Communication/Mobiles/Images/303838_oqpio4.png" alt="">
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left">
-                            <h1 class="h1">Repr in voluptate</h1>
-                            <h3 class="h2">Ullamco laboris nisi ut </h3>
+                            <h1 class="h1 text-success"><b>Samsung Galaxy S24 Ultra</b></h1>
+                            <h3 class="h2">Unmatched Clarity, Performance, and Style</h3>
                             <p>
-                                We bring you 100% free CSS templates for your websites.
-                                If you wish to support TemplateMo, please make a small contribution via PayPal or tell your friends about our website. Thank you.
+                                The Samsung Galaxy S24 Ultra brings an exceptional user experience with its vibrant display, powerful hardware, and cutting-edge features.
+                                Elevate your mobile journey today.
                             </p>
                         </div>
                     </div>

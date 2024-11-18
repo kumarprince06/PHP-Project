@@ -105,15 +105,22 @@ class PageController extends Controller
             // Initialization
             $data = [
                 'title' => 'Shop',
+                'name' => $_POST['name'],
                 'email' => $_POST['email'],
                 'password' => $_POST['password'],
+                'nameError' => '',
                 'emailError' => '',
                 'passwordError' => ''
             ];
 
+            // Validate name
+            if (empty($data['name'])) {
+                $data['nameError'] = 'Name is required..!';
+            }
+
             // Validate email
             if (empty($data['email'])) {
-                $data['emailError'] = 'Please enter email!';
+                $data['emailError'] = 'Email is required..!';
             } elseif (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $data['email'])) {
                 $data['emailError'] = 'Please enter valid email email!';
             } else {

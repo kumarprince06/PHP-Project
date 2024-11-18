@@ -101,7 +101,7 @@
                         </a>
                     <?php else: ?>
                         <a class="nav-icon position-relative text-decoration-none" href="<?php echo URLROOT; ?>/pageController/login">
-                            Login
+                            <button type="button" class="btn btn-secondary fw-4">Login</button>
                         </a>
                     <?php endif ?>
                 </div>

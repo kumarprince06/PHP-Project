@@ -92,13 +92,18 @@
                     <?php if ($_SESSION['sessionData']['userId']):  ?>
                         <a class="nav-icon position-relative text-decoration-none" href="<?php echo URLROOT  ?>/userController/myCart">
                             <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                            <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
+                            <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-danger text-light">7</span>
                         </a>
-                        <a class="nav-icon position-relative text-decoration-none" href="<?php echo URLROOT  ?>/userController/dashboard">
-
-                            <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                            <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
-                        </a>
+                        <!-- Profile Dropdown -->
+                        <div class="dropdown">
+                            <a class="nav-icon position-relative text-decoration-none dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end mt-4" aria-labelledby="profileDropdown">
+                                <li><a class="dropdown-item" href="<?php echo URLROOT ?>/userController/dashboard">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="<?php echo URLROOT ?>/pageController/logout">Logout</a></li>
+                            </ul>
+                        </div>
                     <?php else: ?>
                         <a class="nav-icon position-relative text-decoration-none" href="<?php echo URLROOT; ?>/pageController/login">
                             <button type="button" class="btn btn-secondary fw-4">Login</button>

@@ -7,10 +7,10 @@ class ProductController extends Controller
     private $categoryService;
     public function __construct()
     {
-        if (!isLoggedIn()) {
+        // if (!isLoggedIn()) {
 
-            redirect('pages/login');
-        }
+        //     redirect('pages/login');
+        // }
         $this->productService = new ProductService();
         $this->categoryService = new CategoryService();
     }

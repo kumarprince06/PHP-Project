@@ -85,29 +85,40 @@
         <div class="col-lg-6 m-auto">
             <h1 class="h1">Categories of The Month</h1>
             <p>
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
+                Explore our exclusive categories this month. From the latest gadgets to stylish accessories, find everything you need.
             </p>
         </div>
     </div>
     <div class="row">
+        <!-- iPhones Category -->
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="./assets/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
+            <a href="#"><img src="https://w7.pngwing.com/pngs/756/144/png-transparent-iphone-12.png" class="rounded-circle img-fluid border" alt="iPhones"></a>
+            <h5 class="text-center mt-3 mb-3">Mobiles</h5>
+            <p class="text-center">
+                <a href="#" class="btn btn-success">Go Shop</a>
+            </p>
+        </div>
+
+        <!-- Laptops Category -->
+        <div class="col-12 col-md-4 p-5 mt-3">
+            <a href="#"><img src="https://e7.pngegg.com/pngimages/273/1018/png-clipart-laptop-dell-laptop-electronics-computer-thumbnail.png" class="rounded-circle img-fluid border" alt="Laptops"></a>
+            <h5 class="text-center mt-3 mb-3">Laptops</h5>
+            <p class="text-center">
+                <a href="#" class="btn btn-success">Go Shop</a>
+            </p>
+        </div>
+
+        <!-- Watches Category -->
+        <div class="col-12 col-md-4 p-5 mt-3">
+            <a href="#"><img src="https://e7.pngegg.com/pngimages/504/311/png-clipart-apple-watch-series-2-apple-watch-series-3-smartwatch-black-smart-watch-black-hair-digital-thumbnail.png" class="rounded-circle img-fluid border" alt="Watches"></a>
             <h5 class="text-center mt-3 mb-3">Watches</h5>
-            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-        </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
-            <h2 class="h5 text-center mt-3 mb-3">Shoes</h2>
-            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-        </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="./assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
-            <h2 class="h5 text-center mt-3 mb-3">Accessories</h2>
-            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+            <p class="text-center">
+                <a href="#" class="btn btn-success">Go Shop</a>
+            </p>
         </div>
     </div>
 </section>
+
 <!-- End Categories of The Month -->
 
 
@@ -116,18 +127,18 @@
     <div class="container py-5">
         <div class="row text-center py-3">
             <div class="col-lg-6 m-auto">
-                <h1 class="h1">Featured Product</h1>
+                <h1 class="h1">Featured Products</h1>
                 <p>
-                    Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident.
+                    Check out our top picks for this month! Discover high-quality products, from the latest gadgets to stylish accessories.
                 </p>
             </div>
         </div>
         <div class="row">
+            <!-- Featured Product 1: iPhone 15 Pro -->
             <div class="col-12 col-md-4 mb-4">
                 <div class="card h-100">
                     <a href="shop-single.html">
-                        <img src="./assets/img/feature_prod_01.jpg" class="card-img-top" alt="...">
+                        <img src="./assets/img/iphone_15_pro.jpg" class="card-img-top" alt="iPhone 15 Pro">
                     </a>
                     <div class="card-body">
                         <ul class="list-unstyled d-flex justify-content-between">
@@ -138,20 +149,22 @@
                                 <i class="text-muted fa fa-star"></i>
                                 <i class="text-muted fa fa-star"></i>
                             </li>
-                            <li class="text-muted text-right">$240.00</li>
+                            <li class="text-muted text-right">₹99,999.00</li>
                         </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Gym Weight</a>
+                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">iPhone 15 Pro</a>
                         <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt in culpa qui officia deserunt.
+                            The iPhone 15 Pro with the revolutionary A17 chip, 5G capability, and stunning titanium design.
                         </p>
-                        <p class="text-muted">Reviews (24)</p>
+                        <p class="text-muted">Reviews (150)</p>
                     </div>
                 </div>
             </div>
+
+            <!-- Featured Product 2: Samsung Galaxy S24 -->
             <div class="col-12 col-md-4 mb-4">
                 <div class="card h-100">
                     <a href="shop-single.html">
-                        <img src="./assets/img/feature_prod_02.jpg" class="card-img-top" alt="...">
+                        <img src="./assets/img/samsung_s24.jpg" class="card-img-top" alt="Samsung Galaxy S24">
                     </a>
                     <div class="card-body">
                         <ul class="list-unstyled d-flex justify-content-between">
@@ -162,20 +175,22 @@
                                 <i class="text-muted fa fa-star"></i>
                                 <i class="text-muted fa fa-star"></i>
                             </li>
-                            <li class="text-muted text-right">$480.00</li>
+                            <li class="text-muted text-right">₹89,999.00</li>
                         </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Cloud Nike Shoes</a>
+                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Samsung Galaxy S24</a>
                         <p class="card-text">
-                            Aenean gravida dignissim finibus. Nullam ipsum diam, posuere vitae pharetra sed, commodo ullamcorper.
+                            Experience the future of mobile technology with the Samsung Galaxy S24 Ultra, featuring unmatched clarity and performance.
                         </p>
-                        <p class="text-muted">Reviews (48)</p>
+                        <p class="text-muted">Reviews (200)</p>
                     </div>
                 </div>
             </div>
+
+            <!-- Featured Product 3: Realme 13 Pro Max -->
             <div class="col-12 col-md-4 mb-4">
                 <div class="card h-100">
                     <a href="shop-single.html">
-                        <img src="./assets/img/feature_prod_03.jpg" class="card-img-top" alt="...">
+                        <img src="./assets/img/realme_13_pro_max.jpg" class="card-img-top" alt="Realme 13 Pro Max">
                     </a>
                     <div class="card-body">
                         <ul class="list-unstyled d-flex justify-content-between">
@@ -184,15 +199,15 @@
                                 <i class="text-warning fa fa-star"></i>
                                 <i class="text-warning fa fa-star"></i>
                                 <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-muted fa fa-star"></i>
                             </li>
-                            <li class="text-muted text-right">$360.00</li>
+                            <li class="text-muted text-right">₹64,999.00</li>
                         </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Summer Addides Shoes</a>
+                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Realme 13 Pro Max</a>
                         <p class="card-text">
-                            Curabitur ac mi sit amet diam luctus porta. Phasellus pulvinar sagittis diam, et scelerisque ipsum lobortis nec.
+                            Realme 13 Pro Max with an exceptional display, top-notch performance, and a powerful camera for perfect shots.
                         </p>
-                        <p class="text-muted">Reviews (74)</p>
+                        <p class="text-muted">Reviews (180)</p>
                     </div>
                 </div>
             </div>
@@ -200,5 +215,6 @@
     </div>
 </section>
 <!-- End Featured Product -->
+
 
 <?php require APPROOT . '/views/includes/footer.php'; ?>

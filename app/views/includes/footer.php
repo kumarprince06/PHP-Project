@@ -81,7 +81,7 @@
                 <div class="row pt-2">
                     <div class="col-12">
                         <p class="text-left text-light">
-                            Copyright &copy; 2021 Company Name
+                            Copyright &copy; 2024 Smart Shop
                             | Designed by <a rel="sponsored" href="https://www.linkedin.com/in/kumarprince06" target="_blank">Kumar Prince</a>
                         </p>
                     </div>

@@ -11,7 +11,6 @@ class PageController extends Controller
     }
 
     // Home Page Handler
-
     public function index()
     {
         $data = [
@@ -20,6 +19,18 @@ class PageController extends Controller
         ];
 
         $this->view('pages/index', $data);
+    }
+
+    // About Page Handler
+    public function about()
+    {
+        $this->view('pages/about');
+    }
+
+    // Contact Page Handler
+    public function contact()
+    {
+        $this->view('pages/contact');
     }
 
     // Login Page handler

@@ -7,11 +7,13 @@
     <title><?php echo SITENAME; ?></title>
     <!-- Bootstrap CSS CDN-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/templatemo.css">
     <!-- Fontawesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- External CSS -->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/style.css">
-
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <script src="https://js.stripe.com/v3/"></script>
     <style>
         table,
@@ -24,80 +26,96 @@
 </head>
 
 <body>
-
-    <!-- Header -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <!-- Brand Name on the Left -->
-            <a class="navbar-brand fw-bolder fs-4" href="<?php echo URLROOT; ?>">Smart Shop</a>
-
-            <!-- Toggler for Mobile View -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Centered Navbar Links -->
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-bold">
-                    <li class="nav-item">
-                        <a class="nav-link <?php echo $_SERVER['REQUEST_URI'] === '/shop/' ? 'active' : ''; ?>" aria-current="page" href="<?php echo URLROOT; ?>">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?php echo $_SERVER['REQUEST_URI'] === '/shop/productController/' ? 'active' : ''; ?>" href="<?php echo URLROOT; ?>/productController/">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="<?php echo URLROOT; ?>/productController/">Contact</a>
-                    </li>
-                </ul>
-
-                <!-- Profile Section on the Right -->
-                <ul class="navbar-nav mr-2">
-                    <?php if (isset($_SESSION['sessionData']['userId'])): ?>
-                        <!-- Cart -->
-                        <li class="nav-item">
-                            <a class="nav-link p-0 mt-1" href="<?php echo URLROOT; ?>/userController/myCart">
-                                <img src="https://static.vecteezy.com/system/resources/previews/019/787/018/non_2x/shopping-cart-icon-shopping-basket-on-transparent-background-free-png.png"
-                                    alt="Cart" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
-                                <?php
-                                // Number of items in the cart
-                                $nummberOfItemsIncart = 0;
-                                ?>
-                                <!-- Badge showing number of items in cart -->
-                                <span class="badge bg-danger position-absolute top-15 start-250 translate-middle p-2 mt-1 rounded-pill">
-                                    <?php echo $nummberOfItemsIncart; ?>
-                                </span>
-                            </a>
-                        </li>
-
-                        <!-- Profile Dropdown -->
-                        <li class="nav-item dropdown ms-3"> <!-- Add ms-3 here for margin start -->
-                            <a class="nav-link p-0" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <!-- Profile Image -->
-                                <img src="https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png"
-                                    alt="Profile" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end bg-light" aria-labelledby="profileDropdown">
-                                <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/userController/dashboard">Dashboard</a></li>
-                                <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/userController/myCart">My Cart</a></li>
-                                <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/userController/Order">My Orders</a></li>
-                                <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/userController/showWishlist">Wishlist</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/pageController/logout">Logout</a></li>
-                            </ul>
-                        </li>
-
-                    <?php else: ?>
-                        <li class="nav-item ">
-                            <a class="nav-link text-light bg-dark rounded" aria-current="page" href="<?php echo URLROOT; ?>/pageController/login">Login</a>
-                        </li>
-                    <?php endif ?>
-                </ul>
-
+    <!-- Start Top Nav -->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+        <div class="container text-light">
+            <div class="w-100 d-flex justify-content-between">
+                <div>
+                    <i class="fa fa-envelope mx-2"></i>
+                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">info@smartshop.com</a>
+                    <i class="fa fa-phone mx-2"></i>
+                    <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+                </div>
+                <div>
+                    <a class="text-light" href="https://fb.com/kumar.prince.06" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://www.instagram.com/kumar_prince06" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://twitter.com/kumarpince06" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://www.linkedin.com/in/kumarprince06" target="_blank"><i class="fab fa-linkedin fa-sm fa-fw"></i></a>
+                </div>
             </div>
         </div>
     </nav>
+    <!-- Close Top Nav -->
+
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <a class="navbar-brand text-success logo h1 align-self-center" href="<?php echo URLROOT; ?>">
+                Smart Shop
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+                <div class="flex-fill">
+                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo URLROOT; ?>">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo URLROOT; ?>/pageController/about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo URLROOT; ?>/productController/product">Product</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo URLROOT; ?>/pageController/contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar align-self-center d-flex">
+                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
+                            <div class="input-group-text">
+                                <i class="fa fa-fw fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                    </a>
+                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
+                    </a>
+                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+    <!-- Close Header -->
+
+    <!-- Modal -->
+    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="w-100 pt-1 mb-5 text-right">
+                <button type="button" class="btn-close pe-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="get" class="modal-content modal-body border-0 p-0">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                    <button type="submit" class="input-group-text bg-success text-light">
+                        <i class="fa fa-fw fa-search text-white"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>

@@ -3,7 +3,7 @@
 <?php flashMessage('register_success'); ?>
 <?php flashErrorMessage('errorMessage'); ?>
 
-<section class="vh-100 gradient-custom">
+<section class="vh-90 gradient-custom">
     <div class="container py-3 h-100">
         <div class="row d-flex justify-content-center align-items-center h-90">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">

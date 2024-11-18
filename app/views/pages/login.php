@@ -11,12 +11,12 @@
                     <div class="card-body p-4 text-center">
 
                         <div class="mb-md-3 mt-md-2 pb-2">
-                            <h2 class="fw-bold mb-2 text-uppercase text-secondary">Login</h2>
+                            <h2 class="fw-bold mb-2 text-uppercase text-success">Login</h2>
                             <p class="text-secondary mb-3">Please enter your email and password!</p>
                             <form action="<?php echo URLROOT; ?>/pageController/login" method="post" novalidate>
 
                                 <!-- Floating label for email with error handling -->
-                                <div class="form-floating form-white mb-3">
+                                <div class="form-floating form-white mb-2">
                                     <input type="email" name="email"
                                         value="<?php echo $data['email']; ?>"
                                         id="typeEmailX"
@@ -29,7 +29,7 @@
                                 </div>
 
                                 <!-- Floating label for password with error handling -->
-                                <div class="form-floating form-white mb-3">
+                                <div class="form-floating form-white mb-2">
                                     <input type="password" name="password"
                                         value="<?php echo $data['password']; ?>"
                                         id="typePasswordX"

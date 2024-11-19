@@ -1,7 +1,16 @@
+/* Brand Image */
 .brand-img {
   width: 100% !important;
   aspect-ratio: 3/2 !important;
   object-fit: contain !important;
+}
+
+/* Category Image */
+.category_img {
+  width: 100%;
+  filter: brightness(2) invert(0);
+  object-fit: contain !important;
+  mix-blend-mode: darken !important;
 }
 .flash-message {
   background-color: #dff0d8; /* Light green background */

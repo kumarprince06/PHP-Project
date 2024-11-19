@@ -92,7 +92,7 @@
     <div class="row">
         <!-- iPhones Category -->
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="https://w7.pngwing.com/pngs/756/144/png-transparent-iphone-12.png" class="rounded-circle img-fluid border" alt="iPhones"></a>
+            <a href="#"><img src="https://w7.pngwing.com/pngs/756/144/png-transparent-iphone-12.png" class="rounded-circle img-fluid border category_img" alt="iPhones"></a>
             <h5 class="text-center mt-3 mb-3">Mobiles</h5>
             <p class="text-center">
                 <a href="#" class="btn btn-success">Go Shop</a>
@@ -101,7 +101,7 @@
 
         <!-- Laptops Category -->
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="https://e7.pngegg.com/pngimages/273/1018/png-clipart-laptop-dell-laptop-electronics-computer-thumbnail.png" class="rounded-circle img-fluid border" alt="Laptops"></a>
+            <a href="#"><img src="https://e7.pngegg.com/pngimages/273/1018/png-clipart-laptop-dell-laptop-electronics-computer-thumbnail.png" class="rounded-circle img-fluid border category_img" alt="Laptops"></a>
             <h5 class="text-center mt-3 mb-3">Laptops</h5>
             <p class="text-center">
                 <a href="#" class="btn btn-success">Go Shop</a>
@@ -110,7 +110,7 @@
 
         <!-- Watches Category -->
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="https://e7.pngegg.com/pngimages/504/311/png-clipart-apple-watch-series-2-apple-watch-series-3-smartwatch-black-smart-watch-black-hair-digital-thumbnail.png" class="rounded-circle img-fluid border" alt="Watches"></a>
+            <a href="#"><img src="https://e7.pngegg.com/pngimages/504/311/png-clipart-apple-watch-series-2-apple-watch-series-3-smartwatch-black-smart-watch-black-hair-digital-thumbnail.png" class="rounded-circle img-fluid border category_img" alt="Watches"></a>
             <h5 class="text-center mt-3 mb-3">Watches</h5>
             <p class="text-center">
                 <a href="#" class="btn btn-success">Go Shop</a>

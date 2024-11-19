@@ -2,52 +2,40 @@
 
 class User
 {
-    private $db;
-    public function __construct()
+    private $name;
+    private $email;
+    private $password;
+
+    // Setters
+    public function setName($name)
     {
-        $this->db = new Database;
+        $this->name = $name;
     }
 
-    // Get User By Email
-    public function getUserByEmail($email)
+    public function setEmail($email)
     {
-        try {
-            $this->db->query('SELECT * FROM users WHERE email=:email');
-            $this->db->bind(':email', $email);
-            $row = $this->db->singleResult();
-            return $this->db->rowCount() > 0 ? true : false;
-        } catch (PDOException $e) {
-            die('Something went wrong ..!' . $e->getMessage());
-        }
+        $this->email = $email;
     }
 
-    // User Register
-    public function register($data)
+    public function setPassword($password)
     {
-        try {
-            $this->db->query('INSERT INTO users (email, password) VALUES (:email, :password)');
-            $this->db->bind(':email', $data['email']);
-            $this->db->bind(':password', $data['password']);
-            // Execute
-            return $this->db->execute() ? true : false;
-        } catch (PDOException $e) {
-            die('Something went wrong ..!' . $e->getMessage());
-        }
+        $this->password = $password;
     }
 
-    // Login User
-    public function login($email, $password)
+    # Getters
+
+    public function getName()
     {
-        $this->db->query('SELECT * FROM users WHERE email=:email');
-        $this->db->bind(':email', $email);
+        return $this->name;
+    }
 
-        $row = $this->db->singleResult();
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
-        $hashedPassword = $row->password;
-        if (password_verify($password, $hashedPassword)) {
-            return $row;
-        } else {
-            return false;
-        }
+    public function getPassword()
+    {
+        return $this->password;
     }
 }

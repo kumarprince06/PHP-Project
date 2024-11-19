@@ -33,6 +33,7 @@ require_once '../app/models/Cart.php';
 require_once '../app/models/Order.php';
 require_once '../app/models/OrderItem.php';
 require_once '../app/models/Transaction.php';
+require_once '../app/models/User.php';
 
 // Load Services
 require_once '../app/services/CategoryService.php';
@@ -44,6 +45,7 @@ require_once '../app/services/PaymentService.php';
 require_once '../app/services/StripeService.php';
 require_once '../app/services/TransactionsService.php';
 require_once '../app/services/MailService.php';
+require_once '../app/services/UserService.php';
 
 // Load Repository
 require_once '../app/repositories/CategoryRepository.php';
@@ -52,3 +54,4 @@ require_once '../app/repositories/WishlistRepositiory.php';
 require_once '../app/repositories/CartRepository.php';
 require_once '../app/repositories/OrderRepository.php';
 require_once '../app/repositories/TransactionRepository.php';
+require_once '../app/repositories/UserRepository.php';

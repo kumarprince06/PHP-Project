@@ -2,14 +2,11 @@
 
 class PageController extends Controller
 {
-
-    private $userModel;
+    private $userService;
     public function __construct()
     {
-
-        $this->userModel = $this->model('User');
+        $this->userService = new UserService;
     }
-
     // Home Page Handler
     public function index()
     {
@@ -62,7 +59,7 @@ class PageController extends Controller
             $data['emailError'] = 'Email is required!';
         } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             $data['emailError'] = 'Invalid email format!';
-        } elseif (!$this->userModel->getUserByEmail($data['email'])) {
+        } elseif (!$this->userService->getUserByEmail($data['email'])) {
             $data['emailError'] = 'No user found with that email!';
         }
 
@@ -77,7 +74,10 @@ class PageController extends Controller
             $this->view('pages/login', $data);
         }
         // Attempt to log in user
-        $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+        $user = new User;
+        $user->setEmail($data['email']);
+        $user->setPassword($data['password']);
+        $loggedInUser = $this->userService->login($user);
 
         if ($loggedInUser) {
             // Create user session on successful login
@@ -98,70 +98,65 @@ class PageController extends Controller
             redirect('pages/index'); // Redirect to home or another page if logged in
         }
 
+
+
         // Check for post request
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process Login
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            // Load view
+            $this->view('pages/register');
+        }
+        // Process Login
 
-            // Initialization
-            $data = [
-                'title' => 'Shop',
-                'name' => $_POST['name'],
-                'email' => $_POST['email'],
-                'password' => $_POST['password'],
-                'nameError' => '',
-                'emailError' => '',
-                'passwordError' => ''
-            ];
+        // Initialization
+        $data = [
+            'title' => 'Shop',
+            'name' => $_POST['name'],
+            'email' => $_POST['email'],
+            'password' => $_POST['password'],
+            'nameError' => '',
+            'emailError' => '',
+            'passwordError' => ''
+        ];
+        // Validate name
+        if (empty($data['name'])) {
+            $data['nameError'] = 'Name is required..!';
+        }
 
-            // Validate name
-            if (empty($data['name'])) {
-                $data['nameError'] = 'Name is required..!';
+        // Validate email
+        if (empty($data['email'])) {
+            $data['emailError'] = 'Email is required..!';
+        } elseif (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $data['email'])) {
+            $data['emailError'] = 'Please enter valid email email!';
+        } else {
+            // Check email in database
+            if ($this->userService->getUserByEmail($data['email'])) {
+                $data['emailError'] = 'Email already exists!';
             }
+        }
 
-            // Validate email
-            if (empty($data['email'])) {
-                $data['emailError'] = 'Email is required..!';
-            } elseif (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $data['email'])) {
-                $data['emailError'] = 'Please enter valid email email!';
+        // Validate password
+        if (empty($data['password'])) {
+            $data['passwordError'] = 'Password is required..!';
+        } elseif (strlen($data['password']) < 6) {
+            $data['passwordError'] = 'Password must be atleast 6 characters..!';
+        }
+
+        if (empty($data['emailError']) && empty($data['passwordError'])) {
+            // Process Registration
+            // Hash password
+            $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+            $user = new User;
+            $user->setName($data['name']);
+            $user->setEmail($data['email']);
+            $user->setPassword($data['password']);
+            if ($this->userService->register($user)) {
+                flashMessage('register_success', 'Registration Successful! You can now log in.');
+                redirect('pages/login');
             } else {
-                // Check email in database
-                if ($this->userModel->getUserByEmail($data['email'])) {
-                    $data['emailError'] = 'Email already exists!';
-                }
-            }
-
-            // Validate password
-            if (empty($data['password'])) {
-                $data['passwordError'] = 'Password is required..!';
-            } elseif (strlen($data['password']) < 6) {
-                $data['passwordError'] = 'Password must be atleast 6 characters..!';
-            }
-
-            if (empty($data['emailError']) && empty($data['passwordError'])) {
-                // Process Registration
-                // Hash password
-                $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-
-                if ($this->userModel->register($data)) {
-                    flashMessage('register_success', 'Registration Successful! You can now log in.');
-                    redirect('pages/login');
-                } else {
-                    die("Something went wrong..!");
-                }
-            } else {
-                // Load with error
-                $this->view('pages/register', $data);
+                die("Something went wrong..!");
             }
         } else {
-            // Load view
-
-            $data = [
-                'title' => '',
-                'email' => '',
-                'password' => '',
-                'emailError' => '',
-                'passwordError' => ''
-            ];
+            // Load with error
             $this->view('pages/register', $data);
         }
     }

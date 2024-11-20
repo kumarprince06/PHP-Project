@@ -10,6 +10,7 @@ function createUserSession($user)
     }
     $sessionData = [
         'userId' => $user->id,
+        'userName' => $user->name,
         'userEmail' => $user->email,
         'role' => $user->role,
     ];

@@ -65,7 +65,7 @@
                 <?php if ($subtotal < 500) {
                     $deliveryCharge = 99;
                 } ?>
-                <div class="bg-light rounded-3 p-4 sticky-top">
+                <div class="bg-light rounded-3 p-4 sticky-top mt-4">
                     <h6 class="mb-4">Order Summary</h6>
                     <div class="d-flex justify-content-between">
                         <span>Subtotal</span>

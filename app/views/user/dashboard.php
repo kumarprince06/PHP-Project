@@ -23,7 +23,7 @@
                         <!-- Account Info Column -->
                         <div class="col-md-8 detail">
                             <h1 class="page-title">My Account</h1>
-                            <h3 class="user-name">Hello, Yash! Welcome back to Smart Shop</h3>
+                            <h3 class="user-name">Hello, <?php echo $_SESSION['sessionData']['userName'] ?>! Welcome back to Smart Shop</h3>
                         </div>
 
                         <!-- Profile Image Column -->
@@ -37,9 +37,15 @@
                     <div class="nav-area">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="dashboard-link" data-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="true">
+                                <a class="nav-link active rounded-top" id="dashboard-link" data-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="true">
                                     <i class="fas fa-tachometer-alt"></i>
                                     <span class="nav-text">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link rounded-top" id="wishlist-link" data-toggle="tab" href="#wishlist" role="tab" aria-controls="wishlist" aria-selected="false">
+                                    <i class="fas fa-heart"></i>
+                                    <span class="nav-text">My Wishlists</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -48,6 +54,7 @@
                                     <span class="nav-text">My Orders</span>
                                 </a>
                             </li>
+
                             <li class="nav-item rounded-top">
                                 <a class="nav-link" id="my-address" data-toggle="tab" href="#address" role="tab" aria-controls="address" aria-selected="false">
                                     <i class="fas fa-map-marker-alt"></i>
@@ -58,12 +65,6 @@
                                 <a class="nav-link rounded-top" id="account-detail" data-toggle="tab" href="#account-details" role="tab" aria-controls="account-details" aria-selected="false">
                                     <i class="fas fa-user-alt"></i>
                                     <span class="nav-text">Account Details</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link rounded-top" id="logout" data-toggle="tab" href="#logout" role="tab" aria-controls="logout" aria-selected="false">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                    <span class="nav-text">Logout</span>
                                 </a>
                             </li>
                         </ul>
@@ -115,6 +116,39 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- My Wishlist Tab -->
+                    <div class="tab-pane fade" id="wishlist" role="tabpanel" aria-labelledby="wishlist-link">
+                        <div class="wishlist-content">
+                            <table id="wishlist-table" class="table table-striped table-bordered dt-responsive nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th class="action">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Product 1</td>
+                                        <td>$50.00</td>
+                                        <td class="action">
+                                            <a href="#" class="add-to-cart">Add to Cart</a> |
+                                            <a href="#" class="remove-from-wishlist">Remove</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Product 2</td>
+                                        <td>$30.00</td>
+                                        <td class="action">
+                                            <a href="#" class="add-to-cart">Add to Cart</a> |
+                                            <a href="#" class="remove-from-wishlist">Remove</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 

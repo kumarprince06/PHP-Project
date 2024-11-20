@@ -98,8 +98,6 @@ class PageController extends Controller
             redirect('pages/index'); // Redirect to home or another page if logged in
         }
 
-
-
         // Check for post request
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             // Load view

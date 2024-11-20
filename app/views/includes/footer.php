@@ -93,16 +93,25 @@
     <!-- End Footer -->
 
 
-    <!-- jQuery 1.11.0 -->
-    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <!-- jQuery Migrate 1.2.1 -->
-    <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="<?php echo URLROOT; ?>/public/js/templatemo.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- External JS -->
+    <!-- jQuery Migrate (optional) -->
+    <script src="https://code.jquery.com/jquery-migrate-3.3.2.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- Your custom scripts -->
+    <script src="<?php echo URLROOT; ?>/public/js/templatemo.js"></script>
     <script src="<?php echo URLROOT; ?>/public/js/main.js"></script>
+
     </body>
 
     </html>

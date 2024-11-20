@@ -100,7 +100,11 @@
                                 <i class="fa fa-fw fa-user text-dark mr-3"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end mt-4" aria-labelledby="profileDropdown">
-                                <li><a class="dropdown-item" href="<?php echo URLROOT ?>/userController/dashboard">Dashboard</a></li>
+                                <?php if ($_SESSION['sessionData']['role'] === 'customer'): ?>
+                                    <li><a class="dropdown-item" href="<?php echo URLROOT ?>/userController/dashboard">Dashboard</a></li>
+                                <?php else: ?>
+                                    <li><a class="dropdown-item" href="<?php echo URLROOT ?>/adminController/dashboard">Dashboard</a></li>
+                                <?php endif ?>
                                 <li><a class="dropdown-item" href="<?php echo URLROOT ?>/pageController/logout">Logout</a></li>
                             </ul>
                         </div>

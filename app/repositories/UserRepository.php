@@ -52,4 +52,19 @@ class UserRepository
             return false;
         }
     }
+
+    public function getTotalUserCount()
+    {
+        // Query to count the total number of users
+        $this->db->query('SELECT COUNT(*) AS total FROM users');
+
+        // Fetch the result, assuming single() fetches the first row of the result set
+        $userCount = $this->db->singleResult();  // This should return the first result (total)
+
+        // If the result is an object, access the 'total' property
+        if (is_object($userCount)) {
+            $userCount = $userCount->total;
+        }
+        return $userCount;
+    }
 }

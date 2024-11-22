@@ -75,7 +75,8 @@ class ProductRepository
         return $this->db->singleResult();
     }
 
-    public function updateStock($productId, $quantity){
+    public function updateStock($productId, $quantity)
+    {
         $query = "UPDATE products SET stock = stock - :quantity WHERE id = :product_id AND stock >= :quantity";
         $this->db->query($query);
         $this->db->bind(':product_id', $productId);
@@ -87,5 +88,21 @@ class ProductRepository
             error_log("Failed to decrease stock for Product ID: $productId");
             return false;
         }
+    }
+
+    public function getTotalProductCount()
+    {
+        // Query to count the total number of products
+        $this->db->query('SELECT COUNT(*) as total FROM products');
+
+        // Execute the query and fetch the result as a scalar value
+        $productCount = $this->db->singleResult();
+
+        // Ensure we're getting the scalar value from the returned object
+        if (is_object($productCount)) {
+            $productCount = $productCount->total;
+        }
+
+        return $productCount;
     }
 }

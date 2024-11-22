@@ -206,7 +206,8 @@ class OrderRepository
                         orders.order_date,
                         orders.total,
                         orders.status,
-                        users.email AS customer_email
+                        users.email AS customer_email,
+                        users.name AS customer_name
                       FROM
                         orders
                       JOIN

@@ -4,6 +4,8 @@ class AdminController extends Controller
 {
     private $mailService;
     private $orderService;
+    private $productService;
+    private $userService;
     public function __construct()
     {
         if (!isLoggedIn()) {
@@ -11,12 +13,16 @@ class AdminController extends Controller
         }
         $this->orderService = new OrderService;
         $this->mailService = new MailService;
+        $this->productService = new ProductService;
+        $this->userService = new UserService;
     }
 
     public function dashboard()
     {
         $revenue = $this->orderService->getRevenueOverView();
         $orderCount = $this->orderService->getOrderOverview();
+        $productCount = $this->productService->getTotalProductCount();
+        $userCount = $this->userService->getTotalUserCount();
         $data = [
             'daily' => $revenue['daily'],
             'monthly' => $revenue['monthly'],
@@ -24,7 +30,8 @@ class AdminController extends Controller
             'dailyOrder' => $orderCount['dailyOrder'],
             'monthlyOrder' => $orderCount['monthlyOrder'],
             'yearlyOrder' => $orderCount['yearlyOrder'],
-
+            'productCount' => $productCount,
+            'userCount' => $userCount
         ];
         $this->view('admin/dashboard', $data);
     }
@@ -84,5 +91,18 @@ class AdminController extends Controller
             // Log failure or display an error message
             error_log('Failed to update the order status');
         }
+    }
+
+    public function inventory()
+    {
+        $products = $this->productService->getAllProducts();
+        $data = ['products' => $products];  // Store products in an associative array
+        $this->view('admin/inventory', $data);  // Pass the array to the view
+    }
+
+    public function profile()
+    {
+
+        $this->view('admin/profile');
     }
 }

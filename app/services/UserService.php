@@ -25,4 +25,8 @@ class UserService
     {
         return $this->userRepository->login($user);
     }
+
+    public function getTotalUserCount(){
+        return $this->userRepository->getTotalUserCount();
+    }
 }

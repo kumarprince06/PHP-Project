@@ -10,6 +10,7 @@ class Product
     protected $originalPrice;
     protected $category;
     protected $stock;
+    protected $image;
 
     public function __construct($data = [])
     {
@@ -21,6 +22,7 @@ class Product
         $this->originalPrice = $data['originalPrice'] ?? 0;
         $this->category = $data['category'] ?? '';
         $this->stock = $data['stock'] ?? 0;
+        $this->image = $data['image'] ?? '';
     }
 
     // Getters and Setters for ID
@@ -109,5 +111,16 @@ class Product
     public function getStock()
     {
         return $this->stock;
+    }
+
+    // Getter and setter for image
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
     }
 }

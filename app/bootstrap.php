@@ -12,8 +12,10 @@ require_once '../app/helpers/sessionHelper.php';
 // Load User Session Helper file
 require_once '../app/helpers/createUserSessionHelper.php';
 
-// Load Product Service
-require_once '../app/services/ProductService.php';
+// Load Image Upload Helper
+require_once '../app/helpers/uploadImageHandler.php';
+
+
 
 // Autoload Core libraries
 spl_autoload_register(function ($className) {

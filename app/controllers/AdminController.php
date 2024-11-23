@@ -6,6 +6,7 @@ class AdminController extends Controller
     private $orderService;
     private $productService;
     private $userService;
+    private $categoryService;
     public function __construct()
     {
         if (!isLoggedIn()) {
@@ -15,6 +16,7 @@ class AdminController extends Controller
         $this->mailService = new MailService;
         $this->productService = new ProductService;
         $this->userService = new UserService;
+        $this->categoryService = new CategoryService;
     }
 
     public function dashboard()
@@ -96,7 +98,8 @@ class AdminController extends Controller
     public function inventory()
     {
         $products = $this->productService->getAllProducts();
-        $data = ['products' => $products];  // Store products in an associative array
+        $category = $this->categoryService->getAllCategories();
+        $data = ['products' => $products, 'category' => $category];  // Store products in an associative array
         $this->view('admin/inventory', $data);  // Pass the array to the view
     }
 

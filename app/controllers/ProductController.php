@@ -59,6 +59,9 @@ class ProductController extends Controller
         // Validate data
         $this->validateProductData($data);
 
+        // Upload Image
+        uploadImage($data);
+
         // Check for no errors
         if ($this->hasNoErrors($data)) {
             // Validated
@@ -69,14 +72,14 @@ class ProductController extends Controller
             if ($lastInsertedId) {
                 flashMessage('successMessage', 'Product added successfully');
                 // Redirect to the show page with the last inserted product ID
-                redirect('productController/show/' . $lastInsertedId);
+                redirect('adminController/inventory');
             } else {
                 die('Something went wrong..!');
             }
         } else {
             // Load view with error
             $data['category'] = $this->categoryService->getAllCategories();
-            $this->view('products/add', $data);
+            $this->view('admin/inventory', $data);
         }
     }
 
@@ -177,13 +180,15 @@ class ProductController extends Controller
             'type' => trim($_POST['type']),
             'category' => trim($_POST['category']),
             'stock' => trim($_POST['stock']),
+            'image' => '',
             'nameError' => '',
             'brandError' => '',
             'originalPriceError' => '',
             'sellingPriceError' => '',
             'typeError' => '',
             'categoryError' => '',
-            'stockError' => ''
+            'stockError' => '',
+            'imageError' => ''
         ];
     }
     // Valiodate Data

@@ -26,10 +26,10 @@
                 <!-- Profile Info -->
                 <div class="profile-info">
                     <div class=" align-items-center">
-                        <h2 class="user-name mb-0">Name: John Doe</h2>
-                        <p class="user-email mb-0">Email: john.doe@example.com</p>
+                        <h2 class="user-name mb-0"><?php echo $_SESSION['sessionData']['userName'] ?></h2>
+                        <p class="user-email mb-0">Email: <?php echo $_SESSION['sessionData']['userEmail'] ?></p>
                     </div>
-                    <p class="user-role mt-3">Role: Admin</p>
+                    <p class="user-role mt-3">Role: <?php echo ucwords($_SESSION['sessionData']['role']) ?></p>
                     <button class="btn btn-primary reset-password-btn m-3" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">
                         Reset Password
                     </button>

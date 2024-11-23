@@ -8,7 +8,7 @@
             <div class="background-image position-relative">
                 <img src="<?php echo URLROOT; ?>/public/images/bg.webp" alt="Background" class="img-fluid">
                 <button class="btn btn-secondary edit-bg-btn position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#editBgModal">
-                    Edit Background
+                    <i class="fa-solid fa-pen-to-square"></i>
                 </button>
             </div>
 
@@ -16,7 +16,7 @@
             <div class="profile-image-container position-relative">
                 <img src="<?php echo URLROOT; ?>/public/images/profile.jpg" alt="Profile Picture" class="profile-image">
                 <button class="btn btn-secondary edit-profile-img-btn position-absolute bottom-0 start-50 translate-middle-x" data-bs-toggle="modal" data-bs-target="#editProfileImgModal">
-                    Edit
+                    <i class="fa-solid fa-pen-to-square"></i>
                 </button>
             </div>
         </div>

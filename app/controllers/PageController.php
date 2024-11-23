@@ -82,7 +82,11 @@ class PageController extends Controller
         if ($loggedInUser) {
             // Create user session on successful login
             createUserSession($loggedInUser);
-            redirect('pageController/index');
+            if ($_SESSION['sessionData']['role'] === 'admin') {
+                redirect('adminController/dashboard');
+            } else {
+                redirect('pageController/index');
+            }
             return;
         } else {
             // Set error if password is incorrect

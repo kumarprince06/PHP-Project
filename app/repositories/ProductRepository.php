@@ -33,7 +33,7 @@ class ProductRepository
     public function updateProduct(Product $product)
     {
 
-        $sql = "UPDATE products SET name=:name, brand=:brand, type=:type, selling_price=:selling_price, original_price=:original_price, category=:category, stock=:stock WHERE id=:id";
+        $sql = "UPDATE products SET name=:name, brand=:brand, type=:type, selling_price=:selling_price, original_price=:original_price, category=:category, stock=:stock, image=:image WHERE id=:id";
         $this->db->query($sql);
         $this->db->bind(':name', $product->getName());
         $this->db->bind(':brand', $product->getBrand());
@@ -42,6 +42,7 @@ class ProductRepository
         $this->db->bind(':type', $product->getType());
         $this->db->bind(':category', $product->getCategory());
         $this->db->bind(':stock', $product->getStock());
+        $this->db->bind(':image', $product->getImage());
         $this->db->bind(':id', $product->getId());
 
         // Execute the query

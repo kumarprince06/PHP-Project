@@ -15,7 +15,8 @@ require_once '../app/helpers/createUserSessionHelper.php';
 // Load Image Upload Helper
 require_once '../app/helpers/uploadImageHandler.php';
 
-
+//Load Image Delete Helper
+require_once '../app/helpers/deleteImageFromDirectory.php';
 
 // Autoload Core libraries
 spl_autoload_register(function ($className) {

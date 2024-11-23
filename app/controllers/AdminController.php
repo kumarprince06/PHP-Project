@@ -46,7 +46,7 @@ class AdminController extends Controller
             error_log('No orders to display');
         }
         $data = ['orders' => $orders];  // Pass the orders to the view
-        $this->view('admin/order_management', $data);
+        $this->view('admin/order', $data);
     }
 
     public function revenue_overview()
@@ -107,5 +107,45 @@ class AdminController extends Controller
     {
 
         $this->view('admin/profile');
+    }
+
+    public function addProduct()
+    {
+        $category = $this->categoryService->getAllCategories();
+
+        $data = [
+            'category' => $category,
+        ];
+
+        $this->view('admin/addProduct', $data);
+    }
+
+    public function editProduct($id)
+    {
+        // Fetch existing post
+        $product = $this->productService->getProductById($id);
+        $categoryList = $this->categoryService->getAllCategories();
+        $data = [
+            'title' => 'Shop',
+            'id' => $product->id,
+            'name' => $product->name,
+            'brand' => $product->brand,
+            'originalPrice' => $product->original_price,
+            'sellingPrice' =>  $product->selling_price,
+            'type' => $product->type,
+            'category' => $product->category,
+            'stock' => $product->stock,
+            'image' => $product->image,
+            'nameError' => '',
+            'brandError' => '',
+            'originalPriceError' => '',
+            'sellingPriceError' => '',
+            'typeError' => '',
+            'stockError' => '',
+            'imageError' => '',
+            'categoryList' => $categoryList
+        ];
+
+        $this->view('admin/editProduct', $data);
     }
 }

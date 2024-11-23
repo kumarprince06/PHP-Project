@@ -28,10 +28,6 @@ function uploadImage(&$data)
             echo URLROOT;
             $uploadDirectory = APPROOT . '/../public/images/'; // Server path to the images directory
 
-            if (!file_exists($uploadDirectory)) {
-                mkdir($uploadDirectory, 0777, true); // Create the folder if it doesn't exist
-            }
-
             $newImageName = uniqid('', true) . '.' . $imageExtension; // Generate a unique filename
             $uploadPath = $uploadDirectory . $newImageName;
 
@@ -42,6 +38,6 @@ function uploadImage(&$data)
             }
         }
     } else {
-        $data['imageError'] = "No image uploaded or there was an error.";
+        $data['imageError'] = "Image is required.";
     }
 }

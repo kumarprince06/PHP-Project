@@ -79,7 +79,7 @@ class ProductController extends Controller
         } else {
             // Load view with error
             $data['category'] = $this->categoryService->getAllCategories();
-            $this->view('admin/inventory', $data);
+            $this->view('admin/addProduct', $data);
         }
     }
 
@@ -132,25 +132,34 @@ class ProductController extends Controller
         // Initialize form data
         $data = $this->initializeProductData();
         // die(var_dump($data));
+
+        // Fetch the existing product to get the old image path
+        $existingProduct = $this->productService->getProductById($data['id']);
+        $oldImagePath = $existingProduct->image;
+
         // Validate data
         $this->validateProductData($data);
 
         // Check for no errors
         if ($this->hasNoErrors($data)) {
             // Validated
+            // Upload Image
+            uploadImage($data);
             // Add product
             $product = $data['type'] == 'Physical' ? new PhysicalProduct($data) : new DigitalProduct($data);
             if ($this->productService->updateProduct($product)) {
+                // Delete Old Image
+                deleteImageFromDirectory($oldImagePath);
                 flashMessage('successMessage', 'Product updated successfully');
                 // Redirect to the show page with the last inserted product ID
-                redirect('productController');
+                redirect('adminController/inventory');
             } else {
                 die('Something went wrong..!');
             }
         } else {
             // Load view with error
             $data['category'] = $this->categoryService->getAllCategories();
-            $this->view('products/add', $data);
+            $this->view('adminController/editController', $data);
         }
     }
 
@@ -159,13 +168,13 @@ class ProductController extends Controller
     {
         // check for post request
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            redirect('productController/index');
+            redirect('adminController/inventory');
             return;
         }
 
         $this->productService->deleteProduct($id);
         flashMessage('successMessage', 'Product deleted successfully');
-        redirect('productController/index');
+        redirect('adminController/inventory');
     }
 
     // Initialize Form Data

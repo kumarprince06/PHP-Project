@@ -5,6 +5,7 @@ class ProductController extends Controller
 
     private $productService;
     private $categoryService;
+    private $cartService;
     public function __construct()
     {
         // if (!isLoggedIn()) {
@@ -13,15 +14,26 @@ class ProductController extends Controller
         // }
         $this->productService = new ProductService();
         $this->categoryService = new CategoryService();
+        $this->cartService = new CartService;
     }
 
     // Index Page Handler
     public function index()
     {
+        $cartitems = [];
+
+        // Check if the user is logged in
+        if (isLoggedIn()) {
+            // Fetch cart items for the logged-in user
+            $cartitems = $this->cartService->getCartItemsByUserId($_SESSION['sessionData']['userId']);
+            // die(var_dump($cartitems));
+        }
+
         $products = $this->productService->getAllProducts();
         $data = [
             'title' => 'Shop',
-            'products' => $products
+            'products' => $products,
+            'cartCount' => count($cartitems) // Use count() to get the number of items
         ];
 
 

@@ -77,7 +77,7 @@ class CartRepository
         return $this->db->execute();
     }
 
-    // 
+    // Cart Item By User ID
     public function getCartItemsByUserId($userId)
     {
         $query = "SELECT cart.cartId AS cartId, products.id AS productId, products.name, 

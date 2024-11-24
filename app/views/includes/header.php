@@ -92,7 +92,7 @@
                     <?php if ($_SESSION['sessionData']['userId']):  ?>
                         <a class="nav-icon position-relative text-decoration-none" href="<?php echo URLROOT  ?>/userController/myCart">
                             <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                            <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-danger text-light">7</span>
+                            <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-danger text-light"><?php echo $data['cartCount'] ?></span>
                         </a>
                         <!-- Profile Dropdown -->
                         <div class="dropdown">

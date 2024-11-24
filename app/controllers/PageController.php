@@ -3,31 +3,74 @@
 class PageController extends Controller
 {
     private $userService;
+    private $cartService;
     public function __construct()
     {
         $this->userService = new UserService;
+        $this->cartService = new CartService;
     }
     // Home Page Handler
     public function index()
     {
+        // Initialize cart items
+        $cartitems = [];
+
+        // Check if the user is logged in
+        if (isLoggedIn()) {
+            // Fetch cart items for the logged-in user
+            $cartitems = $this->cartService->getCartItemsByUserId($_SESSION['sessionData']['userId']);
+            // die(var_dump($cartitems));
+        }
+
+        // Prepare data for the view
         $data = [
             'title' => 'Shop',
-
+            'cartCount' => count($cartitems) // Use count() to get the number of items
         ];
 
+        // Load the view
         $this->view('pages/index', $data);
     }
+
 
     // About Page Handler
     public function about()
     {
-        $this->view('pages/about');
+        // Initialize cart items
+        $cartitems = [];
+
+        // Check if the user is logged in
+        if (isLoggedIn()) {
+            // Fetch cart items for the logged-in user
+            $cartitems = $this->cartService->getCartItemsByUserId($_SESSION['sessionData']['userId']);
+            // die(var_dump($cartitems));
+        }
+        // Prepare data for the view
+        $data = [
+            'title' => 'Shop',
+            'cartCount' => count($cartitems) // Use count() to get the number of items
+        ];
+        $this->view('pages/about', $data);
     }
 
     // Contact Page Handler
     public function contact()
     {
-        $this->view('pages/contact');
+        // Initialize cart items
+        $cartitems = [];
+
+        // Check if the user is logged in
+        if (isLoggedIn()) {
+            // Fetch cart items for the logged-in user
+            $cartitems = $this->cartService->getCartItemsByUserId($_SESSION['sessionData']['userId']);
+            // die(var_dump($cartitems));
+        }
+        // Prepare data for the view
+        $data = [
+            'title' => 'Shop',
+            'cartCount' => count($cartitems) // Use count() to get the number of items
+        ];
+        $this->view('pages/contact', $data);
     }
 
     // Login Page handler

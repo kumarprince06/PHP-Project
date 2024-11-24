@@ -5,6 +5,7 @@ class UserController extends Controller
     private $wishlistService;
     private $cartService;
     private $orderService;
+    private $cartitems = [];
     public function __construct()
     {
         // Check if user is not logged in
@@ -14,14 +15,22 @@ class UserController extends Controller
         $this->wishlistService = new WishlistService();
         $this->cartService = new CartService();
         $this->orderService = new OrderService;
+
+        // Fetch cart items for the logged-in user
+        $this->cartitems = $this->cartService->getCartItemsByUserId($_SESSION['sessionData']['userId']);
     }
 
 
     // User Dashboard
     public function dashboard()
     {
+        $data = [
+            'title' => 'Shop',
+            'cartCount' => count($this->cartitems) // Use count() to get the number of items
+        ];
 
-        $this->view('user/dashboard');
+
+        $this->view('user/dashboard', $data);
     }
 
     // Add To Wishlist
@@ -52,8 +61,11 @@ class UserController extends Controller
 
         $wishlist = new Wishlist;
         $wishlist->setUserId($_SESSION['sessionData']['userId']);
-        $data['wishlist'] = $this->wishlistService->getWishlistByUserId($wishlist);
-
+        $wishlistItems = $this->wishlistService->getWishlistByUserId($wishlist);
+        $data = [
+            'wishlist' => $wishlistItems,
+            'cartCount' => count($this->cartitems) // Use count() to get the number of items
+        ];
         $this->view('user/wishlist', $data);
     }
 
@@ -94,7 +106,8 @@ class UserController extends Controller
         // Prepare data to pass to the view
         $data = [
             'title' => 'My Cart',
-            'cartItems' => $cartItems
+            'cartItems' => $cartItems,
+            'cartCount' => count($this->cartitems) // Use count() to get the number of items
         ];
 
         // Load the cart view with the data
@@ -112,7 +125,8 @@ class UserController extends Controller
         // Prepare data to pass to the view
         $data = [
             'title' => 'My Orders',
-            'orderItems' => $orderItems
+            'orderItems' => $orderItems,
+            'cartCount' => count($this->cartitems) // Use count() to get the number of items
         ];
 
         // Load the order view with the data
@@ -137,7 +151,9 @@ class UserController extends Controller
 
     public function profile()
     {
-        
-        $this->view('user/profile');
+        $data = [
+            'cartCount' => count($this->cartitems) // Use count() to get the number of items
+        ];
+        $this->view('user/profile', $data);
     }
 }

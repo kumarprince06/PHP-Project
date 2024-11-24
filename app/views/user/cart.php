@@ -3,10 +3,9 @@
 <?php echo flashMessage('successMessage'); ?>
 <?php echo flashErrorMessage('errorMessage'); ?>
 
-<div class="container py-3">
-    <h3 class="text-dark">My Cart</h3>
+<div class="container py-1">
     <?php if (empty($data['cartItems'])): ?>
-        <div class="text-center py-5">
+        <div class="text-center py-2 border rounded bg-light">
             <img
                 class="img-fluid w-25"
                 src="<?php echo URLROOT; ?>/public/images/cart.png"

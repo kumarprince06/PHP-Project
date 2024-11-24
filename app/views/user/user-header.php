@@ -58,17 +58,16 @@ $activeTab = basename($currentPath);
                                     <span class="nav-text">My Orders</span>
                                 </a>
                             </li>
-
-                            <li class="nav-item rounded-top">
-                                <a class="nav-link" id="my-address" data-toggle="tab" href="#address" role="tab" aria-controls="address" aria-selected="false">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span class="nav-text">My Addresses</span>
+                            <li class="nav-item">
+                                <a class="nav-link rounded-top <?php echo ($activeTab === 'myCart') ? 'show active' : ''; ?>" id="my-order" data-toggle="tab" href="<?php echo URLROOT ?>/userController/myCart " role="tab" aria-controls="my-orders" aria-selected="false">
+                                    <i class="fa fa-fw fa-cart-arrow-down"></i>
+                                    <span class="nav-text">My Cart</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link rounded-top" id="account-detail" data-toggle="tab" href="#account-details" role="tab" aria-controls="account-details" aria-selected="false">
+                                <a class="nav-link rounded-top <?php echo ($activeTab === 'profile') ? 'show active' : ''; ?>" id="account-detail" data-toggle="tab" href="<?php echo URLROOT ?>/userController/profile" role="tab" aria-controls="account-details" aria-selected="false">
                                     <i class="fas fa-user-alt"></i>
-                                    <span class="nav-text">Account Details</span>
+                                    <span class="nav-text">Profile</span>
                                 </a>
                             </li>
                         </ul>

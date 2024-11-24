@@ -1,47 +1,15 @@
 <?php require APPROOT . '/views/user/user-header.php'; ?>
-
-<!-- My Wishlist Tab -->
-<!-- <div class="tab-pane fade" id="wishlist" role="tabpanel" aria-labelledby="wishlist-link">
-    <div class="wishlist-content">
-        <table id="wishlist-table" class="table table-striped table-bordered dt-responsive nowrap">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th class="action">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Product 1</td>
-                    <td>$50.00</td>
-                    <td class="action">
-                        <a href="#" class="add-to-cart">Add to Cart</a> |
-                        <a href="#" class="remove-from-wishlist">Remove</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Product 2</td>
-                    <td>$30.00</td>
-                    <td class="action">
-                        <a href="#" class="add-to-cart">Add to Cart</a> |
-                        <a href="#" class="remove-from-wishlist">Remove</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div> -->
-
 <?php echo flashMessage('successMessage'); ?>
 <?php echo flashErrorMessage('errorMessage'); ?>
 
 <?php if (empty($data['wishlist'])): ?>
     <!-- Message and button when wishlist is empty -->
-    <p>Your wishlist is currently empty. Discover something interesting!</p>
-    <a href="<?php echo URLROOT; ?>/productController/index">
-        <button>Explore Products</button>
-    </a>
+    <div class="text-center py-2 border rounded bg-light">
+        <p>Your wishlist is currently empty. Discover something interesting!</p>
+        <a href="<?php echo URLROOT; ?>/productController/index">
+            <button class="btn btn-primary">Explore Products</button>
+        </a>
+    </div>
 <?php else: ?>
     <!-- Wishlist items table -->
     <table style="width:100%; text-align:center;">

@@ -134,4 +134,10 @@ class UserController extends Controller
             return json_encode(['error' => 'Checkout failed']);
         }
     }
+
+    public function profile()
+    {
+        
+        $this->view('user/profile');
+    }
 }

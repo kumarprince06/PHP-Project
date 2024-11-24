@@ -12,8 +12,8 @@
     </div>
 <?php else: ?>
     <!-- Wishlist items table -->
-    <table style="width:100%; text-align:center;">
-        <thead>
+    <table class="w-100 text-center table-responsive">
+        <thead class="bg-dark text-light">
             <tr>
                 <th>Product Name</th>
                 <th>Brand</th>
@@ -36,12 +36,12 @@
                     <td>
                         <!-- Add to Cart Form -->
                         <form action="<?php echo URLROOT ?>/cartController/addWishlistProductToCart/<?php echo $product->id ?>" method="POST" style="display:inline;">
-                            <button type="submit">Add To Cart</button>
+                            <button class="btn btn-success" type="submit">Add To Cart</button>
                         </form>
 
                         <!-- Remove from Wishlist Form -->
                         <form action="<?php echo URLROOT ?>/userController/delete/<?php echo $product->id ?>" method="POST" style="display:inline;">
-                            <button type="submit" onclick="return confirm('Are you sure you want to delete this product?');">Remove</button>
+                            <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure you want to delete this product?');"><i class="fa-solid fa-trash"></i></button>
                         </form>
                     </td>
                 </tr>

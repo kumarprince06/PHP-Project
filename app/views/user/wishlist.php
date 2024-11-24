@@ -1,8 +1,38 @@
-<?php require APPROOT . '/views/includes/header.php'; ?>
+<?php require APPROOT . '/views/user/user-header.php'; ?>
 
-<h1>My Wishlist</h1>
-<a href="<?php echo URLROOT ?>/userController/dashboard"><button style="margin-bottom: 10px;">Dashboard</button></a>
-<a href="<?php echo URLROOT ?>"><button style="margin-bottom: 10px;">Home</button></a>
+<!-- My Wishlist Tab -->
+<!-- <div class="tab-pane fade" id="wishlist" role="tabpanel" aria-labelledby="wishlist-link">
+    <div class="wishlist-content">
+        <table id="wishlist-table" class="table table-striped table-bordered dt-responsive nowrap">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th class="action">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Product 1</td>
+                    <td>$50.00</td>
+                    <td class="action">
+                        <a href="#" class="add-to-cart">Add to Cart</a> |
+                        <a href="#" class="remove-from-wishlist">Remove</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Product 2</td>
+                    <td>$30.00</td>
+                    <td class="action">
+                        <a href="#" class="add-to-cart">Add to Cart</a> |
+                        <a href="#" class="remove-from-wishlist">Remove</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div> -->
+
 <?php echo flashMessage('successMessage'); ?>
 <?php echo flashErrorMessage('errorMessage'); ?>
 
@@ -52,4 +82,4 @@
     </table>
 <?php endif; ?>
 
-<?php require APPROOT . '/views/includes/footer.php'; ?>
+<?php require APPROOT . '/views/user/user-footer.php'; ?>

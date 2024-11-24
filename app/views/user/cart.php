@@ -1,4 +1,4 @@
-<?php require APPROOT . '/views/includes/header.php'; ?>
+<?php require APPROOT . '/views/user/user-header.php'; ?>
 
 <?php echo flashMessage('successMessage'); ?>
 <?php echo flashErrorMessage('errorMessage'); ?>
@@ -24,14 +24,15 @@
         <div class="row">
             <!-- Cart Items -->
             <div class="col-lg-8">
-                <?php foreach ($data['cartItems'] as $item): ?>
+                <?php
+                foreach ($data['cartItems'] as $item): ?>
                     <?php $subtotal += $item->selling_price * $item->quantity; ?>
                     <hr />
                     <div class="cart-item py-2">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="d-flex">
-                                    <img class="cart-image" src="<?php echo $item->image; ?>" alt="<?php echo $item->name; ?>" />
+                                    <img class="cart-image" src="<?php echo URLROOT ?>/public/images/<?php echo $item->image; ?>" alt="<?php echo $item->name; ?>" />
                                     <div class="mx-3">
                                         <h5><?php echo $item->name; ?></h5>
                                         <p>Brand: <?php echo $item->brand; ?></p>
@@ -90,4 +91,4 @@
     <?php endif; ?>
 </div>
 
-<?php require APPROOT . '/views/includes/footer.php'; ?>
+<?php require APPROOT . '/views/user/user-footer.php'; ?>

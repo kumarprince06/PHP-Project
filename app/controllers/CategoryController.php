@@ -12,11 +12,11 @@ class CategoryController extends Controller
         $this->categoryService = new CategoryService;
     }
 
-    public function index()
+    public function category()
     {
         $categories = $this->categoryService->getAllCategories();
         $data = ['title' => 'Shop', 'category' => $categories];
-        $this->view('categories/index', $data);
+        $this->view('admin/category', $data);
     }
 
     public function add()
@@ -37,7 +37,7 @@ class CategoryController extends Controller
             $lastInsertedId = $this->categoryService->addCategory($category);
             error_log("Last Inserted ID: " . $lastInsertedId);
             flashMessage('successMessage', 'Category added successfully');
-            redirect('categoryController/show/' . $lastInsertedId);
+            redirect('categoryController/category');
         } catch (Exception $e) {
             $data = [
                 'title' => 'Shop',
@@ -81,7 +81,7 @@ class CategoryController extends Controller
             $lastInsertedId = $this->categoryService->updateCategory($category);
             error_log("Last Inserted ID: " . $lastInsertedId);
             flashMessage('successMessage', 'Category updated successfully');
-            redirect('categoryController');
+            redirect('categoryController/category');
         } catch (Exception $e) {
             $data = [
                 'title' => 'Shop',
@@ -116,6 +116,6 @@ class CategoryController extends Controller
         } catch (Exception $e) {
             flashMessage('categoryMessage', 'Error: ' . $e->getMessage(), 'alert alert-danger');
         }
-        redirect('categoryController');
+        redirect('categoryController/category');
     }
 }

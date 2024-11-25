@@ -16,7 +16,7 @@ body {
 a {
   cursor: pointer;
   text-decoration: none !important;
-  color: var(--bs-primary);
+  color: var(--bs-success);
 }
 
 a:hover,
@@ -42,12 +42,12 @@ hr {
 
 ::-moz-selection {
   color: #ffffff;
-  background: var(--bs-primary);
+  background: var(--bs-success);
 }
 
 ::selection {
   color: #ffffff;
-  background: var(--bs-primary);
+  background: var(--bs-success);
 }
 
 ::-webkit-scrollbar {
@@ -125,7 +125,7 @@ hr {
 .form-control:focus,
 .form-select:focus {
   background-color: #fff;
-  border: 1.8px solid var(--bs-primary);
+  border: 1.8px solid var(--bs-success);
   outline: 0;
   box-shadow: 0 0 0.25rem 0.05rem rgba(105, 108, 255, 0.1);
 }
@@ -273,7 +273,7 @@ hr {
   font-size: 32px;
   padding-left: 10px;
   cursor: pointer;
-  color: var(--bs-primary);
+  color: var(--bs-success);
 }
 
 /*--------------------------------------------------------------
@@ -290,13 +290,13 @@ hr {
 
 .header-nav .nav-icon {
   font-size: 22px;
-  color: var(--bs-primary);
+  color: var(--bs-success);
   margin-right: 25px;
   position: relative;
 }
 
 .header-nav .nav-profile {
-  color: var(--bs-primary);
+  color: var(--bs-success);
 }
 
 .header-nav .nav-profile img {
@@ -360,7 +360,9 @@ hr {
 
 /* Highlight active sidebar item */
 .sidebar .nav-link.active {
-  background-color: #007bff; /* Blue background color for active item */
+  background-color: var(
+    --bs-success
+  ); /* Blue background color for active item */
   color: #fff; /* White text for active item */
   border-radius: 4px; /* Rounded corners */
   font-weight: bold; /* Bold text for active item */
@@ -368,7 +370,7 @@ hr {
 
 /* Optional: Hover effect for active link */
 .sidebar .nav-link.active:hover {
-  background-color: #0056b3; /* Darker blue when hovering over active item */
+  background-color: #abee8d; /* Darker blue when hovering over active item */
 }
 
 @media (max-width: 1199px) {
@@ -461,21 +463,21 @@ hr {
 }
 
 .sidebar-nav .nav-link.active {
-  color: var(--bs-primary);
-  border: 2px solid var(--bs-primary);
+  color: var(--bs-success);
+  border: 2px solid var(--bs-success);
 }
 
 .sidebar-nav .nav-link.active i {
-  color: var(--bs-primary);
+  color: var(--bs-light);
 }
 
 .sidebar-nav .nav-link:hover {
-  color: var(--bs-primary);
+  color: var(--bs-success);
   background: #f6f9ff;
 }
 
 .sidebar-nav .nav-link:hover i {
-  color: var(--bs-primary);
+  color: var(--bs-success);
 }
 
 /*--------------------------------------------------------------
@@ -514,7 +516,6 @@ hr {
 }
 
 /* Admin Profile */
-/* Profile Page Styling */
 .profile-page {
   padding: 20px;
 }

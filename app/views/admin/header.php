@@ -25,6 +25,13 @@
 
 <body class="bg-light">
     <!-- Header -->
+    <?php
+    // Get the current URL path
+    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+    // Extract the last segment (e.g., 'dashboard')
+    $activeTab = basename($currentPath);
+    ?>
     <header id="header" class="header fixed-top d-flex align-items-center bg-dark text-white">
         <div class="d-flex align-items-center justify-content-between">
             <a href="<?php echo URLROOT; ?>/adminController/dashboard" class="logo d-flex align-items-center"> Admin Dashboard
@@ -74,25 +81,31 @@
     <aside id="sidebar" class="sidebar bg-dark text-white">
         <ul class="sidebar-nav" id="sidebar-nav">
             <li class="nav-item">
-                <a href="<?php echo URLROOT; ?>/adminController/dashboard" class="nav-link <?php echo $activePage == 'dashboard' ? 'active' : ''; ?>">
-                    <i class="bi bi-house-door-fill"></i>
+                <a href="<?php echo URLROOT; ?>/adminController/dashboard" class="nav-link <?php echo ($activeTab === 'dashboard') ? 'active text-light' : ''; ?>">
+                    <i class=" bi bi-house-door-fill"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?php echo URLROOT; ?>/adminController/inventory" class="nav-link <?php echo $activePage == 'inventory' ? 'active' : ''; ?>">
+                <a href="<?php echo URLROOT; ?>/adminController/inventory" class="nav-link <?php echo $activeTab === 'inventory' ? 'active text-white' : ''; ?>">
                     <i class="bi bi-box-seam"></i>
                     <span>Inventory</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?php echo URLROOT; ?>/adminController/order_management" class="nav-link <?php echo $activePage == 'order_management' ? 'active' : ''; ?>">
+                <a href="<?php echo URLROOT; ?>/categoryController/category" class="nav-link <?php echo $activeTab === 'category' ? 'active text-white' : ''; ?>">
+                    <i class="fa fa-list-alt" aria-hidden="true"></i>
+                    <span>Category</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?php echo URLROOT; ?>/adminController/order_management" class="nav-link <?php echo $activeTab == 'order_management' ? 'active text-white' : ''; ?>">
                     <i class="bi bi-cart-fill"></i>
                     <span>Orders</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?php echo URLROOT; ?>/adminController/profile" class="nav-link <?php echo $activePage == 'profile' ? 'active' : ''; ?>">
+                <a href="<?php echo URLROOT; ?>/adminController/profile" class="nav-link <?php echo $activeTab == 'profile' ? 'active text-white' : ''; ?>">
                     <i class="bi bi-person-circle"></i>
                     <span>Profile</span>
                 </a>

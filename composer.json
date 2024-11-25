@@ -1,6 +1,7 @@
 {
     "require": {
         "stripe/stripe-php": "^16.2",
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+        "cloudinary/cloudinary_php": "^2.14"
     }
 }

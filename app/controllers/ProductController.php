@@ -162,11 +162,18 @@ class ProductController extends Controller
         // Validate data
         $this->validateProductData($data);
 
+        // If Image is Not uploaded
+        if ($data['image' === '']) {
+            $data['image'] = $oldImagePath;
+            // die(var_dump($data['image']));
+        }
+
         // Check for no errors
         if ($this->hasNoErrors($data)) {
             // Validated
             // Upload Image
             uploadImage($data);
+
             // Add product
             $product = $data['type'] == 'Physical' ? new PhysicalProduct($data) : new DigitalProduct($data);
             if ($this->productService->updateProduct($product)) {

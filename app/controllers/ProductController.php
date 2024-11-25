@@ -98,8 +98,18 @@ class ProductController extends Controller
     // View Product Handler
     public function show($id)
     {
+        // Initialize cart items
+        $cartitems = [];
+
+        // Check if the user is logged in
+        if (isLoggedIn()) {
+            // Fetch cart items for the logged-in user
+            $cartitems = $this->cartService->getCartItemsByUserId($_SESSION['sessionData']['userId']);
+            // die(var_dump($cartitems));
+        }
+
         $product = $this->productService->getProductById($id);
-        $data = ['title' => 'Shop', 'product' => $product];
+        $data = ['title' => 'Shop', 'product' => $product, 'cartCount' => count($cartitems)];
         $this->view('products/show', $data);
     }
 

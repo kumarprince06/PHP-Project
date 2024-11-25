@@ -95,7 +95,7 @@
             <a href="#"><img src="https://w7.pngwing.com/pngs/756/144/png-transparent-iphone-12.png" class="rounded-circle img-fluid border category_img" alt="iPhones"></a>
             <h5 class="text-center mt-3 mb-3">Mobiles</h5>
             <p class="text-center">
-                <a href="#" class="btn btn-success">Go Shop</a>
+                <a href="<?php echo URLROOT; ?>/productController" class="btn btn-success">Go Shop</a>
             </p>
         </div>
 
@@ -104,7 +104,7 @@
             <a href="#"><img src="https://e7.pngegg.com/pngimages/273/1018/png-clipart-laptop-dell-laptop-electronics-computer-thumbnail.png" class="rounded-circle img-fluid border category_img" alt="Laptops"></a>
             <h5 class="text-center mt-3 mb-3">Laptops</h5>
             <p class="text-center">
-                <a href="#" class="btn btn-success">Go Shop</a>
+                <a href="<?php echo URLROOT; ?>/productController" class="btn btn-success">Go Shop</a>
             </p>
         </div>
 
@@ -113,7 +113,7 @@
             <a href="#"><img src="https://e7.pngegg.com/pngimages/504/311/png-clipart-apple-watch-series-2-apple-watch-series-3-smartwatch-black-smart-watch-black-hair-digital-thumbnail.png" class="rounded-circle img-fluid border category_img" alt="Watches"></a>
             <h5 class="text-center mt-3 mb-3">Watches</h5>
             <p class="text-center">
-                <a href="#" class="btn btn-success">Go Shop</a>
+                <a href="<?php echo URLROOT; ?>/productController" class="btn btn-success">Go Shop</a>
             </p>
         </div>
     </div>
@@ -134,84 +134,46 @@
             </div>
         </div>
         <div class="row">
-            <!-- Featured Product 1: iPhone 15 Pro -->
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="./assets/img/iphone_15_pro.jpg" class="card-img-top" alt="iPhone 15 Pro">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">₹99,999.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">iPhone 15 Pro</a>
-                        <p class="card-text">
-                            The iPhone 15 Pro with the revolutionary A17 chip, 5G capability, and stunning titanium design.
-                        </p>
-                        <p class="text-muted">Reviews (150)</p>
-                    </div>
-                </div>
-            </div>
+            <?php
+            // Shuffle the products array to randomize order
+            $shuffledProducts = $data['products'];
+            shuffle($shuffledProducts);
 
-            <!-- Featured Product 2: Samsung Galaxy S24 -->
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="./assets/img/samsung_s24.jpg" class="card-img-top" alt="Samsung Galaxy S24">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">₹89,999.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Samsung Galaxy S24</a>
-                        <p class="card-text">
-                            Experience the future of mobile technology with the Samsung Galaxy S24 Ultra, featuring unmatched clarity and performance.
-                        </p>
-                        <p class="text-muted">Reviews (200)</p>
-                    </div>
-                </div>
-            </div>
+            // Take only the first 3 products
+            $randomProducts = array_slice($shuffledProducts, 0, 3);
+            ?>
 
-            <!-- Featured Product 3: Realme 13 Pro Max -->
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="./assets/img/realme_13_pro_max.jpg" class="card-img-top" alt="Realme 13 Pro Max">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">₹64,999.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Realme 13 Pro Max</a>
-                        <p class="card-text">
-                            Realme 13 Pro Max with an exceptional display, top-notch performance, and a powerful camera for perfect shots.
-                        </p>
-                        <p class="text-muted">Reviews (180)</p>
+            <?php foreach ($randomProducts as $product): ?>
+                <div class="col-12 col-md-4 mb-4 bg-light rounded">
+                    <div class="card h-100">
+                        <a href="shop-single.html">
+                            <img src="<?php echo URLROOT; ?>/public/images/<?php echo $product->image; ?>"
+                                class="card-img-top"
+                                alt="<?php echo htmlspecialchars($product->name); ?>">
+                        </a>
+                        <div class="card-body">
+                            <ul class="list-unstyled d-flex justify-content-between">
+                                <li>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-muted fa fa-star"></i>
+                                    <i class="text-muted fa fa-star"></i>
+                                </li>
+                                <li class="text-muted text-right">
+                                    ₹<?php echo number_format($product->selling_price, 2); ?>
+                                </li>
+                            </ul>
+                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">
+                                <?php echo $product->name; ?>
+                            </a>
+                            <p class="text-muted">Reviews (200)</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php endforeach; ?>
         </div>
+
     </div>
 </section>
 <!-- End Featured Product -->

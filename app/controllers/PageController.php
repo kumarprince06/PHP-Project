@@ -4,10 +4,12 @@ class PageController extends Controller
 {
     private $userService;
     private $cartService;
+    private $productService;
     public function __construct()
     {
         $this->userService = new UserService;
         $this->cartService = new CartService;
+        $this->productService = new ProductService;
     }
     // Home Page Handler
     public function index()
@@ -22,10 +24,14 @@ class PageController extends Controller
             // die(var_dump($cartitems));
         }
 
+        // Fetch Product
+        $products = $this->productService->getAllProducts();
+
         // Prepare data for the view
         $data = [
             'title' => 'Shop',
-            'cartCount' => count($cartitems) // Use count() to get the number of items
+            'cartCount' => count($cartitems), // Use count() to get the number of items
+            'products' => $products
         ];
 
         // Load the view

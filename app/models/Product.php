@@ -22,7 +22,7 @@ class Product
         $this->originalPrice = $data['originalPrice'] ?? 0;
         $this->category = $data['category'] ?? '';
         $this->stock = $data['stock'] ?? 0;
-        $this->image = $data['image'] ?? '';
+        // $this->image = $data['image'] ?? '';
     }
 
     // Getters and Setters for ID
@@ -114,13 +114,13 @@ class Product
     }
 
     // Getter and setter for image
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
+    // public function setImage($image)
+    // {
+    //     $this->image = $image;
+    // }
 
-    public function getImage()
-    {
-        return $this->image;
-    }
+    // public function getImage()
+    // {
+    //     return $this->image;
+    // }
 }

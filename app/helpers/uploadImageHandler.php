@@ -1,43 +1,50 @@
 <?php
 
-// Upload Image Function
 function uploadImage(&$data)
 {
-    // Check if image is uploaded
-    if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
-        $imageTmpName = $_FILES['images']['tmp_name'];
-        $imageName = $_FILES['images']['name'];
-        $imageSize = $_FILES['images']['size'];
-        $imageError = $_FILES['images']['error'];
-        $imageExtension = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
+    global $cloudinary;
 
-        // Validate the image
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+    // Check if files are uploaded
+    if (isset($_FILES['images']) && count($_FILES['images']['name']) > 0) {
+        $imageUrls = [];
+        $errors = [];
 
-        if (!in_array($imageExtension, $allowedExtensions)) {
-            $data['imageError'] = "Invalid image type. Allowed types are: jpg, jpeg, png, gif.";
-        }
+        // Loop through each file uploaded
+        for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
+            $imageName = $_FILES['images']['name'][$i];
+            $imageSize = $_FILES['images']['size'][$i];
+            $tmpName = $_FILES['images']['tmp_name'][$i];
+            $imageExtension = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
 
-        if ($imageSize > 5 * 1024 * 1024) { // 5MB max size
-            $data['imageError'] = "Image size is too large. Maximum size is 5MB.";
-        }
+            // Validate the image type and size
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            if (!in_array($imageExtension, $allowedExtensions)) {
+                $errors[] = "Invalid type for image $imageName. Allowed types are: jpg, jpeg, png, gif.";
+                continue;
+            }
 
-        // Move image to upload folder
-        if (empty($data['imageError'])) {
-            echo APPROOT;
-            echo URLROOT;
-            $uploadDirectory = APPROOT . '/../public/images/'; // Server path to the images directory
+            if ($imageSize > 5 * 1024 * 1024) { // 5MB max size
+                $errors[] = "Image $imageName is too large. Maximum size is 5MB.";
+                continue;
+            }
 
-            $newImageName = uniqid('', true) . '.' . $imageExtension; // Generate a unique filename
-            $uploadPath = $uploadDirectory . $newImageName;
-
-            if (move_uploaded_file($imageTmpName, $uploadPath)) {
-                $data['image'] = $newImageName; // Save only the image filename in data
-            } else {
-                $data['imageError'] = "Failed to upload the image.";
+            // Upload the image to Cloudinary
+            try {
+                $response = $cloudinary->uploadApi()->upload(
+                    $tmpName,
+                    ['folder' => CLOUDINARY_FOLDER_NAME]
+                );
+                $imageUrls[] = $response['secure_url']; // Store the image URL
+            } catch (Exception $e) {
+                error_log("Cloudinary upload failed: " . $e->getMessage());
+                $errors[] = "Failed to upload image $imageName: " . $e->getMessage();
             }
         }
+
+        // Save results to data array
+        $data['imageUrls'] = $imageUrls; // Array of uploaded URLs
+        $data['imageErrors'] = $errors; // Array of errors if any
     } else {
-        $data['imageError'] = "Image is required.";
+        $data['imageErrors'] = ["No images were uploaded."];
     }
 }

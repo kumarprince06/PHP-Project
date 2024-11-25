@@ -6,6 +6,7 @@ class ProductController extends Controller
     private $productService;
     private $categoryService;
     private $cartService;
+    private $imageUploadService;
     public function __construct()
     {
         // if (!isLoggedIn()) {
@@ -15,6 +16,7 @@ class ProductController extends Controller
         $this->productService = new ProductService();
         $this->categoryService = new CategoryService();
         $this->cartService = new CartService;
+        $this->imageUploadService = new ImageUploadService;
     }
 
     // Index Page Handler
@@ -73,7 +75,6 @@ class ProductController extends Controller
 
         // Upload Image
         uploadImage($data);
-
         // Check for no errors
         if ($this->hasNoErrors($data)) {
             // Validated
@@ -82,6 +83,9 @@ class ProductController extends Controller
             $lastInsertedId = $this->productService->addProduct($product);
 
             if ($lastInsertedId) {
+
+                // Save images to the database
+                $this->imageUploadService->uploadImage($lastInsertedId, $data['imageUrls']);
                 flashMessage('successMessage', 'Product added successfully');
                 // Redirect to the show page with the last inserted product ID
                 redirect('adminController/inventory');
@@ -223,7 +227,7 @@ class ProductController extends Controller
             'type' => trim($_POST['type']),
             'category' => trim($_POST['category']),
             'stock' => trim($_POST['stock']),
-            'image' => '',
+            'imageUrls' => [],
             'nameError' => '',
             'brandError' => '',
             'originalPriceError' => '',

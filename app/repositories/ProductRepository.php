@@ -10,8 +10,8 @@ class ProductRepository
 
     public function addProduct(Product $product)
     {
-        $sql = "INSERT INTO products (name, brand, type, selling_price, original_price, category, stock, image) 
-            VALUES (:name, :brand, :type, :selling_price, :original_price, :category, :stock, :image)";
+        $sql = "INSERT INTO products (name, brand, type, selling_price, original_price, category, stock) 
+            VALUES (:name, :brand, :type, :selling_price, :original_price, :category, :stock)";
         $this->db->query($sql);
         $this->db->bind(':name', $product->getName());
         $this->db->bind(':brand', $product->getBrand());
@@ -20,7 +20,7 @@ class ProductRepository
         $this->db->bind(':type', $product->getType());
         $this->db->bind(':category', $product->getCategory());
         $this->db->bind(':stock', $product->getStock());
-        $this->db->bind(':image', $product->getImage());
+        // $this->db->bind(':image', $product->getImage());
         // Execute the query
         if ($this->db->execute()) {
             // Return the last inserted ID
@@ -42,7 +42,7 @@ class ProductRepository
         $this->db->bind(':type', $product->getType());
         $this->db->bind(':category', $product->getCategory());
         $this->db->bind(':stock', $product->getStock());
-        $this->db->bind(':image', $product->getImage());
+        // $this->db->bind(':image', $product->getImage());
         $this->db->bind(':id', $product->getId());
 
         // Execute the query

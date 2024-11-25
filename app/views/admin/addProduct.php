@@ -96,7 +96,7 @@
                         <div class="mb-3 row align-items-center">
                             <label for="type" class="col-sm-3 col-form-label">Product Type <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select name="type" id="type" class="form-control rounded" style="border-color: <?php echo !empty($data['typeError']) ? 'red' : 'initial'; ?>;">
+                                <select name="type" id="type" class="form-select rounded">
                                     <option value="">Select Type</option>
                                     <option value="Physical" <?php echo $data['type'] == 'Physical' ? 'selected' : ''; ?>>Physical</option>
                                     <option value="Digital" <?php echo $data['type'] == 'Digital' ? 'selected' : ''; ?>>Digital</option>
@@ -109,7 +109,7 @@
                         <div class="mb-3 row align-items-center">
                             <label for="category" class="col-sm-3 col-form-label">Category <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select name="category" id="category" class="form-control rounded" style="border-color: <?php echo !empty($data['categoryError']) ? 'red' : 'initial'; ?>;">
+                                <select name="category" id="category" class="form-select rounded">
                                     <option value="">Select Category</option>
                                     <?php foreach ($data['category'] as $category): ?>
                                         <option value="<?php echo $category->id; ?>" <?php echo $data['category'] == $category->id ? 'selected' : ''; ?>>
@@ -123,12 +123,13 @@
 
                         <!-- Image Upload -->
                         <div class="mb-3 row align-items-center">
-                            <label for="images" class="col-sm-3 col-form-label">Product Image <span class="text-danger">*</span></label>
+                            <label for="images" class="col-sm-3 col-form-label">Product Images <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <input
                                     type="file"
-                                    name="images"
+                                    name="images[]"
                                     id="images"
+                                    multiple
                                     accept="image/*"
                                     class="form-control rounded"
                                     style="border: 1px solid <?php echo !empty($data['imageError']) ? 'red' : '#ccc'; ?>;">

@@ -49,6 +49,7 @@ require_once '../app/services/StripeService.php';
 require_once '../app/services/TransactionsService.php';
 require_once '../app/services/MailService.php';
 require_once '../app/services/UserService.php';
+require_once '../app/services/ImageUploadService.php';
 
 // Load Repository
 require_once '../app/repositories/CategoryRepository.php';
@@ -58,3 +59,4 @@ require_once '../app/repositories/CartRepository.php';
 require_once '../app/repositories/OrderRepository.php';
 require_once '../app/repositories/TransactionRepository.php';
 require_once '../app/repositories/UserRepository.php';
+require_once '../app/repositories/ImageUploadImageRepository.php';

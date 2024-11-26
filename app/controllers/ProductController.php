@@ -74,7 +74,7 @@ class ProductController extends Controller
         $this->validateProductData($data);
 
         // Upload Image
-        uploadImage($data);
+        uploadImage($data, 'products');
         // Check for no errors
         if ($this->hasNoErrors($data)) {
             // Validated
@@ -168,7 +168,7 @@ class ProductController extends Controller
         // Check if a new image is uploaded
         if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
             // Upload new image
-            uploadImage($data);
+            uploadImage($data, 'products');
 
             // If upload fails, keep the old image
             if (!empty($data['imageError'])) {
@@ -272,6 +272,7 @@ class ProductController extends Controller
             'type' => trim($_POST['type']),
             'category' => trim($_POST['category']),
             'stock' => trim($_POST['stock']),
+            'description' => trim($_POST['description']),
             'images' => [],
             'nameError' => '',
             'brandError' => '',
@@ -280,6 +281,7 @@ class ProductController extends Controller
             'typeError' => '',
             'categoryError' => '',
             'stockError' => '',
+            'descriptionError' => '',
             'imageError' => ''
         ];
     }
@@ -321,7 +323,7 @@ class ProductController extends Controller
         return empty($data['nameError']) && empty($data['brandError']) &&
             empty($data['originalPriceError']) && empty($data['sellingPriceError']) &&
             empty($data['typeError']) && empty($data['categoryError']) &&
-            empty($data['stockError']) && empty($data['imageError']);
+            empty($data['stockError']) && empty($data['imageError']) && empty($data['descriptionError']);
     }
 
     public function deleteImage($id)

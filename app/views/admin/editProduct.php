@@ -131,9 +131,9 @@
                                     <?php foreach ($data['productImage'] as $image): ?>
 
                                         <div class="col-4 col-md-3 col-lg-2 position-relative">
-                                            <div class="border rounded overflow-hidden bg-primary w-100 h-100">
+                                            <div class="border rounded overflow-hidden bg-secondary w-100 h-100">
                                                 <img
-                                                    src="<?php echo URLROOT; ?>/public/images/Products/<?php echo $image->name ?>"
+                                                    src="<?php echo URLROOT; ?>/public/images/products/<?php echo $image->name ?>"
                                                     alt="Product Image"
                                                     class="img-fluid"
                                                     style="object-fit: cover; width: 100%; height: 100%;">

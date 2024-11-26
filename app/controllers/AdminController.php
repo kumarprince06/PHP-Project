@@ -138,6 +138,7 @@ class AdminController extends Controller
             'type' => $product->type,
             'category' => $product->category,
             'stock' => $product->stock,
+            'description' => $product->description,
             'nameError' => '',
             'brandError' => '',
             'originalPriceError' => '',

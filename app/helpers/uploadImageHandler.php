@@ -1,9 +1,9 @@
 <?php
 
-function uploadImage(&$data)
+function uploadImage(&$data, $folderName)
 {
     // Define the target directory for image uploads
-    $targetDir = getcwd() . "/images/Products/"; // Make sure the 'images' folder exists and is writable
+    $targetDir = getcwd() . "/images/" . $folderName . "/"; // Make sure the 'images' folder exists and is writable
     if (!file_exists($targetDir)) {
         mkdir($targetDir, 0777, true); // Create the directory if it doesn't exist
     }

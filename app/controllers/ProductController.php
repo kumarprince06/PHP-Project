@@ -6,7 +6,7 @@ class ProductController extends Controller
     private $productService;
     private $categoryService;
     private $cartService;
-    private $imageUploadService;
+    private $imageService;
     public function __construct()
     {
         // if (!isLoggedIn()) {
@@ -16,7 +16,7 @@ class ProductController extends Controller
         $this->productService = new ProductService();
         $this->categoryService = new CategoryService();
         $this->cartService = new CartService;
-        $this->imageUploadService = new ImageUploadService;
+        $this->imageService = new ImageService;
     }
 
     // Index Page Handler
@@ -83,9 +83,8 @@ class ProductController extends Controller
             $lastInsertedId = $this->productService->addProduct($product);
 
             if ($lastInsertedId) {
-
                 // Save images to the database
-                $this->imageUploadService->uploadImage($lastInsertedId, $data['imageUrls']);
+                $this->imageService->uploadImage($lastInsertedId, $data['images']);
                 flashMessage('successMessage', 'Product added successfully');
                 // Redirect to the show page with the last inserted product ID
                 redirect('adminController/inventory');
@@ -187,7 +186,7 @@ class ProductController extends Controller
             $product = $data['type'] == 'Physical' ? new PhysicalProduct($data) : new DigitalProduct($data);
             if ($this->productService->updateProduct($product)) {
                 // Delete Old Image
-                deleteImageFromDirectory($oldImagePath);
+                deleteImageFromCloudinary($oldImagePath);
                 flashMessage('successMessage', 'Product updated successfully');
                 // Redirect to the show page with the last inserted product ID
                 redirect('adminController/inventory');
@@ -204,16 +203,62 @@ class ProductController extends Controller
     // Delete Product Handler
     public function delete($id)
     {
-        // check for post request
+        // Log the incoming request
+        error_log("Received delete request for product ID: " . $id);
+
+        // Check for POST request
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            error_log("Invalid request method for deleting product ID: " . $id);
             redirect('adminController/inventory');
             return;
         }
 
-        $this->productService->deleteProduct($id);
+        // Get all images associated with the product
+        $images = $this->imageService->getImagesByProductId($id);
+
+        // Log the number of images associated with the product
+        error_log("Found " . count($images) . " image(s) for product ID: " . $id);
+
+        // Loop through the images and delete them
+        foreach ($images as $image) {
+            // Log image details before deletion
+            error_log("Attempting to delete image: " . $image->name);
+
+            // Delete the image from Cloudinary or the local server
+            deleteImageFromCloudinary($image->name);
+
+            // Log the deletion result of the image
+            error_log("Successfully deleted image: " . $image->name);
+
+            // Delete the image record from the database
+            $imageDeletionResult = $this->imageService->deleteImage($id, $image->id);
+
+            // Log the result of image deletion from the database
+            if ($imageDeletionResult) {
+                error_log("Successfully deleted image record for image ID: " . $image->id);
+            } else {
+                error_log("Failed to delete image record for image ID: " . $image->id);
+            }
+        }
+
+        // Now delete the product from the database
+        $productDeletionResult = $this->productService->deleteProduct($id);
+
+        // Log the result of product deletion
+        if ($productDeletionResult) {
+            error_log("Successfully deleted product ID: " . $id);
+        } else {
+            error_log("Failed to delete product ID: " . $id);
+        }
+
+        // Set a success flash message
         flashMessage('successMessage', 'Product deleted successfully');
+
+        // Redirect to the inventory page
         redirect('adminController/inventory');
     }
+
+
 
     // Initialize Form Data
     private function initializeProductData()
@@ -227,7 +272,7 @@ class ProductController extends Controller
             'type' => trim($_POST['type']),
             'category' => trim($_POST['category']),
             'stock' => trim($_POST['stock']),
-            'imageUrls' => [],
+            'images' => [],
             'nameError' => '',
             'brandError' => '',
             'originalPriceError' => '',
@@ -273,9 +318,37 @@ class ProductController extends Controller
 
     private function hasNoErrors($data)
     {
-        return empty($data['productNameError']) && empty($data['productBrandError']) &&
+        return empty($data['nameError']) && empty($data['brandError']) &&
             empty($data['originalPriceError']) && empty($data['sellingPriceError']) &&
-            empty($data['productTypeError']) && empty($data['categoryIdError']) &&
-            empty($data['stockError']);
+            empty($data['typeError']) && empty($data['categoryError']) &&
+            empty($data['stockError']) && empty($data['imageError']);
+    }
+
+    public function deleteImage($id)
+    {
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+
+            redirect('adminController/editProduct/' . $id);
+        }
+
+        // Get ImageURl and productId from POST
+        $imageName = $_POST['image'];
+        $productId = $_POST['productId'];
+
+        error_log('Image Goes for deletion');
+
+        // Delete the image from Cloudinary
+        deleteImageFromCloudinary($imageName);
+        // Now delete the image record from the database
+        if ($this->imageService->deleteImage($productId, $id)) {
+            // Redirect back to the product edit page after successful deletion
+            redirect('adminController/editProduct/' . $productId);
+        } else {
+            // Handle the case where the image deletion from the database fails
+            echo "Error: Unable to delete image from the database.";
+        }
+
+        redirect('adminController/editProduct/' . $productId);
     }
 }

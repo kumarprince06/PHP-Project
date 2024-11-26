@@ -16,7 +16,7 @@ require_once '../app/helpers/createUserSessionHelper.php';
 require_once '../app/helpers/uploadImageHandler.php';
 
 //Load Image Delete Helper
-require_once '../app/helpers/deleteImageFromDirectory.php';
+require_once '../app/helpers/deleteImageFromCloudinary.php';
 
 // Autoload Core libraries
 spl_autoload_register(function ($className) {
@@ -49,7 +49,7 @@ require_once '../app/services/StripeService.php';
 require_once '../app/services/TransactionsService.php';
 require_once '../app/services/MailService.php';
 require_once '../app/services/UserService.php';
-require_once '../app/services/ImageUploadService.php';
+require_once '../app/services/ImageService.php';
 
 // Load Repository
 require_once '../app/repositories/CategoryRepository.php';
@@ -59,4 +59,4 @@ require_once '../app/repositories/CartRepository.php';
 require_once '../app/repositories/OrderRepository.php';
 require_once '../app/repositories/TransactionRepository.php';
 require_once '../app/repositories/UserRepository.php';
-require_once '../app/repositories/ImageUploadImageRepository.php';
+require_once '../app/repositories/ImageRepository.php';

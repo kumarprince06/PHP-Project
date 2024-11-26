@@ -7,6 +7,7 @@ class AdminController extends Controller
     private $productService;
     private $userService;
     private $categoryService;
+    private $imageService;
     public function __construct()
     {
         if (!isLoggedIn()) {
@@ -17,6 +18,7 @@ class AdminController extends Controller
         $this->productService = new ProductService;
         $this->userService = new UserService;
         $this->categoryService = new CategoryService;
+        $this->imageService = new ImageService;
     }
 
     public function dashboard()
@@ -124,6 +126,7 @@ class AdminController extends Controller
     {
         // Fetch existing post
         $product = $this->productService->getProductById($id);
+        $image = $this->imageService->getImagesByProductId($id);
         $categoryList = $this->categoryService->getAllCategories();
         $data = [
             'title' => 'Shop',
@@ -135,7 +138,6 @@ class AdminController extends Controller
             'type' => $product->type,
             'category' => $product->category,
             'stock' => $product->stock,
-            'image' => $product->image,
             'nameError' => '',
             'brandError' => '',
             'originalPriceError' => '',
@@ -143,7 +145,8 @@ class AdminController extends Controller
             'typeError' => '',
             'stockError' => '',
             'imageError' => '',
-            'categoryList' => $categoryList
+            'categoryList' => $categoryList,
+            'productImage' => $image
         ];
 
         $this->view('admin/editProduct', $data);

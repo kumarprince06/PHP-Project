@@ -81,7 +81,7 @@ class CartRepository
     public function getCartItemsByUserId($userId)
     {
         $query = "SELECT cart.cartId AS cartId, products.id AS productId, products.name, 
-                     products.category , products.brand, products.selling_price, products.image, cart.quantity, 
+                     products.category , products.brand, products.selling_price, cart.quantity, 
                      (products.selling_price * cart.quantity) AS total_price
               FROM cart
               INNER JOIN products ON cart.productId = products.id

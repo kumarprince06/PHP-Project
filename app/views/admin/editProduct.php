@@ -98,7 +98,7 @@
                         <div class="mb-3 row align-items-center">
                             <label for="type" class="col-sm-3 col-form-label">Product Type <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select name="type" id="type" class="form-control rounded" style="border-color: <?php echo !empty($data['typeError']) ? 'red' : 'initial'; ?>;">
+                                <select name="type" id="type" class="form-select rounded">
                                     <option value="">Select Type</option>
                                     <option value="Physical" <?php echo $data['type'] == 'Physical' ? 'selected' : ''; ?>>Physical</option>
                                     <option value="Digital" <?php echo $data['type'] == 'Digital' ? 'selected' : ''; ?>>Digital</option>
@@ -111,7 +111,7 @@
                         <div class="mb-3 row align-items-center">
                             <label for="category" class="col-sm-3 col-form-label">Category <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select name="category" id="category" class="form-control rounded" style="border-color: <?php echo !empty($data['categoryError']) ? 'red' : 'initial'; ?>;">
+                                <select name="category" id="category" class="form-select rounded" style="border-color: <?php echo !empty($data['categoryError']) ? 'red' : 'initial'; ?>;">
                                     <option value="">Select Category</option>
                                     <?php foreach ($data['categoryList'] as $category): ?>
                                         <option value="<?php echo $category->id; ?>" <?php echo $data['category'] == $category->id ? 'selected' : ''; ?>>
@@ -122,28 +122,49 @@
                                 <span class="text-danger fw-bold mt-1" style="font-size: 0.9rem;"><?php echo $data['categoryError'] ?? ''; ?></span>
                             </div>
                         </div>
+
                         <!-- Image View -->
                         <div class="row mb-3">
-                            <div class="col-sm-3"></div>
+                            <label class="col-sm-3 col-form-label">Existing Images</label>
                             <div class="col-sm-9">
-                                <img
-                                    src="<?php echo URLROOT . '/public/images/' . $data['image']; ?>"
-                                    alt="Product Image"
-                                    width="200"
-                                    height="200"
-                                    class="img-fluid"
-                                    style="object-fit: cover;">
+                                <div class="row g-1">
+                                    <?php foreach ($data['productImage'] as $image): ?>
+
+                                        <div class="col-4 col-md-3 col-lg-2 position-relative">
+                                            <div class="border rounded overflow-hidden bg-primary w-100 h-100">
+                                                <img
+                                                    src="<?php echo URLROOT; ?>/public/images/Products/<?php echo $image->name ?>"
+                                                    alt="Product Image"
+                                                    class="img-fluid"
+                                                    style="object-fit: cover; width: 100%; height: 100%;">
+                                            </div>
+                                            <!-- Delete Button -->
+                                            <form id="deleteForm<?php echo $image->id; ?>" action="<?php echo URLROOT; ?>/productController/deleteImage/<?php echo $image->id; ?>" method="POST">
+                                                <input type="number" hidden name="productId" value="<?php echo $image->product_id; ?>">
+                                                <input type="text" hidden name="image" value="<?php echo $image->name; ?>">
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                                    onclick="return confirm('Are you sure you want to delete this image?')"
+                                                    style="border-radius: 50%; z-index: 1;">
+                                                    &times;
+                                                </button>
+                                            </form>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Image Upload -->
                         <div class="mb-3 row align-items-center">
-                            <label for="images" class="col-sm-3 col-form-label">Product Image <span class="text-danger">*</span></label>
+                            <label for="images" class="col-sm-3 col-form-label">Product Images <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <input
                                     type="file"
-                                    name="images"
+                                    name="images[]"
                                     id="images"
+                                    multiple
                                     accept="image/*"
                                     class="form-control rounded"
                                     style="border: 1px solid <?php echo !empty($data['imageError']) ? 'red' : '#ccc'; ?>;">

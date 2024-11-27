@@ -1,9 +1,9 @@
 <?php
 
-function deleteImageFromCloudinary($imageName)
+function deleteImageFromCloudinary($imageName, $folderName)
 {
     // Define the target directory for product images
-    $targetDir = getcwd() . "/images/Products/";
+    $targetDir = getcwd() . '/images/' . $folderName . '/';
 
     // Generate the file path to the image
     $targetFilePath = $targetDir . $imageName;

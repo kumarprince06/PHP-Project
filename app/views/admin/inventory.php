@@ -56,8 +56,8 @@
             <!-- Product Table -->
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-hover table-striped text-center">
-                        <thead>
+                    <table class="table .table-responsive rounded-3 table-hover table-striped text-center table-bordered border-success">
+                        <thead class="table-success">
                             <tr>
                                 <th>#</th>
                                 <th>Product Name</th>

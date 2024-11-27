@@ -39,6 +39,13 @@ function uploadImage(&$data, $folderName)
             $imageNumber = $i + 1; // Start numbering images from 1
             $uniqueImageName = $productName . "_" . $imageNumber . '.' . $imageExtension;
 
+            // Check if the file name already exists and increment the number
+            $fileCounter = $imageNumber;
+            while (file_exists($targetDir . $uniqueImageName)) {
+                $fileCounter++;
+                $uniqueImageName = $productName . "_" . $fileCounter . '.' . $imageExtension;
+            }
+
             // Define the full file path for the image
             $targetFilePath = $targetDir . $uniqueImageName;
 

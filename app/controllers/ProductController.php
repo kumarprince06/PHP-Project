@@ -70,11 +70,12 @@ class ProductController extends Controller
         // Initialize form data
         $data = $this->initializeProductData();
 
+        // Upload Image
+        uploadImage($data, 'products');
+
         // Validate data
         $this->validateProductData($data);
 
-        // Upload Image
-        uploadImage($data, 'products');
         // Check for no errors
         if ($this->hasNoErrors($data)) {
             // Validated
@@ -164,26 +165,13 @@ class ProductController extends Controller
         $data = $this->initializeProductData();
         // die(var_dump($data));
 
-        // Fetch the existing product to get the old image path
-        $existingProduct = $this->productService->getProductById($data['id']);
-        $oldImagePath = $existingProduct->image;
+        // Upload Image
+        uploadImage($data, 'products');
+
+        error_log('Image Count: ' . count($data['images']));
 
         // Validate data
-        $this->validateProductData($data);
-
-        // Check if a new image is uploaded
-        if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
-            // Upload new image
-            uploadImage($data, 'products');
-
-            // If upload fails, keep the old image
-            if (!empty($data['imageError'])) {
-                $data['image'] = $oldImagePath;
-            }
-        } else {
-            // If no new image is uploaded, retain the old image
-            $data['image'] = $oldImagePath;
-        }
+        $this->validateProductData($data, true);
 
         // Check for no errors
         if ($this->hasNoErrors($data)) {
@@ -191,8 +179,10 @@ class ProductController extends Controller
             // Add product
             $product = $data['type'] == 'Physical' ? new PhysicalProduct($data) : new DigitalProduct($data);
             if ($this->productService->updateProduct($product)) {
-                // Delete Old Image
-                deleteImageFromCloudinary($oldImagePath);
+                // Save images to the database
+                error_log('Image Count: ' . count($data['images']));
+
+                $this->imageService->uploadImage($data['id'], $data['images']);
                 flashMessage('successMessage', 'Product updated successfully');
                 // Redirect to the show page with the last inserted product ID
                 redirect('adminController/inventory');
@@ -201,8 +191,12 @@ class ProductController extends Controller
             }
         } else {
             // Load view with error
-            $data['category'] = $this->categoryService->getAllCategories();
-            $this->view('adminController/editController', $data);
+            $image = $this->imageService->getImagesByProductId($data['id']);
+            $categoryList = $this->categoryService->getAllCategories();
+
+            $data['categoryList'] = $categoryList;
+            $data['productImage'] = $image;
+            $this->view('admin/editProduct', $data);
         }
     }
 
@@ -231,7 +225,7 @@ class ProductController extends Controller
             error_log("Attempting to delete image: " . $image->name);
 
             // Delete the image from Cloudinary or the local server
-            deleteImageFromCloudinary($image->name);
+            deleteImageFromCloudinary($image->name, 'products');
 
             // Log the deletion result of the image
             error_log("Successfully deleted image: " . $image->name);
@@ -320,6 +314,11 @@ class ProductController extends Controller
         if (empty($data['stock'])) {
             $data['stockError'] = 'Stock is required!';
         }
+
+        // error_log("Image Count:" . count($data['images']));
+        // if (empty($data['images']) || count($data['images']) == 0) {
+        //     $data['imageError'] = 'Image is required!';
+        // }
     }
 
     private function hasNoErrors($data)
@@ -345,7 +344,7 @@ class ProductController extends Controller
         error_log('Image Goes for deletion');
 
         // Delete the image from Cloudinary
-        deleteImageFromCloudinary($imageName);
+        deleteImageFromCloudinary($imageName, 'products');
         // Now delete the image record from the database
         if ($this->imageService->deleteImage($productId, $id)) {
             // Redirect back to the product edit page after successful deletion

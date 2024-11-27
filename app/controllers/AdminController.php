@@ -146,6 +146,7 @@ class AdminController extends Controller
             'typeError' => '',
             'stockError' => '',
             'imageError' => '',
+            'descriptionError' =>'' ,
             'categoryList' => $categoryList,
             'productImage' => $image
         ];

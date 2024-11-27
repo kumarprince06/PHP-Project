@@ -112,7 +112,13 @@ class ProductController extends Controller
         }
 
         $product = $this->productService->getProductById($id);
-        $data = ['title' => 'Shop', 'product' => $product, 'cartCount' => count($cartitems)];
+        $images = $this->imageService->getImagesByProductId($id);
+        $data = [
+            'title' => 'Shop',
+            'product' => $product,
+            'cartCount' => count($cartitems),
+            'images' => $images
+        ];
         $this->view('products/show', $data);
     }
 
@@ -257,8 +263,6 @@ class ProductController extends Controller
         // Redirect to the inventory page
         redirect('adminController/inventory');
     }
-
-
 
     // Initialize Form Data
     private function initializeProductData()

@@ -281,22 +281,3 @@ table#my-orders-table a.view-order {
     height: 120px;
   }
 }
-
-/* Order Table */
-.custom-table {
-  border-radius: 15px; /* Rounded border for the table */
-  overflow: hidden; /* Prevent corners from overlapping content */
-}
-
-.custom-table thead {
-  border-top-left-radius: 15px; /* Round top-left corner */
-  border-top-right-radius: 15px; /* Round top-right corner */
-}
-
-.custom-table tbody tr:last-child td:first-child {
-  border-bottom-left-radius: 15px; /* Round bottom-left corner */
-}
-
-.custom-table tbody tr:last-child td:last-child {
-  border-bottom-right-radius: 15px; /* Round bottom-right corner */
-}

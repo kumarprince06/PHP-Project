@@ -36,26 +36,26 @@
                             <td>
                                 <!-- View Button to Trigger View Modal -->
                                 <button
-                                    class="btn btn-warning fw-bold text-white view-btn"
+                                    class="btn btn-info fw-bold text-white view-btn"
                                     data-id="<?php echo $category->id; ?>"
                                     data-name="<?php echo htmlspecialchars($category->name); ?>"
                                     data-bs-toggle="modal"
                                     data-bs-target="#viewCategoryModal">
-                                    View
+                                    <i class="fa-solid fa-eye"></i>
                                 </button>
                                 <?php if ($_SESSION['sessionData']['role'] === 'admin') : ?>
                                     <!-- Edit Button to Trigger Edit Modal -->
                                     <button
-                                        class="btn btn-primary fw-bold text-white edit-btn"
+                                        class="btn btn-warning fw-bold text-white edit-btn"
                                         data-id="<?php echo $category->id; ?>"
                                         data-name="<?php echo htmlspecialchars($category->name); ?>"
                                         data-bs-toggle="modal"
                                         data-bs-target="#editCategoryModal">
-                                        Edit
+                                        <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
                                     <!-- Form for delete operation -->
                                     <form action="<?php echo URLROOT ?>/categoryController/delete/<?php echo $category->id ?>" method="POST" style="display:inline;">
-                                        <button class="btn btn-danger fw-bold text-white" type="submit" onclick="return confirm('Are you sure you want to delete this category?');">Delete</button>
+                                        <button class="btn btn-danger fw-bold text-white" type="submit" onclick="return confirm('Are you sure you want to delete this category?');"><i class="fa-solid fa-trash"></i></button>
                                     </form>
                                 <?php endif; ?>
                             </td>

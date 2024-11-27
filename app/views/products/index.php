@@ -123,9 +123,9 @@
                 <?php  // Loop through the products array and display each product
                 foreach ($data['products'] as $product) : ?>
                     <div class="col-md-4">
-                        <div class="card mb-4 product-wap rounded-0">
-                            <div class="card rounded-0">
-                                <img class="card-img rounded-0 img-fluid" src="<?php echo URLROOT; ?>/public/images/<?php echo $product->image; ?>" alt="Product Image" height="100" width="100">
+                        <div class="card mb-4 product-wap rounded">
+                            <div class="card rounded">
+                                <img class="card-img rounded-0 img-fluid" src="<?php echo URLROOT; ?>/public/images/products/<?php echo $product->image; ?>" alt="Product Image" height="100" width="100">
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
                                         <li><a class="btn btn-success text-white mt-2" href="<?php echo URLROOT ?>/productController/show/<?php echo $product->id ?>"><i class="far fa-eye"></i></a></li>
@@ -158,7 +158,6 @@
                             <div class="card-body">
                                 <a href="shop-single.html" class="h3 text-decoration-none"><?php echo $product->name ?></a>
                                 <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
-                                    <li>64GB / 128GB / 256GB</li>
                                     <li class="pt-2">
                                         <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
                                         <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
@@ -184,7 +183,7 @@
                                 <!-- Discount and Stock Info -->
                                 <div class="d-flex justify-content-between mt-2">
                                     <!-- Discount with red background -->
-                                    <span class="badge bg-danger text-white">Discount: 17%</span>
+                                    <span class="badge bg-danger text-white">Discount: <?php echo round((($product->original_price - $product->selling_price) / $product->original_price) * 100); ?>%</span>
 
                                     <!-- Stock with green background -->
                                     <span class="badge bg-success text-white"><?php echo $product->stock; ?></span>

@@ -147,7 +147,7 @@
                 <div class="col-12 col-md-4 mb-4 bg-light rounded">
                     <div class="card h-100">
                         <a href="<?php echo URLROOT; ?>/productController/show/<?php echo $product->id; ?>">
-                            <img src="<?php echo URLROOT; ?>/public/images/<?php echo $product->image; ?>"
+                            <img src="<?php echo URLROOT; ?>/public/images/products/<?php echo $product->image; ?>"
                                 class="card-img-top"
                                 alt="<?php echo htmlspecialchars($product->name); ?>">
                         </a>

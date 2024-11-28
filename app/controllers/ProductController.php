@@ -168,8 +168,6 @@ class ProductController extends Controller
         // Upload Image
         uploadImage($data, 'products');
 
-        error_log('Image Count: ' . count($data['images']));
-
         // Validate data
         $this->validateProductData($data, true);
 
@@ -179,10 +177,12 @@ class ProductController extends Controller
             // Add product
             $product = $data['type'] == 'Physical' ? new PhysicalProduct($data) : new DigitalProduct($data);
             if ($this->productService->updateProduct($product)) {
-                // Save images to the database
-                error_log('Image Count: ' . count($data['images']));
+                // Check if $data['images'] has data before calling the service
+                if (isset($data['images']) && is_array($data['images']) && count($data['images']) > 0) {
+                    $this->imageService->uploadImage($data['id'], $data['images']);
+                }
 
-                $this->imageService->uploadImage($data['id'], $data['images']);
+                // $this->imageService->uploadImage($data['id'], $data['images']);
                 flashMessage('successMessage', 'Product updated successfully');
                 // Redirect to the show page with the last inserted product ID
                 redirect('adminController/inventory');
@@ -203,12 +203,8 @@ class ProductController extends Controller
     // Delete Product Handler
     public function delete($id)
     {
-        // Log the incoming request
-        error_log("Received delete request for product ID: " . $id);
-
         // Check for POST request
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            error_log("Invalid request method for deleting product ID: " . $id);
             redirect('adminController/inventory');
             return;
         }
@@ -216,40 +212,18 @@ class ProductController extends Controller
         // Get all images associated with the product
         $images = $this->imageService->getImagesByProductId($id);
 
-        // Log the number of images associated with the product
-        error_log("Found " . count($images) . " image(s) for product ID: " . $id);
-
         // Loop through the images and delete them
         foreach ($images as $image) {
-            // Log image details before deletion
-            error_log("Attempting to delete image: " . $image->name);
 
             // Delete the image from Cloudinary or the local server
             deleteImageFromCloudinary($image->name, 'products');
 
-            // Log the deletion result of the image
-            error_log("Successfully deleted image: " . $image->name);
-
             // Delete the image record from the database
-            $imageDeletionResult = $this->imageService->deleteImage($id, $image->id);
-
-            // Log the result of image deletion from the database
-            if ($imageDeletionResult) {
-                error_log("Successfully deleted image record for image ID: " . $image->id);
-            } else {
-                error_log("Failed to delete image record for image ID: " . $image->id);
-            }
+            $this->imageService->deleteImage($id, $image->id);
         }
 
         // Now delete the product from the database
-        $productDeletionResult = $this->productService->deleteProduct($id);
-
-        // Log the result of product deletion
-        if ($productDeletionResult) {
-            error_log("Successfully deleted product ID: " . $id);
-        } else {
-            error_log("Failed to delete product ID: " . $id);
-        }
+        $this->productService->deleteProduct($id);
 
         // Set a success flash message
         flashMessage('successMessage', 'Product deleted successfully');

@@ -12,11 +12,10 @@
             <div class="row">
                 <div class="col-md-8 mx-auto">
                     <!-- Image View -->
-                    <div class="row mb-3 text-center">
+                    <div class="row mb-3 justify-content-center text-center">
                         <div class="col-sm-9">
-                            <div class="row g-1">
+                            <div class="row g-3 justify-content-center">
                                 <?php foreach ($data['productImage'] as $image): ?>
-
                                     <div class="col-4 col-md-3 col-lg-2 position-relative">
                                         <div class="border rounded overflow-hidden bg-secondary w-100 h-100">
                                             <img
@@ -42,6 +41,7 @@
                             </div>
                         </div>
                     </div>
+
                     <form action="<?php echo URLROOT; ?>/productController/update" method="post" enctype="multipart/form-data" novalidate class="text-secondary fw-bolder fs-2">
                         <!-- Product Id  -->
                         <input type="number" hidden name="id" value="<?php echo $data['id'] ?>">

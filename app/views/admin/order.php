@@ -91,5 +91,11 @@
     </div>
 </main>
 
+<script>
+    function fetchOrderDetails(orderId){
+        const response = fetch('<?php echo URLROOT; ?>/adminControlller/order/'.orderId)
+    }
+</script>
+
 <!-- Include Footer -->
 <?php require APPROOT . '/views/admin/footer.php'; ?>

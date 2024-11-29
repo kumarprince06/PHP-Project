@@ -24,7 +24,7 @@ function uploadImage(&$data, $folderName)
             $imageExtension = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
 
             // Validate the image type and size
-            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
             if (!in_array($imageExtension, $allowedExtensions)) {
                 $errors[] = "Invalid type for image $imageName. Allowed types are: jpg, jpeg, png, gif.";
                 continue;

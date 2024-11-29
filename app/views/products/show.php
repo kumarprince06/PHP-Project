@@ -23,7 +23,7 @@
                     </div>
                     <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
                         <div class="carousel-inner product-links-wap" role="listbox">
-                            <div class="carousel-item active">
+                            <div class="carousel-item active ">
                                 <div class="row">
                                     <!-- Loop through images -->
                                     <?php if (!empty($data['images'])): ?>
@@ -81,7 +81,7 @@
 
                         <h6>Description:</h6>
                         <p><?php echo $data['product']->description ?? 'No description available'; ?></p>
-                        <ul class="list-inline">
+                        <ul class="list-inline mb-0">
                             <li class="list-inline-item">
                                 <h6>Category:</h6>
                             </li>
@@ -121,9 +121,5 @@
         </div>
     </div>
 </div>
-
-
-
-<!-- <a href="<?php echo URLROOT; ?>/productController/index" class="btn btn-secondary mt-3">Go back</a> -->
 
 <?php require APPROOT . '/views/includes/footer.php'; ?>

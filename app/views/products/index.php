@@ -1,17 +1,5 @@
 <?php require APPROOT . '/views/includes/header.php'; ?>
 
-<!-- Add Product Button only visible if admin is logged in -->
-
-<?php if ($_SESSION['sessionData']['role'] === 'admin'): ?>
-
-    <div class="d-flex justify-content-end m-2">
-        <a href="<?php echo URLROOT ?>/productController/add" class="btn btn-success mt-2 text-white">
-            <i class="fa-solid fa-plus"></i> Add Product
-        </a>
-    </div>
-
-<?php endif ?>
-
 <?php echo flashMessage('successMessage'); ?>
 <?php echo flashErrorMessage('errorMessage'); ?>
 
@@ -29,10 +17,10 @@
                         <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
                     <ul class="collapse show list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Smartphones</a></li>
+                        <li><a class="text-decoration-none" href="#">Mobiles</a></li>
                         <li><a class="text-decoration-none" href="#">Laptops</a></li>
                         <li><a class="text-decoration-none" href="#">Tablets</a></li>
-                        <li><a class="text-decoration-none" href="#">Smartwatches</a></li>
+                        <li><a class="text-decoration-none" href="#">Watches</a></li>
                     </ul>
                 </li>
 
@@ -45,8 +33,12 @@
                     <ul id="collapseTwo" class="collapse list-unstyled pl-3">
                         <li><a class="text-decoration-none" href="#">Apple</a></li>
                         <li><a class="text-decoration-none" href="#">Samsung</a></li>
-                        <li><a class="text-decoration-none" href="#">Sony</a></li>
-                        <li><a class="text-decoration-none" href="#">Huawei</a></li>
+                        <li><a class="text-decoration-none" href="#">Motorola</a></li>
+                        <li><a class="text-decoration-none" href="#">Realme</a></li>
+                        <li><a class="text-decoration-none" href="#">Redmi</a></li>
+                        <li><a class="text-decoration-none" href="#">Vivo</a></li>
+                        <li><a class="text-decoration-none" href="#">Oppo</a></li>
+                        <li><a class="text-decoration-none" href="#">Oneplus</a></li>
                     </ul>
                 </li>
 
@@ -71,9 +63,9 @@
                         <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
                     <ul id="collapseFour" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">New Smartphones</a></li>
+                        <li><a class="text-decoration-none" href="#">New Mobiles</a></li>
                         <li><a class="text-decoration-none" href="#">New Laptops</a></li>
-                        <li><a class="text-decoration-none" href="#">New Smartwatches</a></li>
+                        <li><a class="text-decoration-none" href="#">New Watches</a></li>
                     </ul>
                 </li>
 
@@ -84,7 +76,7 @@
                         <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
                     <ul id="collapseFive" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Smartphones</a></li>
+                        <li><a class="text-decoration-none" href="#">Mobiles</a></li>
                         <li><a class="text-decoration-none" href="#">Laptops</a></li>
                         <li><a class="text-decoration-none" href="#">Accessories</a></li>
                     </ul>
@@ -101,10 +93,10 @@
                             <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
                         </li>
                         <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>
+                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Digital</a>
                         </li>
                         <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
+                            <a class="h3 text-dark text-decoration-none" href="#">Physical</a>
                         </li>
                     </ul>
                 </div>
@@ -113,7 +105,7 @@
                         <select class="form-control">
                             <option>Featured</option>
                             <option>A to Z</option>
-                            <option>Item</option>
+                            <option>Low to High</option>
                         </select>
                     </div>
                 </div>
@@ -139,19 +131,19 @@
                                                     <button class="btn btn-danger text-white mt-2" type="submit" onclick="return confirm('Are you sure you want to delete this product?');"><i class="fa-solid fa-trash"></i></button>
                                                 </form>
                                             </li>
-                                        <?php else: ?>
-                                            <li>
+                                            < <?php elseif ($product->stock > 0) : ?>
+                                                <li>
                                                 <form action="<?php echo URLROOT; ?>/userController/addToWishlist/<?php echo $product->id; ?>" method="POST" style="display:inline;">
                                                     <button class="btn btn-success text-white mt-2"><i class="far fa-heart"></i></button>
                                                 </form>
-                                            </li>
-                                            <li>
-                                                <form action="<?php echo URLROOT; ?>/cartController/addToCart/<?php echo $product->id; ?>" method="POST" style="display:inline;">
-                                                    <button class="btn btn-success text-white mt-2"><i class="fas fa-cart-plus"></i></button>
-                                                </form>
+                                                </li>
+                                                <li>
+                                                    <form action="<?php echo URLROOT; ?>/cartController/addToCart/<?php echo $product->id; ?>" method="POST" style="display:inline;">
+                                                        <button class="btn btn-success text-white mt-2"><i class="fas fa-cart-plus"></i></button>
+                                                    </form>
 
-                                            </li>
-                                        <?php endif; ?>
+                                                </li>
+                                            <?php endif; ?>
                                     </ul>
                                 </div>
                             </div>
@@ -183,10 +175,23 @@
                                 <!-- Discount and Stock Info -->
                                 <div class="d-flex justify-content-between mt-2">
                                     <!-- Discount with red background -->
-                                    <span class="badge bg-danger text-white">Discount: <?php echo round((($product->original_price - $product->selling_price) / $product->original_price) * 100); ?>%</span>
+                                    <span class="badge bg-danger text-white"><?php echo round((($product->original_price - $product->selling_price) / $product->original_price) * 100); ?>% Off</span>
 
                                     <!-- Stock with green background -->
-                                    <span class="badge bg-success text-white"><?php echo $product->stock; ?></span>
+                                    <?php
+                                    if ($product->stock >= 15) {
+                                        $badgeClass = "bg-success";
+                                        $badgeText = $product->stock;
+                                    } elseif ($product->stock >= 5) {
+                                        $badgeClass = "bg-danger";
+                                        $badgeText = "Only " . $product->stock . " items left";
+                                    } else {
+                                        $badgeClass = "bg-danger";
+                                        $badgeText = "Out of stock";
+                                    }
+                                    ?>
+                                    <span class="badge <?php echo $badgeClass; ?> text-white"><?php echo $badgeText; ?></span>
+
                                 </div>
                             </div>
                         </div>

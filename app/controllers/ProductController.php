@@ -285,7 +285,7 @@ class ProductController extends Controller
             $data['categoryError'] = 'Select a category!';
         }
 
-        if (empty($data['stock'])) {
+        if (!isset($data['stock']) || $data['stock'] === '') {
             $data['stockError'] = 'Stock is required!';
         }
 

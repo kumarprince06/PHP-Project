@@ -9,7 +9,7 @@
         <div class="col-lg-5 mt-5">
             <div class="card mb-3">
                 <!-- Main Product Image -->
-                <img class="card-img img-fluid" src="<?php echo URLROOT; ?>/public/images/products/<?php echo $data['images'][0]->name; ?>" alt="<?php echo htmlspecialchars($data['product']->product_name); ?>" id="product-detail">
+                <img class="card-img img-fluid" src="<?php echo URLROOT; ?>/public/images/products/<?php echo $data['images'][0]->name; ?>" alt="<?php echo htmlspecialchars($data['product']->name); ?>" id="product-detail">
             </div>
 
             <!-- Image Carousel -->
@@ -53,7 +53,6 @@
                 </div>
             </div>
         </div>
-
         <!-- End Product Image Section -->
 
         <!-- Product Info Section -->
@@ -97,20 +96,26 @@
                         <li><strong>Original Price:</strong> <span class="text-muted">₹<?php echo number_format($data['product']->original_price, 2); ?></span></li>
                     </ul>
 
-                    <form action="<?php echo URLROOT; ?>/cart/add/<?php echo $data['product']->id; ?>" method="POST">
-                        <div class="row pb-3">
-                            <div class="col d-grid">
-                                <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                    <!-- Conditional Buttons Based on Stock -->
+                    <?php if ($data['product']->stock > 0): ?>
+                        <form action="<?php echo URLROOT; ?>/cart/add/<?php echo $data['product']->id; ?>" method="POST">
+                            <div class="row pb-3">
+                                <div class="col d-grid">
+                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                                </div>
+                                <div class="col d-grid">
+                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocart">Add To Cart</button>
+                                </div>
                             </div>
-                            <div class="col d-grid">
-                                <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocart">Add To Cart</button>
-                            </div>
+                        </form>
+                    <?php else: ?>
+                        <div class="alert alert-danger text-center" role="alert">
+                            This product is currently out of stock.
                         </div>
-                    </form>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
-
         <!-- End Product Info Section -->
     </div>
 </div>

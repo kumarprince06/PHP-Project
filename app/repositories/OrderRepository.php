@@ -103,63 +103,40 @@ class OrderRepository
         }
     }
 
-    public function getDailyRevenue()
+
+    public function getMonthlyRevenue($currentYear)
     {
-        // Run the query to get the daily revenue
-        $this->db->query('SELECT
-                        DATE(order_date) AS order_date,
-                        SUM(total) AS daily_revenue
-                      FROM orders
-                      GROUP BY DATE(order_date)
-                      ORDER BY order_date DESC');
-
-        try {
-            // Fetch the results
-            $result = $this->db->resultSet();
-
-            // Log if no results are returned
-            if (empty($result)) {
-                error_log('No daily revenue data found.');
-            }
-
-            return $result;
-        } catch (Exception $e) {
-            // Log any errors
-            error_log("Error fetching daily revenue: " . $e->getMessage());
-            return []; // Return an empty array if an error occurs
-        }
-    }
-
-
-    public function getMonthlyRevenue()
-    {
-        $sql = "SELECT
-                    YEAR(order_date) AS year,
-                    MONTH(order_date) AS month,
-                    SUM(total) AS monthly_revenue
-                FROM
-                    orders
-                GROUP BY
-                    YEAR(order_date), MONTH(order_date)
-                ORDER BY
-                    year, month";
-
+        $sql = "SELECT DATE_FORMAT(order_date, '%M') AS month, 
+                SUM(total) AS revenue
+                FROM orders 
+                WHERE status = 'Delivered' AND YEAR(order_date) =:year
+                GROUP BY DATE_FORMAT(order_date, '%M'), MONTH(order_date) 
+                ORDER BY MONTH(order_date)";
         $this->db->query($sql);
+        $this->db->bind(':year', $currentYear);
+
         return $this->db->resultSet();
     }
 
-    public function getYearlyRevenue()
+    public function getYearlyRevenue($years = 5)
     {
+        $currentYear = date('Y');
+        // Calculate the starting year for the query (e.g., 5 years ago)
+        $startYear = $currentYear - $years + 1;
+
         // Query to fetch yearly revenue
-        $this->db->query('SELECT
-                        YEAR(order_date) AS year,
-                        SUM(total) AS yearly_revenue
-                      FROM
-                        orders
-                      GROUP BY
-                        YEAR(order_date)
-                      ORDER BY
-                        year');
+        $sql = "SELECT YEAR(order_date) AS year, SUM(total) AS revenue
+            FROM orders
+            WHERE status = 'Delivered'
+            AND YEAR(order_date) BETWEEN :startYear AND :currentYear
+            GROUP BY YEAR(order_date)
+            ORDER BY YEAR(order_date)";
+
+        $this->db->query($sql); // Pass the query to db handler
+
+        // Bind the values for :startYear and :currentYear
+        $this->db->bind(':startYear', $startYear);
+        $this->db->bind(':currentYear', $currentYear);
 
         // Capture and return the result
         return $this->db->resultSet();

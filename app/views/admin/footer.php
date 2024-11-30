@@ -30,27 +30,20 @@
       });
   </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-      // Daily Revenue Data
-      const dailyData = {
-          labels: ['12 AM', '3 AM', '6 AM', '9 AM', '12 PM', '3 PM', '6 PM', '9 PM'],
-          datasets: [{
-              label: 'Revenue (in $)',
-              data: [100, 150, 200, 300, 400, 350, 450, 500],
-              backgroundColor: 'rgba(75, 192, 192, 0.2)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 2,
-              tension: 0.4
-          }]
-      };
+      // Get the monthly data from PHP and map it to chart labels and revenues
+      const monthlyData = <?php echo json_encode($data['monthly']); ?>;
+      console.log(monthlyData);
 
-      // Monthly Revenue Data
-      const monthlyData = {
-          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+      const monthlyLabels = monthlyData.map(item => item.month);
+      const monthlyRevenue = monthlyData.map(item => parseFloat(item.revenue));
+
+      // Monthly Revenue Chart Data
+      const monthlyChartData = {
+          labels: monthlyLabels,
           datasets: [{
-              label: 'Revenue (in $)',
-              data: [1500, 2000, 2500, 3000],
+              label: 'Revenue (in ₹)',
+              data: monthlyRevenue,
               backgroundColor: 'rgba(54, 162, 235, 0.2)',
               borderColor: 'rgba(54, 162, 235, 1)',
               borderWidth: 2,
@@ -58,12 +51,19 @@
           }]
       };
 
-      // Yearly Revenue Data
-      const yearlyData = {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+
+      // Get the year;ly data from PHP and map it to chart labels and revenues
+      const yearlyData = <?php echo json_encode($data['yearly']); ?>;
+      console.log(yearlyData);
+      const yearlyLabels = yearlyData.map(item => item.year);
+      const yearlyRevenue = yearlyData.map(item => parseFloat(item.revenue));
+
+      // Yearly Revenue Data (Hardcoded for now)
+      const yearlyChartData = {
+          labels: yearlyLabels,
           datasets: [{
-              label: 'Revenue (in $)',
-              data: [12000, 15000, 13000, 16000, 18000, 20000, 25000, 22000, 24000, 26000, 28000, 30000],
+              label: 'Revenue (in ₹)',
+              data: yearlyRevenue,
               backgroundColor: 'rgba(255, 206, 86, 0.2)',
               borderColor: 'rgba(255, 206, 86, 1)',
               borderWidth: 2,
@@ -71,24 +71,10 @@
           }]
       };
 
-      // Daily Revenue Chart
-      new Chart(document.getElementById('dailyRevenueChart'), {
-          type: 'line',
-          data: dailyData,
-          options: {
-              responsive: true,
-              plugins: {
-                  legend: {
-                      position: 'top'
-                  }
-              }
-          }
-      });
-
-      // Monthly Revenue Chart
+      // Initialize Monthly Revenue Bar Chart
       new Chart(document.getElementById('monthlyRevenueChart'), {
           type: 'bar',
-          data: monthlyData,
+          data: monthlyChartData,
           options: {
               responsive: true,
               plugins: {
@@ -99,10 +85,10 @@
           }
       });
 
-      // Yearly Revenue Chart
+      // Initialize Yearly Revenue Line Chart
       new Chart(document.getElementById('yearlyRevenueChart'), {
           type: 'line',
-          data: yearlyData,
+          data: yearlyChartData,
           options: {
               responsive: true,
               plugins: {
@@ -113,6 +99,7 @@
           }
       });
   </script>
+
   <!-- DataTables JS -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>

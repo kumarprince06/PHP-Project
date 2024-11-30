@@ -100,14 +100,13 @@ class OrderService
 
     public function getRevenueOverview()
     {
-        $dailyRevenue = $this->orderRepository->getDailyRevenue();
-        $monthlyRevenue = $this->orderRepository->getMonthlyRevenue();
-        $yearlyRevenue = $this->orderRepository->getYearlyRevenue();
+        $currentYear = date("Y");
+        $monthlyRevenue = $this->orderRepository->getMonthlyRevenue($currentYear);
+        $yearlyRevenue = $this->orderRepository->getYearlyRevenue(5);
 
 
         // Return array structure
         return [
-            'daily' => $dailyRevenue,
             'monthly' => $monthlyRevenue,
             'yearly' => $yearlyRevenue,
         ];

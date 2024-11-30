@@ -21,16 +21,16 @@
                             <span class="sr-only">Previous</span>
                         </a>
                     </div>
-                    <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
+                    <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item max-w-100 overflow-hidden" data-bs-ride="carousel">
                         <div class="carousel-inner product-links-wap" role="listbox">
                             <div class="carousel-item active ">
-                                <div class="row">
+                                <div class="row max-w-100 overflow-hidden">
                                     <!-- Loop through images -->
                                     <?php if (!empty($data['images'])): ?>
                                         <?php foreach ($data['images'] as $image): ?>
                                             <div class="col-3">
                                                 <a href="#">
-                                                    <img class="card-img img-fluid" src="<?php echo URLROOT; ?>/public/images/products/<?php echo $image->name; ?>" alt="Product Image">
+                                                    <img class="card-img img-fluid bg-white rounded" src="<?php echo URLROOT; ?>/public/images/products/<?php echo $image->name; ?>" alt="Product Image">
                                                 </a>
                                             </div>
                                         <?php endforeach; ?>

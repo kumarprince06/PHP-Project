@@ -28,14 +28,13 @@ class AdminController extends Controller
         $productCount = $this->productService->getTotalProductCount();
         $userCount = $this->userService->getTotalUserCount();
         $data = [
-            'daily' => $revenue['daily'],
             'monthly' => $revenue['monthly'],
             'yearly' => $revenue['yearly'],
             'dailyOrder' => $orderCount['dailyOrder'],
             'monthlyOrder' => $orderCount['monthlyOrder'],
             'yearlyOrder' => $orderCount['yearlyOrder'],
             'productCount' => $productCount,
-            'userCount' => $userCount
+            'userCount' => $userCount,
         ];
         $this->view('admin/dashboard', $data);
     }
@@ -49,17 +48,6 @@ class AdminController extends Controller
         }
         $data = ['orders' => $orders];  // Pass the orders to the view
         $this->view('admin/order', $data);
-    }
-
-    public function revenue_overview()
-    {
-        $revenue = $this->orderService->getRevenueOverView();
-        $data = [
-            'daily' => $revenue['daily'],
-            'monthly' => $revenue['monthly'],
-            'yearly' => $revenue['yearly']
-        ];
-        $this->view('admin/revenue_overview', $data);
     }
 
     public function update_order_status()
@@ -146,7 +134,7 @@ class AdminController extends Controller
             'typeError' => '',
             'stockError' => '',
             'imageError' => '',
-            'descriptionError' =>'' ,
+            'descriptionError' => '',
             'categoryList' => $categoryList,
             'productImage' => $image
         ];

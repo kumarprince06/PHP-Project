@@ -144,12 +144,10 @@ class OrderRepository
 
     public function getDailyOrderCount()
     {
-        $this->db->query('
-        SELECT DATE(order_date) AS order_date, COUNT(*) AS daily_order_count
-        FROM orders
-        GROUP BY DATE(order_date)
-        ORDER BY order_date DESC
-    ');
+        $this->db->query("SELECT DATE(order_date) AS order_date, COUNT(*) AS daily_order_count
+                            FROM orders
+                            GROUP BY DATE(order_date)
+                            ORDER BY order_date DESC");
         return $this->db->resultSet(); // Fetch and return the result set
     }
 
@@ -166,12 +164,10 @@ class OrderRepository
 
     public function getYearlyOrderCount()
     {
-        $this->db->query('
-        SELECT YEAR(order_date) AS year, COUNT(*) AS yearly_order_count
-        FROM orders
-        GROUP BY YEAR(order_date)
-        ORDER BY year DESC
-    ');
+        $this->db->query(" SELECT YEAR(order_date) AS year, COUNT(*) AS yearly_order_count
+                            FROM orders
+                            GROUP BY YEAR(order_date)
+                            ORDER BY year DESC");
         return $this->db->resultSet();
     }
 
@@ -179,31 +175,30 @@ class OrderRepository
     {
         // Query to fetch orders with the status not 'Completed'
         $this->db->query("SELECT
-                        orders.id AS order_id,
-                        orders.order_date,
-                        orders.total,
-                        orders.status,
-                        users.email AS customer_email,
-                        users.name AS customer_name
-                      FROM
-                        orders
-                      JOIN
-                        users ON orders.user_id = users.id
-                      WHERE
-                        orders.status != 'Completed'
-                      ORDER BY
-                        orders.order_date DESC");
-
+                             o.id AS order_id,
+                             o.user_id,
+                             o.order_date,
+                             o.total,
+                             o.status AS order_status,
+                             oi.id AS order_item_id,
+                             oi.product_id,
+                             oi.category_id,
+                             oi.quantity,
+                             oi.price,
+                             u.name AS user_name,
+                             u.email AS user_email
+                        FROM
+                             orders o
+                        JOIN
+                             order_items oi ON o.id = oi.order_id
+                        JOIN
+                             users u ON o.user_id = u.id
+                        ORDER BY
+                             o.order_date DESC
+                        ");
         try {
             // Attempt to get the result set from the query
-            $result = $this->db->resultSet();
-
-            // Log the result or check if empty
-            if (empty($result)) {
-                error_log("No orders found with status other than 'Completed'.");
-            }
-            // Return the result (orders data)
-            return $result;
+            return $this->db->resultSet();
         } catch (Exception $e) {
             // Log the error if there was an exception while executing the query
             error_log("Error fetching orders: " . $e->getMessage());
@@ -223,5 +218,23 @@ class OrderRepository
 
         // Execute the query and check if it's successful
         return $this->db->execute();
+    }
+
+    public function getTotalSalesCount()
+    {
+        $currentYear = date('Y');
+
+        $sql = "SELECT DATE_FORMAT(o.order_date, '%M') AS month, 
+                   SUM(oi.quantity) AS total_sales
+            FROM orders o
+            JOIN order_items oi ON o.id = oi.order_id
+            WHERE o.status = 'Delivered' AND YEAR(o.order_date) = :year
+            GROUP BY DATE_FORMAT(o.order_date, '%M'), MONTH(o.order_date)
+            ORDER BY MONTH(o.order_date)";
+
+        $this->db->query($sql);
+        $this->db->bind(':year', $currentYear);
+
+        return $this->db->resultSet();
     }
 }

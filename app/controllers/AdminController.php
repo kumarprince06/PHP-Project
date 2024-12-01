@@ -23,19 +23,16 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        $revenue = $this->orderService->getRevenueOverView();
-        $orderCount = $this->orderService->getOrderOverview();
-        $productCount = $this->productService->getTotalProductCount();
-        $userCount = $this->userService->getTotalUserCount();
         $data = [
-            'monthly' => $revenue['monthly'],
-            'yearly' => $revenue['yearly'],
-            'dailyOrder' => $orderCount['dailyOrder'],
-            'monthlyOrder' => $orderCount['monthlyOrder'],
-            'yearlyOrder' => $orderCount['yearlyOrder'],
-            'productCount' => $productCount,
-            'userCount' => $userCount,
+            'monthly' => $this->orderService->getRevenueOverView()['monthly'],
+            'yearly' => $this->orderService->getRevenueOverView()['yearly'],
+            'yearlyOrder' => $this->orderService->getOrderOverview()['yearlyOrder'],
+            'productCount' => $this->productService->getTotalProductCount(),
+            'userCount' => $this->userService->getTotalUserCount(),
+            'OrderDetail' => $this->orderService->getAllOrders(),
+            'salesCount' => $this->orderService->getTotalSalesCount(),
         ];
+
         $this->view('admin/dashboard', $data);
     }
 

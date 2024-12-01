@@ -22,7 +22,7 @@
                 </div>
                 <!-- Total Products -->
                 <div class="col-lg-4 col-md-4 col-sm-4">
-                    <a href="#" class="card bg-primary text-white text-center p-3">
+                    <a href="#" class="card bg-warning text-white text-center p-3">
                         <h4>Total Products</h4>
                         <p><?php echo $data['productCount'] ?></p>
                     </a>
@@ -30,17 +30,24 @@
                 <!-- Total Revenue -->
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <a href="#" class="card bg-info text-white text-center p-3">
-                        <h4>Total Revenue</h4>
+                        <h4>Total Revenue (<?php echo date('Y'); ?>)</h4>
                         <p>
                             <?php
-
-                            if (isset($data['yearly'][0]) && is_array($data['yearly'])) {
-                                echo '₹' . number_format($data['yearly'][0]->revenue, 2);
+                            if (isset($data['yearly']) && is_array($data['yearly']) && !empty($data['yearly'])) {
+                                // Get the last element of the array
+                                $latestRevenue = end($data['yearly']);
+                                // Ensure the revenue property exists in the last element
+                                if (isset($latestRevenue->revenue)) {
+                                    echo '₹' . number_format($latestRevenue->revenue, 2);
+                                } else {
+                                    echo '₹0.00'; // Fallback if revenue isn't set
+                                }
                             } else {
-                                echo '₹0.00';
+                                echo '₹0.00'; // Fallback for empty or invalid array
                             }
                             ?>
                         </p>
+
                     </a>
                 </div>
             </div>
@@ -96,30 +103,34 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>John Doe</td>
-                                        <td>Amazon Echo</td>
-                                        <td>2</td>
-                                        <td><span class="badge bg-success">Delivered</span></td>
-                                        <td><a href="#" class="btn btn-sm btn-info">View</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Jane Smith</td>
-                                        <td>AMD Processor</td>
-                                        <td>1</td>
-                                        <td><span class="badge bg-warning">Pending</span></td>
-                                        <td><a href="#" class="btn btn-sm btn-info">View</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Chris Lee</td>
-                                        <td>Alexa Device</td>
-                                        <td>4</td>
-                                        <td><span class="badge bg-danger">Cancelled</span></td>
-                                        <td><a href="#" class="btn btn-sm btn-info">View</a></td>
-                                    </tr>
+                                    <?php
+                                    // var_dump($data['OrderDetail']);
+                                    // Limit orders to 5
+                                    if (isset($data['OrderDetail']) && is_array($data['OrderDetail'])):
+                                        $recentOrders = array_slice($data['OrderDetail'], 0, 5); // Get only the first 5
+                                        foreach ($recentOrders as $index => $order): ?>
+                                            <tr>
+                                                <td><?= $index + 1 ?></td>
+                                                <td><?= $order->user_name ?></td>
+                                                <td>₹<?= number_format($order->total, 2) ?></td>
+                                                <td>
+                                                    <span class="badge bg-success"><?= $order->order_status ?></span>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info view-order"
+                                                        data-order="<?= htmlspecialchars(json_encode($order)) ?>"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#orderModal">
+                                                        View
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="5" class="text-center">No recent orders found</td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -134,7 +145,7 @@
                 <div class="col-md-12">
                     <div class="card shadow-sm">
                         <div class="card-header bg-dark text-white">
-                            <h6 class="mb-0">Sales Performance</h6>
+                            <h6 class="mb-0">Sales Performance (<?php echo date('Y'); ?>)</h6>
                         </div>
                         <div class="card-body">
                             <canvas id="salesChart"></canvas>
@@ -143,8 +154,6 @@
                 </div>
             </div>
         </section>
-
-
     </div>
 </main>
 <!-- main ends -->

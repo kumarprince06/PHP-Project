@@ -143,4 +143,9 @@ class OrderService
             return false;
         }
     }
+
+    public function getTotalSalesCount()
+    {
+        return $this->orderRepository->getTotalSalesCount();
+    }
 }

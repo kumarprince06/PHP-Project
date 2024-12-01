@@ -4,36 +4,12 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   <script src="<?php echo URLROOT ?>/public/js/admin-dashboard.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-      const ctx = document.getElementById('salesChart').getContext('2d');
-      const salesChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-              labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-              datasets: [{
-                  label: 'Sales',
-                  data: [120, 190, 300, 500, 200, 300],
-                  borderColor: 'rgba(54, 162, 235, 1)',
-                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                  borderWidth: 2,
-                  tension: 0.4
-              }]
-          },
-          options: {
-              responsive: true,
-              plugins: {
-                  legend: {
-                      position: 'top',
-                  }
-              }
-          }
-      });
-  </script>
+
+  <script src="<?php URLROOT; ?>/public/js/admin-dashboard.js"></script>
 
   <script>
       // Get the monthly data from PHP and map it to chart labels and revenues
       const monthlyData = <?php echo json_encode($data['monthly']); ?>;
-      console.log(monthlyData);
 
       const monthlyLabels = monthlyData.map(item => item.month);
       const monthlyRevenue = monthlyData.map(item => parseFloat(item.revenue));
@@ -54,7 +30,6 @@
 
       // Get the year;ly data from PHP and map it to chart labels and revenues
       const yearlyData = <?php echo json_encode($data['yearly']); ?>;
-      console.log(yearlyData);
       const yearlyLabels = yearlyData.map(item => item.year);
       const yearlyRevenue = yearlyData.map(item => parseFloat(item.revenue));
 
@@ -65,7 +40,7 @@
               label: 'Revenue (in ₹)',
               data: yearlyRevenue,
               backgroundColor: 'rgba(255, 206, 86, 0.2)',
-              borderColor: 'rgba(255, 206, 86, 1)',
+              borderColor: 'rgba(255, 106, 89, 1)',
               borderWidth: 2,
               tension: 0.4
           }]
@@ -94,6 +69,55 @@
               plugins: {
                   legend: {
                       position: 'top'
+                  }
+              }
+          }
+      });
+
+
+      // Parse sales data from PHP
+      const salesData = <?php echo json_encode($data['salesCount']); ?>;
+      console.log(salesData);
+
+      // Prepare chart labels (months) and data (sales counts)
+      const salesLabels = salesData.map(item => item.month);
+      const salesCounts = salesData.map(item => parseInt(item.total_sales));
+
+      // Initialize the chart
+      const ctx = document.getElementById('salesChart').getContext('2d');
+      new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: salesLabels,
+              datasets: [{
+                  label: 'Sales',
+                  data: salesCounts,
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                  borderWidth: 2,
+                  tension: 0.4
+              }]
+          },
+          options: {
+              responsive: true,
+              plugins: {
+                  legend: {
+                      position: 'top'
+                  }
+              },
+              scales: {
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Months'
+                      }
+                  },
+                  y: {
+                      title: {
+                          display: true,
+                          text: 'Sales Count'
+                      },
+                      beginAtZero: true
                   }
               }
           }

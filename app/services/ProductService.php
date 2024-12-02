@@ -40,7 +40,18 @@ class ProductService
         return $this->productRepository->updateStock($productId, $quantity);
     }
 
-    public function getTotalProductCount(){
+    public function getTotalProductCount()
+    {
         return $this->productRepository->getTotalProductCount();
+    }
+
+    public function getTopSellingProduct()
+    {
+        return $this->productRepository->getTopSellingProduct();
+    }
+
+    public function getLowAndOutOfStockCounts()
+    {
+        return $this->productRepository->getLowAndOutOfStockCounts();
     }
 }

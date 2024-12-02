@@ -84,11 +84,24 @@ class AdminController extends Controller
 
     public function inventory()
     {
+        $topSellingProduct = $this->productService->getTopSellingProduct();
         $products = $this->productService->getAllProducts();
-        $category = $this->categoryService->getAllCategories();
-        $data = ['products' => $products, 'category' => $category];  // Store products in an associative array
-        $this->view('admin/inventory', $data);  // Pass the array to the view
+        $categories = $this->categoryService->getAllCategories();
+        $lowAndOutOfStockCounts = $this->productService->getLowAndOutOfStockCounts();
+
+        $data = [
+            'topSellingProduct' => $topSellingProduct,
+            'products' => $products,
+            'categories' => $categories,
+            'topSellingProduct' => $this->productService->getTopSellingProduct(),
+            'productCount' => $this->productService->getTotalProductCount(),
+            'stockCount' => $lowAndOutOfStockCounts,
+        ];
+
+
+        $this->view('admin/inventory', $data);
     }
+
 
     public function profile()
     {

@@ -12,7 +12,7 @@
                     <div class="card text-center bg-primary text-white">
                         <div class="card-body">
                             <h6>Total Products</h6>
-                            <h3>1,250</h3>
+                            <h3><?php echo $data['productCount'] ?></h3>
                         </div>
                     </div>
                 </div>
@@ -20,15 +20,32 @@
                     <div class="card text-center bg-secondary text-white">
                         <div class="card-body">
                             <h6>Low Stock</h6>
-                            <h3>120</h3>
+                            <h3>
+                                <?php
+                                // Loop through stock counts and find "Low Stock"
+                                foreach ($data['stockCount'] as $stock):
+                                    if ($stock->stock_status == 'Low Stock'): // Only show low stock
+                                        echo $stock->product_count;
+                                    endif;
+                                endforeach;
+                                ?>
+                            </h3>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-3">
                     <div class="card text-center bg-danger text-white">
                         <div class="card-body">
                             <h6>Out of Stock</h6>
-                            <h3>50</h3>
+                            <h3><?php
+                                // Loop through stock counts and find "Low Stock"
+                                foreach ($data['stockCount'] as $stock):
+                                    if ($stock->stock_status == 'Out of Stock'): // Only show low stock
+                                        echo $stock->product_count;
+                                    endif;
+                                endforeach;
+                                ?></h3>
                         </div>
                     </div>
                 </div>
@@ -36,7 +53,7 @@
                     <div class="card text-center bg-success text-white">
                         <div class="card-body">
                             <h6>Top-Selling Product</h6>
-                            <h3>Smartphone</h3>
+                            <h3><?php echo $data['topSellingProduct']->product_name; ?></h3>
                         </div>
                     </div>
                 </div>
@@ -52,6 +69,8 @@
                         </button></a>
                 </div>
             </div>
+
+            <?php var_dump($data['stockCounts']->stock_status) ?>
 
             <!-- Product Table -->
             <div class="row">

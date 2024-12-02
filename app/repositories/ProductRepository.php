@@ -73,8 +73,6 @@ class ProductRepository
         return $this->db->resultSet();
     }
 
-
-
     public function getProductById($id)
     {
         $this->db->query("SELECT products.*, categories.name AS category_name
@@ -114,5 +112,48 @@ class ProductRepository
         }
 
         return $productCount;
+    }
+
+    public function getTopSellingProduct()
+    {
+        $sql = "SELECT 
+                    p.name AS product_name,
+                    SUM(oi.quantity) AS total_quantity_ordered
+                FROM 
+                    order_items oi
+                JOIN 
+                    products p ON oi.product_id = p.id
+                GROUP BY 
+                    oi.product_id
+                ORDER BY 
+                    total_quantity_ordered DESC
+                LIMIT 1";
+
+        $this->db->query($sql);
+        return $this->db->singleResult();
+    }
+
+    public function getLowAndOutOfStockCounts()
+    {
+        $sql = "SELECT 
+                    'Low Stock' AS stock_status,
+                    COUNT(*) AS product_count
+                FROM 
+                    products
+                WHERE 
+                    stock BETWEEN 1 AND 15
+
+                UNION ALL
+
+                SELECT 
+                    'Out of Stock' AS stock_status,
+                    COUNT(*) AS product_count
+                FROM 
+                    products
+                WHERE 
+                    stock = 0";
+
+        $this->db->query($sql);
+        return $this->db->resultSet();
     }
 }

@@ -26,7 +26,22 @@ class UserService
         return $this->userRepository->login($user);
     }
 
-    public function getTotalUserCount(){
+    public function getTotalUserCount()
+    {
         return $this->userRepository->getTotalUserCount();
+    }
+
+    public function checkOldPassword(string $oldPassword, string $email): bool
+    {
+        // Retrieve the user record by email
+        $user = $this->userRepository->getUserByEmail($email);
+
+        // Verify if the provided old password matches the stored hash
+        return password_verify($oldPassword, $user->password);
+    }
+
+    public function updatePassword($newPassword, $email)
+    {
+        return $this->userRepository->updatePassword($newPassword, $email);
     }
 }

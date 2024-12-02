@@ -10,6 +10,7 @@
             </div>
         </div>
 
+        <?php flashMessage('successMessage'); ?>
         <!-- Overview Section -->
         <section class="dash-overview mb-4">
             <div class="row g-4">

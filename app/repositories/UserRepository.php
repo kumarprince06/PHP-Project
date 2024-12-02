@@ -15,8 +15,7 @@ class UserRepository
         try {
             $this->db->query('SELECT * FROM users WHERE email=:email');
             $this->db->bind(':email', $email);
-            $row = $this->db->singleResult();
-            return $this->db->rowCount() > 0 ? true : false;
+            return $this->db->singleResult();
         } catch (PDOException $e) {
             die('Something went wrong ..!' . $e->getMessage());
         }
@@ -66,5 +65,19 @@ class UserRepository
             $userCount = $userCount->total;
         }
         return $userCount;
+    }
+
+    public function updatePassword($newPassword, $email)
+    {
+
+        // Prepare the query to update the password
+        $this->db->query("UPDATE users SET password=:password WHERE email=:email");
+
+        // Bind the parameters
+        $this->db->bind(':password', $newPassword);
+        $this->db->bind(':email', $email);
+
+        // Execute the query and return the result
+        return $this->db->execute();
     }
 }

@@ -102,13 +102,6 @@ class AdminController extends Controller
         $this->view('admin/inventory', $data);
     }
 
-
-    public function profile()
-    {
-
-        $this->view('admin/profile');
-    }
-
     public function addProduct()
     {
         $category = $this->categoryService->getAllCategories();
@@ -150,5 +143,75 @@ class AdminController extends Controller
         ];
 
         $this->view('admin/editProduct', $data);
+    }
+
+    public function changePassword()
+    {
+        // Initialize error messages and form data
+        $data = [
+            'oldPassword' => trim($_POST['oldPassword'] ?? ''),
+            'newPassword' => trim($_POST['newPassword'] ?? ''),
+            'confirmPassword' => trim($_POST['confirmPassword'] ?? ''),
+            'oldPasswordError' => '',
+            'newPasswordError' => '',
+            'confirmPasswordError' => ''
+        ];
+
+        // Handle the POST request
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Validate input fields
+            $this->validatePasswordFields($data);
+
+            // If no validation errors, check and update password
+            if ($this->isValidPasswordData($data)) {
+                // Check if the old password is correct
+                if ($this->userService->checkOldPassword($data['oldPassword'], $_SESSION['sessionData']['userEmail'])) {
+                    // Hash the new password and update it
+                    $hashedNewPassword = password_hash($data['newPassword'], PASSWORD_BCRYPT);
+                    if ($this->userService->updatePassword($hashedNewPassword, $_SESSION['sessionData']['userEmail'])) {
+                        flashMessage('successMessage', 'Password changed successfully');
+                        redirect('/adminController/dashboard');
+                    } else {
+                        flashErrorMessage('errorMessage', 'Failed to change password');
+                        $this->view('admin/changePasswordForm', $data);
+                    }
+                } else {
+                    flashErrorMessage('errorMessage', 'Old password is incorrect');
+                    $this->view('admin/changePasswordForm', $data);
+                }
+            } else {
+                // If validation fails, show the form with errors
+                $this->view('admin/changePasswordForm', $data);
+            }
+        } else {
+            // If GET request, just show the form
+            $this->view('admin/changePasswordForm');
+        }
+    }
+
+    // Validate password fields
+    private function validatePasswordFields(&$data)
+    {
+        if (empty($data['oldPassword'])) {
+            $data['oldPasswordError'] = 'Old password is required.';
+        }
+
+        if (empty($data['newPassword'])) {
+            $data['newPasswordError'] = 'New password is required.';
+        }
+
+        if (empty($data['confirmPassword'])) {
+            $data['confirmPasswordError'] = 'Confirm password is required.';
+        }
+
+        if ($data['newPassword'] !== $data['confirmPassword']) {
+            $data['confirmPasswordError'] = 'Passwords do not match.';
+        }
+    }
+
+    // Check if the form data is valid
+    private function isValidPasswordData($data)
+    {
+        return empty($data['oldPasswordError']) && empty($data['newPasswordError']) && empty($data['confirmPasswordError']);
     }
 }

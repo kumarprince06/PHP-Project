@@ -17,6 +17,8 @@
     <!-- External CSS -->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/templatemo.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/admin-dashboard.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/style.css">
+
 
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
@@ -54,9 +56,9 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="<?php echo URLROOT ?>/adminController/profile">
-                                <i class="bi bi-person"></i>
-                                <span>Profile</span>
+                            <a class="dropdown-item d-flex align-items-center" href="<?php echo URLROOT ?>/adminController/changePassword">
+                                <i class="fa-solid fa-key"></i>
+                                <span>Change Password</span>
                             </a>
                         </li>
                         <li>
@@ -105,9 +107,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?php echo URLROOT; ?>/adminController/profile" class="nav-link <?php echo $activeTab == 'profile' ? 'active text-white' : ''; ?>">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Profile</span>
+                <a href="<?php echo URLROOT; ?>/adminController/changePassword" class="nav-link <?php echo $activeTab == 'changePassword' ? 'active text-white' : ''; ?>">
+                    <i class="fa-solid fa-key"></i>
+                    <span>Change Password</span>
                 </a>
             </li>
         </ul>

@@ -77,7 +77,6 @@
 
       // Parse sales data from PHP
       const salesData = <?php echo json_encode($data['salesCount']); ?>;
-      console.log(salesData);
 
       // Prepare chart labels (months) and data (sales counts)
       const salesLabels = salesData.map(item => item.month);

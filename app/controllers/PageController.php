@@ -108,8 +108,11 @@ class PageController extends Controller
             $data['emailError'] = 'Email is required!';
         } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             $data['emailError'] = 'Invalid email format!';
-        } elseif (!$this->userService->getUserByEmail($data['email'])) {
-            $data['emailError'] = 'No user found with that email!';
+        } else {
+            $row = $this->userService->getUserByEmail($data['email']);
+            if (empty($row)) {
+                $data['emailError'] = 'No user found with that email!';
+            }
         }
 
         // Validate password
@@ -132,6 +135,7 @@ class PageController extends Controller
             // Create user session on successful login
             createUserSession($loggedInUser);
             if ($_SESSION['sessionData']['role'] === 'admin') {
+                error_log("redirecting to admin dashboard");
                 redirect('adminController/dashboard');
             } else {
                 redirect('pageController/index');
@@ -139,7 +143,9 @@ class PageController extends Controller
             return;
         } else {
             // Set error if password is incorrect
-            $data['passwordError'] = 'Incorrect password!';
+            $data['passwordError'] = 'Invalid password. Please double-check and try again.';
+            $this->view('pages/login', $data);
+            return;
         }
     }
 

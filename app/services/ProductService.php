@@ -54,4 +54,9 @@ class ProductService
     {
         return $this->productRepository->getLowAndOutOfStockCounts();
     }
+
+    public function searchProduct($searchQuery)
+    {
+        return $this->productRepository->searchProduct($searchQuery);
+    }
 }

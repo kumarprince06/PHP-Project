@@ -61,7 +61,13 @@
             <!-- Button to Open Modal -->
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Search by Product Name, SKU, or ID">
+                    <form action="<?php echo URLROOT; ?>/productController/search" method="post" class="d-flex" novalidate>
+                        <div class="input-group">
+                            <input type="text" name="searchQuery" class="form-control" placeholder="Search by Product Name, Brand, or Category..." aria-label="Search">
+                            <button type="submit" class="btn btn-success">Search</button>
+                        </div>
+                    </form>
+
                 </div>
                 <div class="col-md-6 text-end">
                     <a href="<?php echo URLROOT; ?>/adminController/addProduct"><button type="button" class="btn btn-success">
@@ -69,8 +75,6 @@
                         </button></a>
                 </div>
             </div>
-
-            <?php var_dump($data['stockCounts']->stock_status) ?>
 
             <!-- Product Table -->
             <div class="row">

@@ -15,14 +15,6 @@
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <script src="https://js.stripe.com/v3/"></script>
-    <style>
-        table,
-        th,
-        tr,
-        td {
-            border: 1px solid black;
-        }
-    </style>
 </head>
 
 <body>
@@ -89,7 +81,7 @@
                         <i class="fa fa-fw fa-search text-dark mr-2"></i>
                     </a>
 
-                    <?php if ($_SESSION['sessionData']['userId']):  ?>
+                    <?php if (isset($_SESSION['sessionData']) && isset($_SESSION['sessionData']['userId'])): ?>
                         <a class="nav-icon position-relative text-decoration-none" href="<?php echo URLROOT  ?>/userController/myCart">
                             <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                             <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-danger text-light"><?php echo $data['cartCount'] ?></span>

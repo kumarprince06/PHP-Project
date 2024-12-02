@@ -330,4 +330,26 @@ class ProductController extends Controller
 
         redirect('adminController/editProduct/' . $productId);
     }
+
+    public function search()
+    {
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || ($_SERVER['REQUEST_METHOD'] === "POST" && empty($_POST['searchQuery']))) {
+            if ($_SESSION['sessionData']['role'] === 'admin') {
+                redirect('adminController/inventory');
+            } else {
+                redirect('productController/index');
+            }
+        }
+
+        $products = $this->productService->searchProduct(trim($_POST['searchQuery']));
+
+        $data = ['products' => $products];
+
+        if ($_SESSION['sessionData']['role'] === 'admin') {
+            redirect('adminController/inventory', $data);
+        } else {
+            redirect('productController/index', $data);
+        }
+    }
 }

@@ -156,4 +156,6 @@ class ProductRepository
         $this->db->query($sql);
         return $this->db->resultSet();
     }
+
+    public function searchProduct($searchQuery) {}
 }

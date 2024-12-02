@@ -1,8 +1,5 @@
 <?php require APPROOT . '/views/includes/header.php'; ?>
 
-<?php flashMessage('register_success'); ?>
-<?php flashErrorMessage('errorMessage'); ?>
-
 <section class="vh-90 gradient-custom">
     <div class="container py-3 h-100">
         <div class="row d-flex justify-content-center align-items-center h-90">
@@ -37,7 +34,7 @@
                                         placeholder="Password" />
                                     <label for="typePasswordX" class="text-dark">Password</label>
                                     <?php if (!empty($data['passwordError'])): ?>
-                                        <small class="text-danger fw-bold text-start d-block"><?php echo $data['passwordError']; ?></small>
+                                        <small class="text-danger fw-bold text-start d-block mt-1"><?php echo $data['passwordError']; ?></small>
                                     <?php endif; ?>
                                 </div>
 

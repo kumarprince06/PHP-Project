@@ -38,11 +38,18 @@ document.addEventListener("DOMContentLoaded", () => {
               product.image
             }" alt="Product Image" width="60px"></td>
                                 <td>
-                                    <button class="btn btn-sm btn-info view-product" data-product='${JSON.stringify(
-                                      product
-                                    )}'>
+                                    <button class="btn btn-sm btn-info view-product" data-bs-toggle="modal"
+                                                data-bs-target="#productDetailModal" data-product='${JSON.stringify(
+                                                  product
+                                                )}'>
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
+                                    <a href="${URLROOT}/adminController/editProduct/${
+              product.id
+            }"><button class="btn btn-sm btn-info"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                    <form action="${URLROOT}/productController/delete/<?php echo $product->id ?>" method="POST" style="display:inline;">
+                                        <button class="btn btn-danger text-white btn-sm" type="submit" onclick="return confirm('Are you sure you want to delete this product?');"><i class="fa-solid fa-trash"></i></button>
+                                    </form>
                                 </td>
                             </tr>
                         `;

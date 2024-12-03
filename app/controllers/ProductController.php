@@ -335,21 +335,34 @@ class ProductController extends Controller
     {
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST' || ($_SERVER['REQUEST_METHOD'] === "POST" && empty($_POST['searchQuery']))) {
-            if ($_SESSION['sessionData']['role'] === 'admin') {
-                redirect('adminController/inventory');
-            } else {
-                redirect('productController/index');
-            }
+
+            redirect('productController/index');
         }
 
         $products = $this->productService->searchProduct(trim($_POST['searchQuery']));
 
-        $data = ['products' => $products];
+        if ($_SESSION['sessionData']['role'] === 'admin') {
+
+            $topSellingProduct = $this->productService->getTopSellingProduct();
+            $categories = $this->categoryService->getAllCategories();
+            $lowAndOutOfStockCounts = $this->productService->getLowAndOutOfStockCounts();
+
+            $data = [
+                'topSellingProduct' => $topSellingProduct,
+                'products' => $products,
+                'categories' => $categories,
+                'topSellingProduct' => $this->productService->getTopSellingProduct(),
+                'productCount' => $this->productService->getTotalProductCount(),
+                'stockCount' => $lowAndOutOfStockCounts,
+            ];
+        } else {
+            $data = ['products' => $products];
+        }
 
         if ($_SESSION['sessionData']['role'] === 'admin') {
-            redirect('adminController/inventory', $data);
+            $this->view('admin/inventory', $data);
         } else {
-            redirect('productController/index', $data);
+            $this->view('products/index', $data);
         }
     }
 }

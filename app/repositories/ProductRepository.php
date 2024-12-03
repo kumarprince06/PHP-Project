@@ -157,5 +157,40 @@ class ProductRepository
         return $this->db->resultSet();
     }
 
-    public function searchProduct($searchQuery) {}
+    public function searchProduct($searchQuery)
+    {
+        $sql = "SELECT 
+                products.*,
+                categories.name AS category_name,
+                images.name AS image
+            FROM                
+                products
+            LEFT JOIN               
+                categories ON products.category = categories.id
+            LEFT JOIN               
+                images ON products.id = images.product_id
+            WHERE 
+                images.id = (
+                    SELECT 
+                        MIN(id) 
+                    FROM 
+                        images 
+                        WHERE 
+                            product_id = products.id
+                )
+            AND (
+                products.name LIKE CONCAT('%', :searchQuery, '%') OR
+                products.brand LIKE CONCAT('%', :searchQuery, '%') OR
+                categories.name LIKE CONCAT('%', :searchQuery, '%')
+            )";
+
+        // Prepare the query
+        $this->db->query($sql);
+
+        // Bind the parameter
+        $this->db->bind(':searchQuery', $searchQuery);
+
+        // Execute and fetch the results
+        return $this->db->resultSet();
+    }
 }

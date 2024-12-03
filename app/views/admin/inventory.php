@@ -60,14 +60,11 @@
             </div>
             <!-- Button to Open Modal -->
             <div class="row mb-4">
+                <!-- Search Field -->
                 <div class="col-md-6">
-                    <form action="<?php echo URLROOT; ?>/productController/search" method="post" class="d-flex" novalidate>
-                        <div class="input-group">
-                            <input type="text" name="searchQuery" class="form-control" placeholder="Search by Product Name, Brand, or Category..." aria-label="Search">
-                            <button type="submit" class="btn btn-success">Search</button>
-                        </div>
-                    </form>
-
+                    <div class="input-group">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search by Product Name, Brand, or Category..." aria-label="Search">
+                    </div>
                 </div>
                 <div class="col-md-6 text-end">
                     <a href="<?php echo URLROOT; ?>/adminController/addProduct"><button type="button" class="btn btn-success">
@@ -79,7 +76,7 @@
             <!-- Product Table -->
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table .table-responsive rounded-3 table-hover table-striped text-center table-bordered border-success">
+                    <table id="productTable" class="table .table-responsive rounded-3 table-hover table-striped text-center table-bordered border-success">
                         <thead class="table-success">
                             <tr>
                                 <th>#</th>
@@ -188,6 +185,10 @@
             });
         });
     });
+</script>
+
+<script>
+   
 </script>
 
 <?php require APPROOT . '/views/admin/footer.php'; ?>

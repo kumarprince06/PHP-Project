@@ -333,36 +333,34 @@ class ProductController extends Controller
 
     public function search()
     {
-
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || ($_SERVER['REQUEST_METHOD'] === "POST" && empty($_POST['searchQuery']))) {
-
-            redirect('productController/index');
+        // Check if the request method is POST
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo json_encode(['products' => []]);
+            exit;
         }
 
-        $products = $this->productService->searchProduct(trim($_POST['searchQuery']));
+        // Get the raw POST data (JSON)
+        $rawData = file_get_contents('php://input');
+        $data = json_decode($rawData, true); // Decode JSON data to an associative array
 
-        if ($_SESSION['sessionData']['role'] === 'admin') {
+        // Get the search query from the decoded data
+        $searchQuery = trim($data['searchQuery']);
 
-            $topSellingProduct = $this->productService->getTopSellingProduct();
-            $categories = $this->categoryService->getAllCategories();
-            $lowAndOutOfStockCounts = $this->productService->getLowAndOutOfStockCounts();
-
-            $data = [
-                'topSellingProduct' => $topSellingProduct,
-                'products' => $products,
-                'categories' => $categories,
-                'topSellingProduct' => $this->productService->getTopSellingProduct(),
-                'productCount' => $this->productService->getTotalProductCount(),
-                'stockCount' => $lowAndOutOfStockCounts,
-            ];
+        if (empty($data['searchQuery'])) {
+            // If 'searchQuery' is empty, return all products list
+            $products =  $this->productService->getAllProducts();
         } else {
-            $data = ['products' => $products];
+            // Get the search results
+            $products = $this->productService->searchProduct($searchQuery);
         }
 
-        if ($_SESSION['sessionData']['role'] === 'admin') {
-            $this->view('admin/inventory', $data);
-        } else {
-            $this->view('products/index', $data);
-        }
+        // Prepare the data to be sent back as JSON
+        $response = [
+            'products' => $products
+        ];
+
+        // Return the response as a JSON object
+        echo json_encode($response);
+        exit;
     }
 }

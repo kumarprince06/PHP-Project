@@ -1,53 +1,63 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Get references to the search input, table rows, and table body
   const searchInput = document.getElementById("searchInput");
   const tableBody = document.querySelector("#productTable tbody");
-  const tableRows = document.querySelectorAll("#productTable tbody tr");
 
-  // Function to filter table rows
-  const filterTable = () => {
-    const query = searchInput.value.trim().toLowerCase(); // Get input value
-    let visibleRowCount = 0; // Track number of visible rows
+  // Event listener for input change
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim(); // Define query by getting the input value
+    console.log(query);
 
-    // Loop through each row and filter based on the query
-    tableRows.forEach((row) => {
-      const productName = row.cells[1].textContent.toLowerCase(); // Product Name
-      const categoryName = row.cells[2].textContent.toLowerCase(); // Category
-      const brandName = row.cells[5].textContent.toLowerCase(); // Brand
+    // Send AJAX request to the server
+    fetch(`${URLROOT}/productController/search`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ searchQuery: query }), // Send the query as JSON data
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Response Data:", data); // Log the response to the console for debugging
+        // Clear the table body
+        tableBody.innerHTML = "";
 
-      // Check if the query matches any of the relevant fields
-      if (
-        productName.includes(query) ||
-        categoryName.includes(query) ||
-        brandName.includes(query)
-      ) {
-        row.style.display = ""; // Show row
-        visibleRowCount++; // Increment visible row count
-      } else {
-        row.style.display = "none"; // Hide row
-      }
-    });
-
-    // Check if there are no visible rows and show "No products found" if needed
-    let noProductRow = document.getElementById("noProductRow"); // Check for existing "No products found" row
-    if (visibleRowCount === 0) {
-      if (!noProductRow) {
-        // Create a new "No products found" row if it doesn't exist
-        noProductRow = document.createElement("tr");
-        noProductRow.id = "noProductRow";
-        noProductRow.innerHTML = `
-                    <td colspan="8" class="text-center">No products found.</td>
-                `;
-        tableBody.appendChild(noProductRow);
-      }
-    } else {
-      // Remove the "No products found" row if visible rows exist
-      if (noProductRow) {
-        noProductRow.remove();
-      }
-    }
-  };
-
-  // Attach the real-time search handler to the input field
-  searchInput.addEventListener("input", filterTable);
+        if (data.products.length > 0) {
+          // Populate the table with new rows
+          data.products.forEach((product) => {
+            const row = `
+                            <tr>
+                                <td>${product.id}</td>
+                                <td>${product.name}</td>
+                                <td>${product.category_name}</td>
+                                <td>${product.stock}</td>
+                                <td>₹${parseFloat(
+                                  product.selling_price
+                                ).toFixed(2)}</td>
+                                <td>${product.brand}</td>
+                                <td><img src="${URLROOT}/public/images/products/${
+              product.image
+            }" alt="Product Image" width="60px"></td>
+                                <td>
+                                    <button class="btn btn-sm btn-info view-product" data-product='${JSON.stringify(
+                                      product
+                                    )}'>
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+            tableBody.insertAdjacentHTML("beforeend", row);
+          });
+        } else {
+          // Display "No products found" message
+          const noProductRow = `
+                        <tr>
+                            <td colspan="8" class="text-center">No products found.</td>
+                        </tr>
+                    `;
+          tableBody.insertAdjacentHTML("beforeend", noProductRow);
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  });
 });

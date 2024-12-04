@@ -363,4 +363,6 @@ class ProductController extends Controller
         echo json_encode($response);
         exit;
     }
+
+    
 }

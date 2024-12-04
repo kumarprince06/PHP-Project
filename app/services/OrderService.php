@@ -148,4 +148,9 @@ class OrderService
     {
         return $this->orderRepository->getTotalSalesCount();
     }
+
+    public function getOrderedProductDetailsByOrderId($orderId)
+    {
+        return $this->orderRepository->getOrderedProductDetailsByOrderId($orderId);
+    }
 }

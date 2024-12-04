@@ -174,28 +174,25 @@ class OrderRepository
     public function getAllOrders()
     {
         // Query to fetch orders with the status not 'Completed'
-        $this->db->query("SELECT
-                             o.id AS order_id,
-                             o.user_id,
-                             o.order_date,
-                             o.total,
-                             o.status AS order_status,
-                             oi.id AS order_item_id,
-                             oi.product_id,
-                             oi.category_id,
-                             oi.quantity,
-                             oi.price,
-                             u.name AS user_name,
-                             u.email AS user_email
-                        FROM
-                             orders o
-                        JOIN
-                             order_items oi ON o.id = oi.order_id
-                        JOIN
-                             users u ON o.user_id = u.id
-                        ORDER BY
-                             o.order_date DESC
-                        ");
+        $this->db->query("SELECT 
+                            orders.id AS order_id,
+                            orders.order_date,
+                            orders.total AS order_total, -- Total stored in the orders table
+                            SUM(order_items.price * order_items.quantity) AS calculated_total, -- Total calculated from items
+                            orders.status,
+                            users.name AS customer_name,
+                            users.email AS customer_email,
+                            SUM(order_items.quantity) AS total_quantity
+                        FROM 
+                            orders
+                        JOIN 
+                            users ON orders.user_id = users.id
+                        JOIN 
+                            order_items ON orders.id = order_items.order_id
+                        GROUP BY 
+                            orders.id, orders.order_date, orders.total, orders.status, users.name, users.email
+                        ORDER BY 
+                            orders.order_date DESC");
         try {
             // Attempt to get the result set from the query
             return $this->db->resultSet();
@@ -235,6 +232,29 @@ class OrderRepository
         $this->db->query($sql);
         $this->db->bind(':year', $currentYear);
 
+        return $this->db->resultSet();
+    }
+
+    public function getOrderedProductDetailsByOrderId($orderId)
+    {
+        $this->db->query("SELECT 
+                            p.name AS product_name,
+                            oi.quantity,
+                            oi.price,
+                            img.name AS image
+                        FROM order_items oi
+                        JOIN products p ON p.id = oi.product_id
+                        LEFT JOIN images img ON img.product_id = p.id
+                        JOIN orders o ON o.id = oi.order_id
+                        WHERE oi.order_id = :order_id  -- Filter by the specific order_id
+                        AND img.id = (
+                            SELECT MIN(i.id)
+                            FROM images i
+                            WHERE i.product_id = p.id
+                        )
+                        ORDER BY oi.product_id;
+        ");
+        $this->db->bind(':order_id', $orderId);
         return $this->db->resultSet();
     }
 }

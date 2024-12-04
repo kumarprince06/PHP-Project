@@ -68,3 +68,79 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch((error) => console.error("Error:", error));
   });
 });
+
+// view Ordered product detailed
+
+document.addEventListener("DOMContentLoaded", () => {
+  const orderModal = document.getElementById("orderModal");
+  const productDetailsTable = document.getElementById("productDetailsTable");
+
+  // Event delegation for "View" buttons
+  document.body.addEventListener("click", (e) => {
+    const viewOrderButton = e.target.closest(".view-order");
+    if (viewOrderButton) {
+      const orderId = viewOrderButton.getAttribute("data-order-id"); // Get the order ID
+
+      // Send AJAX request to fetch order details
+      fetch(`${URLROOT}/orderController/getOrderedProductDetails`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ order_id: orderId }), // Send order ID to the server
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Clear the table
+          productDetailsTable.innerHTML = "";
+
+          if (data.products && data.products.length > 0) {
+            // Populate table with product details
+            data.products.forEach((product, index) => {
+              const row = `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${product.product_name}</td>
+                                    <td>${product.quantity}</td>
+                                    <td>₹${parseFloat(product.price).toFixed(
+                                      2
+                                    )}</td>
+                                    <td>₹${(
+                                      product.quantity * product.price
+                                    ).toFixed(2)}</td>
+                                    <td>
+                                        <img src="${URLROOT}/public/images/products/${
+                product.image
+              }" alt="${product.name}" width="60px">
+                                    </td>
+                                    
+                                </tr>
+                            `;
+              productDetailsTable.insertAdjacentHTML("beforeend", row);
+            });
+          } else {
+            // If no products are found
+            const noDataRow = `
+                            <tr>
+                                <td colspan="6" class="text-center">No product details available.</td>
+                            </tr>
+                        `;
+            productDetailsTable.insertAdjacentHTML("beforeend", noDataRow);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching product details:", error);
+          productDetailsTable.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="text-center text-danger">Failed to load product details.</td>
+                        </tr>
+                    `;
+        });
+    }
+  });
+});

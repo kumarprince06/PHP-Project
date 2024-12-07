@@ -9,10 +9,6 @@ class ProductController extends Controller
     private $imageService;
     public function __construct()
     {
-        // if (!isLoggedIn()) {
-
-        //     redirect('pages/login');
-        // }
         $this->productService = new ProductService();
         $this->categoryService = new CategoryService();
         $this->cartService = new CartService;
@@ -28,20 +24,33 @@ class ProductController extends Controller
         if (isLoggedIn()) {
             // Fetch cart items for the logged-in user
             $cartitems = $this->cartService->getCartItemsByUserId($_SESSION['sessionData']['userId']);
-            // die(var_dump($cartitems));
         }
 
-        $products = $this->productService->getAllProducts();
+        // Pagination parameters
+        $itemsPerPage = 6;
+        $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0 ? (int)$_GET['page'] : 1;
+        $offset = ($currentPage - 1) * $itemsPerPage;
+
+        // Fetch products and total product count
+        $products = $this->productService->getPaginatedProducts($itemsPerPage, $offset);
+        $totalProducts = $this->productService->getTotalProductCount();
+
+        // Calculate total pages
+        $totalPages = ceil($totalProducts / $itemsPerPage);
+
+        // Prepare data for the view
         $data = [
             'title' => 'Shop',
             'products' => $products,
-            'cartCount' => count($cartitems) // Use count() to get the number of items
+            'cartCount' => count($cartitems),
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages,
         ];
-
 
         // Load Product Index Page
         $this->view('products/index', $data);
     }
+
 
     // Add Product Handler
     public function add()
@@ -348,7 +357,7 @@ class ProductController extends Controller
 
         if (empty($data['searchQuery'])) {
             // If 'searchQuery' is empty, return all products list
-            $products =  $this->productService->getAllProducts();
+            // $products =  $this->productService->getAllProducts();
         } else {
             // Get the search results
             $products = $this->productService->searchProduct($searchQuery);
@@ -363,6 +372,4 @@ class ProductController extends Controller
         echo json_encode($response);
         exit;
     }
-
-    
 }

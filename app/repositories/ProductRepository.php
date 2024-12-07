@@ -70,6 +70,25 @@ class ProductRepository
                           FROM images 
                           WHERE product_id = products.id
                       )");
+
+        return $this->db->resultSet();
+    }
+
+    public function getPaginatedProducts($limit, $offset)
+    {
+        $this->db->query("SELECT products.*, categories.name AS category_name, images.name AS image
+                      FROM products
+                      LEFT JOIN categories ON products.category = categories.id
+                      LEFT JOIN images ON products.id = images.product_id
+                      WHERE images.id = (
+                          SELECT MIN(id) 
+                          FROM images 
+                          WHERE product_id = products.id
+                      )
+                      LIMIT :limit OFFSET :offset");
+        $this->db->bind(':limit', $limit);
+        $this->db->bind(':offset', $offset);
+
         return $this->db->resultSet();
     }
 

@@ -201,17 +201,28 @@
             </div>
 
             <div div="row">
-                <ul class="pagination pagination-lg justify-content-end">
-                    <li class="page-item disabled">
-                        <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#" tabindex="-1">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>
-                    </li>
-                </ul>
+                <!-- Pagination -->
+                <nav>
+                    <ul class="pagination justify-content-end">
+                        <?php if ($data['currentPage'] > 1): ?>
+                            <li class="page-item ">
+                                <a class="page-link bg-success" href="?page=<?php echo $data['currentPage'] - 1; ?>">Previous</a>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php for ($i = 1; $i <= $data['totalPages']; $i++) : ?>
+                            <li class="page-item <?php echo ($i == $data['currentPage']) ? 'active text-success' : ''; ?>">
+                                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                            </li>
+                        <?php endfor; ?>
+
+                        <?php if ($data['currentPage'] < $data['totalPages']): ?>
+                            <li class="page-item">
+                                <a class="page-link bg-success" href="?page=<?php echo $data['currentPage'] + 1; ?>">Next</a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
             </div>
         </div>
 

@@ -30,6 +30,11 @@ class ProductService
         return $this->productRepository->getAllProducts();
     }
 
+    public function getPaginatedProducts($limit, $offset)
+    {
+        return $this->productRepository->getPaginatedProducts($limit, $offset);
+    }
+
     public function getProductById($id)
     {
         return $this->productRepository->getProductById($id);

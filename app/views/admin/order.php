@@ -104,7 +104,7 @@
     <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg mt-5">
             <div class="modal-content">
-                <div class="modal-header bg-dark text-white">
+                <div class="modal-header bg-success text-white">
                     <h5 class="modal-title" id="orderModalLabel">Order Details</h5>
                     <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

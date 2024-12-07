@@ -123,7 +123,7 @@
                                                 <td>₹<?= number_format($order->order_total, 2) ?></td>
                                                 <td><?= $order->total_quantity ?></td>
                                                 <td>
-                                                    <span class="btn <?= $statusClass ?> rounded text-white"><?= ucfirst(trim($order->status)) ?></span>
+                                                    <span class="btn btn-sm <?= $statusClass ?> rounded text-white"><?= ucfirst(trim($order->status)) ?></span>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex align-items-center justify-content-center">
@@ -188,9 +188,9 @@
     <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg mt-5">
             <div class="modal-content">
-                <div class="modal-header bg-dark text-white">
+                <div class="modal-header bg-success text-white">
                     <h5 class="modal-title" id="orderModalLabel">Order Details</h5>
-                    <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Table for product details -->

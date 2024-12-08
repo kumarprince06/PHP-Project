@@ -110,7 +110,7 @@
                                                 <i class="fa-solid fa-eye"></i>
                                             </button>
 
-                                            <a href="<?php echo URLROOT ?>/adminController/editProduct/<?php echo $product->id ?>"><button class="btn btn-sm btn-info"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                            <a href="<?php echo URLROOT ?>/adminController/editProduct/<?php echo $product->id ?>"><button class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square"></i></button></a>
                                             <form action="<?php echo URLROOT ?>/productController/delete/<?php echo $product->id ?>" method="POST" style="display:inline;">
                                                 <button class="btn btn-danger text-white btn-sm" type="submit" onclick="return confirm('Are you sure you want to delete this product?');"><i class="fa-solid fa-trash"></i></button>
                                             </form>
@@ -126,6 +126,34 @@
                     </table>
                 </div>
             </div>
+            <!-- Pagination -->
+            <div class="row">
+                <nav>
+                    <ul class="pagination justify-content-end">
+                        <!-- Previous Page -->
+                        <?php if ($data['currentPage'] > 1): ?>
+                            <li class="page-item">
+                                <a class="page-link bg-success text-white" href="?page=<?php echo $data['currentPage'] - 1; ?>">Previous</a>
+                            </li>
+                        <?php endif; ?>
+
+                        <!-- Page Numbers -->
+                        <?php for ($i = 1; $i <= $data['totalPages']; $i++): ?>
+                            <li class="page-item <?php echo ($i == $data['currentPage']) ? 'active' : ''; ?>">
+                                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                            </li>
+                        <?php endfor; ?>
+
+                        <!-- Next Page -->
+                        <?php if ($data['currentPage'] < $data['totalPages']): ?>
+                            <li class="page-item">
+                                <a class="page-link bg-success text-white" href="?page=<?php echo $data['currentPage'] + 1; ?>">Next</a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
+            </div>
+
         </div>
     </section>
 
@@ -188,7 +216,7 @@
 </script>
 
 <script>
-   
+    <?php echo URLROOT; ?>
 </script>
 
 <?php require APPROOT . '/views/admin/footer.php'; ?>

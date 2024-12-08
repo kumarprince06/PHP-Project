@@ -344,7 +344,7 @@ class ProductController extends Controller
     {
         // Check if the request method is POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            echo json_encode(['products' => []]);
+            echo json_encode(['products' => [], 'totalPages' => 0]);
             exit;
         }
 
@@ -352,24 +352,29 @@ class ProductController extends Controller
         $rawData = file_get_contents('php://input');
         $data = json_decode($rawData, true); // Decode JSON data to an associative array
 
-        // Get the search query from the decoded data
-        $searchQuery = trim($data['searchQuery']);
-
-        if (empty($data['searchQuery'])) {
-            // If 'searchQuery' is empty, return all products list
-            // $products =  $this->productService->getAllProducts();
+        $searchQuery = isset($data['searchQuery']) ? trim($data['searchQuery']) : '';
+        $currentPage = isset($data['page']) ? (int)$data['page'] : 1;
+        $itemsPerPage = 8; // Adjust based on your requirement
+        $offset = ($currentPage - 1) * $itemsPerPage;
+        // Determine total products and get paginated results
+        if (empty($searchQuery)) {
+            $totalProducts = $this->productService->getTotalProductCount();
+            $products = $this->productService->getPaginatedProducts($itemsPerPage, $offset);
         } else {
-            // Get the search results
-            $products = $this->productService->searchProduct($searchQuery);
+            $totalProducts = $this->productService->getSearchProductCount($searchQuery);
+            $products = $this->productService->searchProductPaginated($searchQuery, $itemsPerPage, $offset);
         }
+
+        $totalPages = ceil($totalProducts / $itemsPerPage);
 
         // Prepare the data to be sent back as JSON
         $response = [
-            'products' => $products
+            'products' => $products,
+            'totalPages' => $totalPages,
+            'currentPage' => $currentPage,
         ];
 
         // Return the response as a JSON object
         echo json_encode($response);
-        exit;
     }
 }

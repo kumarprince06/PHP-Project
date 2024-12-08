@@ -176,38 +176,57 @@ class ProductRepository
         return $this->db->resultSet();
     }
 
-    public function searchProduct($searchQuery)
+    public function getSearchProductCount($searchQuery)
+    {
+        $sql = "SELECT COUNT(*) AS total 
+        FROM products 
+        LEFT JOIN categories ON products.category = categories.id 
+        WHERE products.name LIKE :searchQuery 
+        OR products.brand LIKE :searchQuery 
+        OR categories.name LIKE :searchQuery";
+        $this->db->query($sql);
+        $this->db->bind(':searchQuery', $searchQuery);
+        $result = $this->db->singleResult();
+
+        error_log("Search Product Count: " . $result->total);
+        return $result->total ?? 0;
+    }
+
+    public function searchProductPaginated($searchQuery, $limit, $offset)
     {
         $sql = "SELECT 
-                products.*,
-                categories.name AS category_name,
-                images.name AS image
-            FROM                
-                products
-            LEFT JOIN               
-                categories ON products.category = categories.id
-            LEFT JOIN               
-                images ON products.id = images.product_id
-            WHERE 
-                images.id = (
-                    SELECT 
-                        MIN(id) 
-                    FROM 
-                        images 
-                        WHERE 
-                            product_id = products.id
-                )
-            AND (
-                products.name LIKE CONCAT('%', :searchQuery, '%') OR
-                products.brand LIKE CONCAT('%', :searchQuery, '%') OR
-                categories.name LIKE CONCAT('%', :searchQuery, '%')
-            )";
+            products.*,
+            categories.name AS category_name,
+            images.name AS image
+        FROM                
+            products
+        LEFT JOIN               
+            categories ON products.category = categories.id
+        LEFT JOIN               
+            images ON products.id = images.product_id
+        WHERE 
+            images.id = (
+                SELECT 
+                    MIN(id) 
+                FROM 
+                    images 
+                    WHERE 
+                        product_id = products.id
+            )
+        AND (
+            products.name LIKE CONCAT('%', :searchQuery, '%') OR
+            products.brand LIKE CONCAT('%', :searchQuery, '%') OR
+            categories.name LIKE CONCAT('%', :searchQuery, '%')
+        )
+        LIMIT :limit OFFSET :offset";
 
         // Prepare the query
         $this->db->query($sql);
 
-        // Bind the parameter
+        // Bind the parameters
         $this->db->bind(':searchQuery', $searchQuery);
+        $this->db->bind(':limit', $limit);
+        $this->db->bind(':offset', $offset);
 
         // Execute and fetch the results
         return $this->db->resultSet();

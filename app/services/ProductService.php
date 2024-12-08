@@ -60,8 +60,13 @@ class ProductService
         return $this->productRepository->getLowAndOutOfStockCounts();
     }
 
-    public function searchProduct($searchQuery)
+    public function getSearchProductCount($searchQuery)
     {
-        return $this->productRepository->searchProduct($searchQuery);
+        return $this->productRepository->getSearchProductCount($searchQuery);
+    }
+
+    public function searchProductPaginated($searchQuery, $itemsPerPage, $offset)
+    {
+        return $this->productRepository->searchProductPaginated($searchQuery, $itemsPerPage, $offset);
     }
 }

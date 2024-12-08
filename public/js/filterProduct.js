@@ -1,28 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchInput");
   const tableBody = document.querySelector("#productTable tbody");
+  const paginationContainer = document.querySelector(".pagination");
+  let currentPage = 1; // Track current page
 
-  // Event listener for input change
-  searchInput.addEventListener("input", () => {
-    const query = searchInput.value.trim(); // Define query by getting the input value
-    console.log(query);
-
-    // Send AJAX request to the server
+  const fetchProducts = (query = "", page = 1) => {
     fetch(`${URLROOT}/productController/search`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ searchQuery: query }), // Send the query as JSON data
+      body: JSON.stringify({ searchQuery: query, page }), // Send query and page as JSON data
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Response Data:", data); // Log the response to the console for debugging
-        // Clear the table body
+        console.log("Response Data:", data); // Log the response for debugging
         tableBody.innerHTML = "";
 
         if (data.products.length > 0) {
-          // Populate the table with new rows
           data.products.forEach((product) => {
             const row = `
                             <tr>
@@ -56,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
             tableBody.insertAdjacentHTML("beforeend", row);
           });
         } else {
-          // Display "No products found" message
           const noProductRow = `
                         <tr>
                             <td colspan="8" class="text-center">No products found.</td>
@@ -64,9 +58,65 @@ document.addEventListener("DOMContentLoaded", () => {
                     `;
           tableBody.insertAdjacentHTML("beforeend", noProductRow);
         }
+
+        updatePagination(data.totalPages, data.currentPage);
       })
       .catch((error) => console.error("Error:", error));
+  };
+
+  const updatePagination = (totalPages, currentPage) => {
+    paginationContainer.innerHTML = "";
+
+    if (totalPages > 1) {
+      // Previous Button
+      if (currentPage > 1) {
+        const prevBtn = `<li class="page-item">
+                            <a class="page-link bg-success text-white" href="#" data-page="${
+                              currentPage - 1
+                            }">Previous</a>
+                         </li>`;
+        paginationContainer.insertAdjacentHTML("beforeend", prevBtn);
+      }
+
+      // Page Numbers
+      for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = `<li class="page-item ${
+          i === currentPage ? "active" : ""
+        }">
+                            <a class="page-link" href="#" data-page="${i}">${i}</a>
+                         </li>`;
+        paginationContainer.insertAdjacentHTML("beforeend", pageBtn);
+      }
+
+      // Next Button
+      if (currentPage < totalPages) {
+        const nextBtn = `<li class="page-item">
+                            <a class="page-link bg-success text-white" href="#" data-page="${
+                              currentPage + 1
+                            }">Next</a>
+                         </li>`;
+        paginationContainer.insertAdjacentHTML("beforeend", nextBtn);
+      }
+
+      // Add event listeners to pagination buttons
+      paginationContainer.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          currentPage = parseInt(link.getAttribute("data-page"));
+          fetchProducts(searchInput.value.trim(), currentPage);
+        });
+      });
+    }
+  };
+
+  // Fetch products on search input change
+  searchInput.addEventListener("input", () => {
+    currentPage = 1; // Reset to the first page for new search
+    fetchProducts(searchInput.value.trim(), currentPage);
   });
+
+  // Initial fetch
+  fetchProducts();
 });
 
 // view Ordered product detailed

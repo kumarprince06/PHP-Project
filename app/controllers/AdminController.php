@@ -85,9 +85,22 @@ class AdminController extends Controller
     public function inventory()
     {
         $topSellingProduct = $this->productService->getTopSellingProduct();
-        $products = $this->productService->getAllProducts();
+        // $products = $this->productService->getAllProducts();
         $categories = $this->categoryService->getAllCategories();
         $lowAndOutOfStockCounts = $this->productService->getLowAndOutOfStockCounts();
+
+        // Pagination parameters
+        $itemsPerPage = 6;
+        $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0 ? (int)$_GET['page'] : 1;
+        $offset = ($currentPage - 1) * $itemsPerPage;
+
+        // Fetch products and total product count
+        $products = $this->productService->getPaginatedProducts($itemsPerPage, $offset);
+        $totalProducts = $this->productService->getTotalProductCount();
+
+        // Calculate total pages
+        $totalPages = ceil($totalProducts / $itemsPerPage);
+
 
         $data = [
             'topSellingProduct' => $topSellingProduct,
@@ -96,6 +109,8 @@ class AdminController extends Controller
             'topSellingProduct' => $this->productService->getTopSellingProduct(),
             'productCount' => $this->productService->getTotalProductCount(),
             'stockCount' => $lowAndOutOfStockCounts,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages,
         ];
 
 

@@ -13,6 +13,7 @@
                     <img class="card-img img-fluid" src="<?php echo URLROOT; ?>/public/images/products/<?php echo $data['images'][0]->name; ?>" alt="<?php echo htmlspecialchars($data['product']->name); ?>" id="product-detail">
                 </div>
 
+                
                 <!-- Image Carousel -->
                 <div class="row">
                     <div class="col-1 align-self-center">
@@ -21,29 +22,35 @@
                             <span class="sr-only">Previous</span>
                         </a>
                     </div>
-                    <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item max-w-100 overflow-hidden" data-bs-ride="carousel">
+                    <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
                         <div class="carousel-inner product-links-wap" role="listbox">
-                            <div class="carousel-item active ">
-                                <div class="row max-w-100 overflow-hidden">
-                                    <!-- Loop through images -->
-                                    <?php if (!empty($data['images'])): ?>
-                                        <?php foreach ($data['images'] as $image): ?>
-                                            <div class="col-3">
-                                                <a href="#">
-                                                    <img class="card-img img-fluid bg-white rounded" src="<?php echo URLROOT; ?>/public/images/products/<?php echo $image->name; ?>" alt="Product Image">
-                                                </a>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <!-- Fallback Image if no additional images -->
-                                        <div class="col-4">
+                            <!-- Check if images are available -->
+                            <?php if (!empty($data['images'])): ?>
+                                <?php foreach (array_chunk($data['images'], 3) as $index => $imageChunk): ?>
+                                    <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
+                                        <div class="row">
+                                            <?php foreach ($imageChunk as $image): ?>
+                                                <div class="col-4">
+                                                    <a href="#">
+                                                        <img class="card-img img-fluid bg-white rounded" src="<?php echo URLROOT; ?>/public/images/products/<?php echo $image->name; ?>" alt="Product Image">
+                                                    </a>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <!-- Fallback if no images -->
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-12">
                                             <a href="#">
                                                 <img class="card-img img-fluid" src="<?php echo URLROOT; ?>/public/images/products/default.jpg" alt="Default Product Image">
                                             </a>
                                         </div>
-                                    <?php endif; ?>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="col-1 align-self-center">
@@ -54,6 +61,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- End Product Image Section -->
 
             <!-- Product Info Section -->
